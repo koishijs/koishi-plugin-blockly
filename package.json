@@ -1,0 +1,24 @@
+{
+  "name": "koishi-plugin-blockly",
+  "description": "Use blockly to develop a simple koishi plugin",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {},
+  "keywords": [
+    "chatbot",
+    "koishi",
+    "plugin"
+  ],
+  "peerDependencies": {
+    "koishi": "^4.10.6"
+  },
+  "dependencies": {
+    "blockly": "^9.2.0"
+  }
+}
