@@ -3,7 +3,7 @@
     <template #left>
       <div style="height: 60%">
         <el-scrollbar>
-          <k-button style="width: 100%;height:48px" @click="">创建插件</k-button>
+          <k-button style="width: 100%;height:48px" @click="send('create-block')">创建插件</k-button>
           <k-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id+'-'+t.name,{id:t.id}]))" v-model="currentId"></k-tab-group>
         </el-scrollbar>
       </div>

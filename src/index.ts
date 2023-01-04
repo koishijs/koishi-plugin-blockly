@@ -97,10 +97,23 @@ export async function apply(ctx: Context) {
     updatePmPlugins(ctx);
   })
 
+  ctx.console.addListener("create-block",async ()=>{
+    await ctx.database.create("blockly",{
+      name:'未命名Koishi插件',
+      body:{},
+      code:''
+    });
+    updatePmPlugins(ctx);
+  })
+
   let pm = new PluginManager(ctx.isolate([]));
 
   async function updatePmPlugins(ctx:Context){
-    pm.plugins = (await ctx.database.get('blockly',{id:{$not:-1}},["code"])).map(t=>t.code)
+    const plugins = (await ctx.database.get('blockly',{id:{$not:-1}}));
+    ctx.using(["console.blockly"],(ctx:Context)=>{
+      ctx["console.blockly"].patch(plugins)
+    })
+    pm.plugins = plugins.map(t=>t.code)
     pm.restart()
   }
   await updatePmPlugins(ctx)
