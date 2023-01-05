@@ -3,13 +3,13 @@
     <template #left>
       <div style="height: 60%">
         <el-scrollbar>
-          <k-button style="width: 100%;height:48px" @click="send('create-block')">创建插件</k-button>
+          <k-button style="width: 100%;height:48px" @click="send('create-blockly');">创建插件</k-button>
           <k-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id+'-'+t.name,{id:t.id}]))" v-model="currentId"></k-tab-group>
         </el-scrollbar>
       </div>
       <hr/>
       <div style="height: 40%;padding:10px">
-        <k-button>应用更改</k-button>
+        <k-button @click="save()">保存并应用更改</k-button>
       </div>
     </template>
     <div style="height: 100%">
@@ -51,5 +51,8 @@ onMounted(()=>{
       })
     })
   })
+async function save(){
+  if(currentId.value!=undefined)await send('save-blockly',currentId.value.split('-')[0],editor.value.save())
+}
 setTimeout(()=>init.value=false,500);
 </script>

@@ -314,7 +314,6 @@
   </category>
   <sep/>
   <category name="变量" colour="#a55b80" custom="VARIABLE"/>
-  <category name="函数" colour="#995ba5" custom="PROCEDURE"/>
   <category name="机器人" colour="#5b80a5">
     <block type="middleware">
       <field name="NAME" id="j{f?,R~uQ{$}[B@0sUIA">item</field>
@@ -322,5 +321,9 @@
     <block type="send_session_message"/>
     <block type="break_middleware"/>
     <block type="return_message"/>
+    <block type="session_message"/>
+    <block type="session_user_id"/>
+    <block type="segment_at"/>
+    <block type="segment_image"/>
   </category>
 </xml>

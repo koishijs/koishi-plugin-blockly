@@ -7,7 +7,7 @@ import * as Blockly from 'blockly';
 import * as ZhHans from 'blockly/msg/zh-hans';
 import Toolbox from './toolbox.xml?raw';
 import {javascriptGenerator} from 'blockly/javascript';
-import {ref, onMounted, watch,toRef} from 'vue';
+import {ref, onMounted,toRef} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 const blockly_workspace = ref(null)
 
@@ -27,6 +27,7 @@ Object.entries(BlockGenerators).forEach(([k,v])=>{
 let workspace = null;
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value,{toolbox:Toolbox})
+  workspace.addChangeListener(Blockly.Events.disableOrphans);
 })
 defineExpose({
   save(){

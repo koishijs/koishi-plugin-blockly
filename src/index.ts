@@ -1,7 +1,6 @@
-import {Context, Disposable, ForkScope, Schema} from 'koishi'
+import {Context, ForkScope, Schema,segment} from 'koishi'
 import { resolve } from 'path'
 import {DataService} from '@koishijs/plugin-console'
-import {Block} from "blockly";
 import vm from 'node:vm';
 
 export const name = 'blockly'
@@ -23,7 +22,7 @@ declare module "koishi"{
 
 declare module '@koishijs/plugin-console' {
   interface Events {
-    'create-block'(): void
+    'create-blockly'(): void
     'save-blockly'(id:number,data:{body:object,code:string}): void
     'load-blockly'(id:number): Promise<object>
   }
@@ -55,6 +54,7 @@ export class PluginManager{
     this.runningPlugins = []
     this.plugins.forEach(p=>{
       const context = vm.createContext({})
+      context.segment = segment;
       let plugin = null
       try{
         plugin = vm.runInContext(p,context)
@@ -94,28 +94,26 @@ export async function apply(ctx: Context) {
 
   ctx.console.addListener("save-blockly",async (id:number,data)=>{
     await ctx.database.set("blockly",id,data);
+    console.info(data.code)
     updatePmPlugins(ctx);
   })
 
-  ctx.console.addListener("create-block",async ()=>{
-    await ctx.database.create("blockly",{
-      name:'未命名Koishi插件',
-      body:{},
-      code:''
-    });
-    updatePmPlugins(ctx);
+  ctx.console.addListener("create-blockly",async ()=>{
+    await ctx.database.create('blockly',{
+      name:'未命名Koishi代码',
+      code:'',
+      body:{}
+    })
   })
 
   let pm = new PluginManager(ctx.isolate([]));
 
   async function updatePmPlugins(ctx:Context){
-    const plugins = (await ctx.database.get('blockly',{id:{$not:-1}}));
-    ctx.using(["console.blockly"],(ctx:Context)=>{
-      ctx["console.blockly"].patch(plugins)
-    })
-    pm.plugins = plugins.map(t=>t.code)
+    pm.plugins = (await ctx.database.get('blockly',{id:{$not:-1}},["code"])).map(t=>t.code)
     pm.restart()
   }
   await updatePmPlugins(ctx)
   pm.restart()
+
+
 }
