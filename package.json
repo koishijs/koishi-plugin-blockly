@@ -25,6 +25,10 @@
     }
   },
   "dependencies": {
+    "@koishijs/plugin-console": "^5.1.5",
     "blockly": "^9.2.0"
+  },
+  "devDependencies": {
+    "@koishijs/client": "^5.1.5"
   }
 }
