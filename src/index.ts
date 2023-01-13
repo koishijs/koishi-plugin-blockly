@@ -10,7 +10,7 @@ export interface Config {}
 export interface BlocklyDocument{
   id:number
   name:string
-  body:object
+  body:string
   code:string
 }
 
@@ -75,7 +75,7 @@ export async function apply(ctx: Context) {
   ctx.database.extend('blockly',{
     id:'integer',
     name:'string',
-    body:'json',
+    body:'text',
     code:'text'
   },{
     autoInc:true
@@ -89,12 +89,11 @@ export async function apply(ctx: Context) {
   })
 
   ctx.console.addListener("load-blockly",async (id:number)=>{
-    return (await ctx.database.get("blockly",id,['body']))[0].body
+    return JSON.parse((await ctx.database.get("blockly",id,['body']))[0].body);
   })
 
   ctx.console.addListener("save-blockly",async (id:number,data)=>{
-    await ctx.database.set("blockly",id,data);
-    console.info(data.code)
+    await ctx.database.set("blockly",id,{body:JSON.stringify(data.body),code:data.code});
     updatePmPlugins(ctx);
   })
 
@@ -102,18 +101,20 @@ export async function apply(ctx: Context) {
     await ctx.database.create('blockly',{
       name:'未命名Koishi代码',
       code:'',
-      body:{}
+      body:'{}'
     })
+    await updatePmPlugins(ctx);
   })
 
   let pm = new PluginManager(ctx.isolate([]));
 
   async function updatePmPlugins(ctx:Context){
     pm.plugins = (await ctx.database.get('blockly',{id:{$not:-1}},["code"])).map(t=>t.code)
+    if(ctx['console.blockly']){
+      ctx['console.blockly'].patch((await ctx.database.get('blockly',{id:{$not:-1}},["id","name"])).map(t=>({id:t.id,name:t.name})))
+    }
     pm.restart()
   }
   await updatePmPlugins(ctx)
   pm.restart()
-
-
 }
