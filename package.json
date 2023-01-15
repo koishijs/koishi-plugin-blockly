@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-blockly",
   "description": "Use blockly to develop a simple koishi plugin",
-  "version": "0.0.3-prealpha",
+  "version": "0.0.3-prealpha.0",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -16,6 +16,7 @@
     "plugin"
   ],
   "peerDependencies": {
+    "@koishijs/plugin-console": "^5.1.5",
     "koishi": "^4.10.6"
   },
   "koishi": {
@@ -24,12 +25,9 @@
       "zh": "[请注意,此插件还处于早期开发状态,后续升级可能会导致现有程序失效,可以拿来当玩具玩]使用Blockly来开发一些简单的Koishi插件"
     }
   },
-  "dependencies": {
-    "@koishijs/plugin-console": "^5.1.5",
+  "devDependencies": {
+    "@koishijs/client": "^5.1.5",
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
     "blockly": "^9.2.0"
-  },
-  "devDependencies": {
-    "@koishijs/client": "^5.1.5"
   }
 }
