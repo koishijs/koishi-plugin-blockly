@@ -5,10 +5,12 @@
 <script setup lang="ts">
 import * as Blockly from 'blockly';
 import * as ZhHans from 'blockly/msg/zh-hans';
+import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
 import Toolbox from './toolbox.xml?raw';
 import {javascriptGenerator} from 'blockly/javascript';
 import {ref, onMounted,toRef} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
+import {registerExtensions} from "./extensions";
 const blockly_workspace = ref(null)
 
 let value = defineProps({
@@ -21,6 +23,7 @@ let emits = defineEmits(['update:modelValue'])
 
 Blockly.setLocale(ZhHans);
 Blockly.defineBlocksWithJsonArray(Blocks);
+registerExtensions();
 Object.entries(BlockGenerators).forEach(([k,v])=>{
   javascriptGenerator[k]=v;
 })
@@ -28,6 +31,7 @@ let workspace = null;
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value,{toolbox:Toolbox})
   workspace.addChangeListener(Blockly.Events.disableOrphans);
+  LexicalVariables.init(workspace);
 })
 defineExpose({
   save(){

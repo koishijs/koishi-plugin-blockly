@@ -19,7 +19,7 @@ export const MiddlewareBlock = {
 }
 
 export function middlewareBlock(block){
-  var statements_callback = javascriptGenerator.statementToCode(block, 'callback');
-  var code = `ctx.middleware(async (session,next)=>{\n${statements_callback};\nreturn next();\n})`;
+  let statements_callback = javascriptGenerator.statementToCode(block, 'callback');
+  let code = `ctx.middleware(async (session,next)=>{\n${statements_callback};\nreturn next();\n})`;
   return code;
 }

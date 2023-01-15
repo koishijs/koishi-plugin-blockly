@@ -6,6 +6,15 @@ import {
   sendSessionMessageBlock,
   SendSessionMessageBlock, sessionMessageBlock, SessionMessageBlock, sessionUserIdBlock, SessionUserIdBlock
 } from "./session";
+import {commandBlock, CommandBlock} from "./command";
+import {
+  AnyParameter,
+  BooleanParameter,
+  IntParameter,
+  NumberParameter,
+  ParameterListBlock, PosintParameter,
+  StringParameter, TextParameter
+} from "./parameter";
 
 export const Blocks = [
   MiddlewareBlock,
@@ -15,7 +24,16 @@ export const Blocks = [
   SessionMessageBlock,
   SessionUserIdBlock,
   SegmentAtBlock,
-  SegmentImageBlock
+  SegmentImageBlock,
+  CommandBlock,
+  ParameterListBlock,
+  AnyParameter,
+  StringParameter,
+  NumberParameter,
+  IntParameter,
+  BooleanParameter,
+  PosintParameter,
+  TextParameter
 ]
 
 export const BlockGenerators={
@@ -26,5 +44,6 @@ export const BlockGenerators={
   'session_message':sessionMessageBlock,
   'session_user_id':sessionUserIdBlock,
   'segment_at':segmentAtBlock,
-  'segment_image':segmentImageBlock
+  'segment_image':segmentImageBlock,
+  'command':commandBlock
 }

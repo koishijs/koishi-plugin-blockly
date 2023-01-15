@@ -95,6 +95,7 @@ export async function apply(ctx: Context) {
   ctx.console.addListener("save-blockly",async (id:number,data)=>{
     await ctx.database.set("blockly",id,{body:JSON.stringify(data.body),code:data.code});
     updatePmPlugins(ctx);
+    console.info(data.code)
   })
 
   ctx.console.addListener("create-blockly",async ()=>{

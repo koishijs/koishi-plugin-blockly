@@ -297,7 +297,12 @@
     </block>
   </category>
   <sep/>
-  <category name="变量" colour="#a55b80" custom="VARIABLE"/>
+  <category name="变量" colour="#a55b80">
+    <block type="global_declaration"/>
+    <block type="lexical_variable_get"/>
+    <block type="lexical_variable_set"/>
+    <block type="local_declaration_statement"/>
+  </category>
   <category name="机器人" colour="#5b80a5">
     <block type="middleware">
       <field name="NAME" id="j{f?,R~uQ{$}[B@0sUIA">item</field>
@@ -309,5 +314,6 @@
     <block type="session_user_id"/>
     <block type="segment_at"/>
     <block type="segment_image"/>
+    <block type="command"/>
   </category>
 </xml>
