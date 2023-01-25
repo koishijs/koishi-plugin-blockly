@@ -4,7 +4,7 @@ export const ParameterListBlock = {
   "args0": [
     {
       "type": "input_statement",
-      "name": "NAME",
+      "name": "parameter_list",
       "check": "Parameter"
     }
   ],
