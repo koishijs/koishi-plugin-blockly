@@ -15,7 +15,7 @@ export const SendSessionMessageBlock = {
   ],
   "previousStatement": null,
   "nextStatement": null,
-  "extensions":['session'],
+  "extensions":['session_consumer'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -31,7 +31,7 @@ export const BreakMiddlewareBlock = {
   "type": "break_middleware",
   "message0": "终止后续逻辑执行",
   "previousStatement": null,
-  "extensions":['session'],
+  "extensions":['session_consumer'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -56,7 +56,7 @@ export const ReturnMessageBlock = {
     }
   ],
   "previousStatement": null,
-  "extensions":['session'],
+  "extensions":['session_consumer'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -71,7 +71,7 @@ export function returnMessageBlock(block){
 export const SessionMessageBlock = {
   "type": "session_message",
   "message0": "发送消息的内容",
-  "extensions":['session'],
+  "extensions":['session_consumer'],
   "output": "String",
   "colour": 230,
   "tooltip": "",
@@ -87,7 +87,7 @@ export const SessionUserIdBlock = {
   "type": "session_user_id",
   "message0": "发送消息用户的平台用户ID",
   "output": "String",
-  "extensions":['session'],
+  "extensions":['session_consumer'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -108,7 +108,7 @@ export const SegmentAtBlock = {
     }
   ],
   "output": "String",
-  "extensions":['session'],
+  "extensions":['session_consumer'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -130,7 +130,7 @@ export const SegmentImageBlock = {
     }
   ],
   "output": "String",
-  "extensions":['session'],
+  "extensions":['session_consumer'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""

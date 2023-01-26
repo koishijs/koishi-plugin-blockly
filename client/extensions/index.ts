@@ -1,8 +1,7 @@
 import {parameterListMutator} from "./parameter";
-import {sessionExtension, sessionProviderExtension} from "./session";
+import {consumerExtension, providerExtension, registerScopeExtensions} from "./scope";
 
 export function registerExtensions(){
   parameterListMutator();
-  sessionExtension();
-  sessionProviderExtension();
+  registerScopeExtensions()
 }
