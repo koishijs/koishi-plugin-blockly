@@ -12,9 +12,9 @@ export function parameterListMutator(){
       var connection = topBlock.getInput('parameter_list').connection;
       this.parameters.forEach((parameter)=>{
         let itemBlock = workspace.newBlock(parameter.type);
-        itemBlock.setFieldValue(parameter.name,'name');
-        itemBlock.setFieldValue(parameter.required,'required');
-        itemBlock.initSvg();
+        itemBlock.setFieldValue(parameter.name,'name')
+        itemBlock.setFieldValue(parameter.required?'TRUE':'FALSE','required');
+        itemBlock.initSvg()
         connection.connect(itemBlock.previousConnection);
         connection = itemBlock.nextConnection;
       })
@@ -33,7 +33,7 @@ export function parameterListMutator(){
       while(currentBlock){
         console.info(currentBlock,currentBlock.type)
         const name = currentBlock.getFieldValue('name')
-        const required = currentBlock.getFieldValue('required')
+        const required = currentBlock.getFieldValue('required').toLowerCase() === 'true'
         const type = currentBlock.type
         parameters.push({name,required,type})
         currentBlock = currentBlock.getNextBlock();
