@@ -11,7 +11,7 @@ import {javascriptGenerator} from 'blockly/javascript';
 import {ref, onMounted,toRef} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
-import {disableOrphansAndOrphanSessions} from "./listeners/scope";
+import {disableOrphansAndOrphanSessionsEvent} from "./listeners/scope";
 const blockly_workspace = ref(null)
 
 let value = defineProps({
