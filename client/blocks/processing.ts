@@ -13,6 +13,7 @@ export const MiddlewareBlock = {
       "name": "callback"
     }
   ],
+  "extensions":['session_provider'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""

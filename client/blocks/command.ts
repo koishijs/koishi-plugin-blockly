@@ -17,6 +17,7 @@ export const CommandBlock = {
     }
   ],
   "mutator":"parameter_list",
+  "extensions":['session_provider'],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""

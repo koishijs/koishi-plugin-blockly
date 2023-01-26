@@ -11,6 +11,7 @@ import {javascriptGenerator} from 'blockly/javascript';
 import {ref, onMounted,toRef} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
+import {disableOrphansAndOrphanSessions} from "./listeners/session_block";
 const blockly_workspace = ref(null)
 
 let value = defineProps({
@@ -30,7 +31,8 @@ Object.entries(BlockGenerators).forEach(([k,v])=>{
 let workspace = null;
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value,{toolbox:Toolbox})
-  workspace.addChangeListener(Blockly.Events.disableOrphans);
+  //workspace.addChangeListener(Blockly.Events.disableOrphans);
+  workspace.addChangeListener(disableOrphansAndOrphanSessions);
   LexicalVariables.init(workspace);
 })
 defineExpose({
