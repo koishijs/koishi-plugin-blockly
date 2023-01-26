@@ -31,5 +31,5 @@ export function commandBlock(block){
 
     return (required?'<':'[') + name + (type!='any_parameter'?':'+type.split('_')[0]:'') + (required?'>':']')
   }).join(' ')
-  return `ctx.command('${command_definition}').action(async ({session})=>{\n${statements_action};\n});\n`;
+  return `ctx.command('${command_definition}').action(async ({session},...args)=>{\n${statements_action};\n});\n`;
 }
