@@ -9,7 +9,7 @@ import {
 import {commandBlock, CommandBlock} from "./command";
 import {
   AnyParameter,
-  BooleanParameter,
+  BooleanParameter, GetArgument, getArgument,
   IntParameter,
   NumberParameter,
   ParameterListBlock, PosintParameter,
@@ -33,7 +33,8 @@ export const Blocks = [
   IntParameter,
   BooleanParameter,
   PosintParameter,
-  TextParameter
+  TextParameter,
+  GetArgument
 ]
 
 export const BlockGenerators={
@@ -45,5 +46,6 @@ export const BlockGenerators={
   'session_user_id':sessionUserIdBlock,
   'segment_at':segmentAtBlock,
   'segment_image':segmentImageBlock,
-  'command':commandBlock
+  'command':commandBlock,
+  'get_argument':getArgument
 }

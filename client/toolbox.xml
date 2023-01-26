@@ -315,5 +315,6 @@
     <block type="segment_at"/>
     <block type="segment_image"/>
     <block type="command"/>
+    <block type="get_argument"/>
   </category>
 </xml>
