@@ -23,6 +23,12 @@ export const CommandBlock = {
 };
 export function commandBlock(block){
   let text_name = block.getFieldValue('name');
+  let parameters = block.parameters ?? []
   let statements_action = javascriptGenerator.statementToCode(block, 'action');
-  return `ctx.command('${text_name}').action(async ({session})=>{\n${statements_action};\n});\n`;
+  let command_definition = text_name + ' ' + parameters.map((parameter)=>{
+    const {required,name,type} = parameter
+
+    return (required?'<':'[') + name + (type!='any_parameter'?':'+type.split('_')[0]:'') + (required?'>':']')
+  }).join(' ')
+  return `ctx.command('${command_definition}').action(async ({session})=>{\n${statements_action};\n});\n`;
 }
