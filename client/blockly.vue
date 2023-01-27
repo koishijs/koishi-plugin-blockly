@@ -28,7 +28,7 @@ registerExtensions();
 Object.entries(BlockGenerators).forEach(([k,v])=>{
   javascriptGenerator[k]=v;
 })
-let workspace = null;
+let workspace : Blockly.WorkspaceSvg = null;
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value,{toolbox:Toolbox})
   //workspace.addChangeListener(Blockly.Events.disableOrphans);
