@@ -138,6 +138,34 @@ export function segmentImageBlock(block){
   return [`segment.image(${image})`,javascriptGenerator.ORDER_NONE];
 }
 
+export const SessionGuildId = {
+  "type": "session_guild_id",
+  "message0": "消息来自的群组编号",
+  "output": "String",
+  "extensions":['session_consumer'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function sessionChannelId(){
+  return [`session.channelId`,javascriptGenerator.ORDER_NONE];
+}
+
+export const SessionChannelId = {
+  "type": "session_channel_id",
+  "message0": "消息来自的频道编号(群号)",
+  "output": "String",
+  "extensions":['session_consumer'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function sessionGuildId(){
+  return [`session.guildId`,javascriptGenerator.ORDER_NONE];
+}
+
 export const SessionBlocks = [
   SendSessionMessageBlock,
   BreakMiddlewareBlock,
@@ -145,7 +173,9 @@ export const SessionBlocks = [
   SessionMessageBlock,
   SessionUserIdBlock,
   SegmentAtBlock,
-  SegmentImageBlock
+  SegmentImageBlock,
+  SessionChannelId,
+  SessionGuildId
 ]
 
 export const sessionBlocks = {
@@ -156,4 +186,6 @@ export const sessionBlocks = {
   'session_user_id':sessionUserIdBlock,
   'segment_at':segmentAtBlock,
   'segment_image':segmentImageBlock,
+  'session_channel_id':sessionChannelId,
+  'session_guild_id':sessionGuildId
 }

@@ -311,6 +311,8 @@
     <block type="get_argument"/>
     <block type="session_message"/>
     <block type="session_user_id"/>
+    <block type="session_guild_id"/>
+    <block type="session_channel_id"/>
     <block type="break_middleware"/>
   </category>
   <category name="消息" colour="#5b80a5">
@@ -340,4 +342,5 @@
       </value>
     </block>
   </category>
+
 </xml>
