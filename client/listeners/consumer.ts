@@ -4,7 +4,7 @@ import {BlockCreate} from "blockly/core/events/events_block_create";
 import {BlockSvg, WorkspaceSvg} from "blockly";
 import * as Blockly from "blockly";
 
-export function disableOrphansAndOrphanSessionsEvent(_event:Abstract){
+export function disableOrphansAndOrphanConsumersEvent(_event:Abstract){
   if (!(_event.type === 'move' || _event.type === 'create'))return;
   const event = _event as BlockMove | BlockCreate
   if (!event.workspaceId || !event.blockId)
@@ -14,13 +14,13 @@ export function disableOrphansAndOrphanSessionsEvent(_event:Abstract){
     return;
   let block = eventWorkspace.getBlockById(event.blockId);
   Blockly.Events.disableOrphans(_event);
-  checkBlockRelations(block);
+  disableOrphanConsumers(block);
 }
-export function checkBlockRelations(block:BlockSvg){
+export function disableOrphanConsumers(block:BlockSvg){
   const children = [].concat(block.getChildren(false))
   if(children)
     children.forEach(b=>{
-      checkBlockRelations(b)
+      disableOrphanConsumers(b)
     });
 
   if(!block || !block['scope'] || !block['scope']['consumes']){
@@ -45,5 +45,5 @@ export function checkBlockRelations(block:BlockSvg){
   }
 
   const next = block.getNextBlock();
-  if(next)checkBlockRelations(next);
+  if(next)disableOrphanConsumers(next);
 }
