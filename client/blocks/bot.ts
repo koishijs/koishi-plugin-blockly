@@ -37,7 +37,7 @@ export function deleteMessage(block){
 
 export const MuteUser = {
   "type": "mute_user",
-  "message0": "禁言用户 %1 机器人对象 %2 用户ID %3 频道ID %4 禁言时间(毫秒) %5",
+  "message0": "禁言用户 %1 机器人对象 %2 用户ID %3 群组ID %4 禁言时间(毫秒) %5",
   "args0": [
     {
       "type": "input_dummy"
