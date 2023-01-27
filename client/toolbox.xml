@@ -312,8 +312,18 @@
     <block type="return_message"/>
     <block type="session_message"/>
     <block type="session_user_id"/>
-    <block type="segment_at"/>
-    <block type="segment_image"/>
+    <block type="segment_at">
+      <value name="user">
+        <shadow type="session_user_id"/>
+      </value>
+    </block>
+    <block type="segment_image">
+      <value name="image">
+        <shadow type="text">
+          <field name="TEXT">https://koishi.chat/logo.png</field>
+        </shadow>
+      </value>
+    </block>
     <block type="command"/>
     <block type="get_argument"/>
   </category>
