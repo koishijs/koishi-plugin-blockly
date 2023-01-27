@@ -39,5 +39,5 @@ export const CommandBlocks = [
 ]
 
 export const commandBlocks = {
-  'command_block':commandBlock
+  'command':commandBlock
 }
