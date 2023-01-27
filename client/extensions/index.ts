@@ -1,5 +1,5 @@
 import {parameterListMutator} from "./parameter";
-import {consumerExtension, providerExtension, registerScopeExtensions} from "./scope";
+import {registerScopeExtensions} from "./scope";
 
 export function registerExtensions(){
   parameterListMutator();

@@ -31,7 +31,6 @@ Object.entries(BlockGenerators).forEach(([k,v])=>{
 let workspace : Blockly.WorkspaceSvg = null;
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value,{toolbox:Toolbox})
-  //workspace.addChangeListener(Blockly.Events.disableOrphans);
   workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
   LexicalVariables.init(workspace);
 })

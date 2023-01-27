@@ -1,4 +1,3 @@
-import * as Blockly from 'blockly'
 import {javascriptGenerator} from 'blockly/javascript'
 export const SendSessionMessageBlock = {
   "type": "send_session_message",

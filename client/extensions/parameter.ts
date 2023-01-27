@@ -1,4 +1,3 @@
-import {Mutator} from "blockly";
 import * as Blockly from "blockly";
 
 export function parameterListMutator(){
