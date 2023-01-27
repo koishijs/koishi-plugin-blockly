@@ -94,6 +94,20 @@ export function sessionUserIdBlock(){
   return [`session.userId`,javascriptGenerator.ORDER_NONE];
 }
 
+export const SessionBotBlock = {
+  "type": "session_bot",
+  "message0": "收到消息的机器人对象",
+  "output": "String",
+  "extensions":['session_consumer'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function sessionBotBlock(){
+  return [`session.bot`,javascriptGenerator.ORDER_NONE];
+}
+
 export const SegmentAtBlock = {
   "type": "segment_at",
   "message0": "@ %1",
@@ -166,6 +180,20 @@ export function sessionGuildId(){
   return [`session.guildId`,javascriptGenerator.ORDER_NONE];
 }
 
+export const SessionMessageId = {
+  "type": "session_message_id",
+  "message0": "消息编号",
+  "output": "String",
+  "extensions":['session_consumer'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function sessionMessageId(){
+  return [`session.messageId`,javascriptGenerator.ORDER_NONE];
+}
+
 export const SessionBlocks = [
   SendSessionMessageBlock,
   BreakMiddlewareBlock,
@@ -175,7 +203,9 @@ export const SessionBlocks = [
   SegmentAtBlock,
   SegmentImageBlock,
   SessionChannelId,
-  SessionGuildId
+  SessionGuildId,
+  SessionMessageId,
+  SessionBotBlock
 ]
 
 export const sessionBlocks = {
@@ -187,5 +217,7 @@ export const sessionBlocks = {
   'segment_at':segmentAtBlock,
   'segment_image':segmentImageBlock,
   'session_channel_id':sessionChannelId,
-  'session_guild_id':sessionGuildId
+  'session_guild_id':sessionGuildId,
+  'session_message_id':sessionMessageId,
+  'session_bot':sessionBotBlock
 }
