@@ -22,8 +22,7 @@ export const SendSessionMessageBlock = {
 
 export function sendSessionMessageBlock(block){
   let value_name = javascriptGenerator.valueToCode(block, 'content', javascriptGenerator.ORDER_ATOMIC);
-  let code = `await session.send(${value_name});\n`;
-  return code;
+  return `await session.send(${value_name});\n`;
 }
 
 export const BreakMiddlewareBlock = {
@@ -36,7 +35,7 @@ export const BreakMiddlewareBlock = {
   "helpUrl": ""
 };
 
-export function breakMiddlewareBlock(block){
+export function breakMiddlewareBlock(){
   return 'return null;\n';
 }
 
@@ -63,8 +62,7 @@ export const ReturnMessageBlock = {
 
 export function returnMessageBlock(block){
   let value_name = javascriptGenerator.valueToCode(block, 'content', javascriptGenerator.ORDER_ATOMIC);
-  let code = `return ${value_name};\n`;
-  return code;
+  return `return ${value_name};\n`;
 }
 
 export const SessionMessageBlock = {
@@ -77,7 +75,7 @@ export const SessionMessageBlock = {
   "helpUrl": ""
 }
 
-export function sessionMessageBlock(block){
+export function sessionMessageBlock(){
   return [`session.content`,javascriptGenerator.ORDER_NONE];
 }
 
@@ -92,7 +90,7 @@ export const SessionUserIdBlock = {
   "helpUrl": ""
 }
 
-export function sessionUserIdBlock(block){
+export function sessionUserIdBlock(){
   return [`session.userId`,javascriptGenerator.ORDER_NONE];
 }
 
