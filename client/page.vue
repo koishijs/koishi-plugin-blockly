@@ -34,6 +34,7 @@
 import {onMounted, ref, watch, nextTick} from "vue";
 import {store,send} from "@koishijs/client"
 import blockly from "./blockly.vue"
+import NewFile from "./icons/new-file.vue";
 const editor = ref(null)
 const currentId = ref(undefined)
 const loading = ref(false)
