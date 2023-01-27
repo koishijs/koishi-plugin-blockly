@@ -2,7 +2,7 @@
   <k-layout>
     <template #left>
       <div style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
-        <i @click="send('create-blockly')" style="cursor: pointer"><new-file/></i>
+        <i @click="send('create-blockly-block')" style="cursor: pointer"><new-file/></i>
       </div>
       <hr/>
       <div style="height: 60%">
@@ -47,8 +47,8 @@ onMounted(()=>{
     watch(currentId,async (r,s)=>{
       console.info(r,s);
       loading.value=true;
-      if(s!=undefined)await send('save-blockly',s.split('-')[0],editor.value.save())
-      const data = await send("load-blockly",r.split('-')[0]);
+      if(s!=undefined)await send('save-blockly-block',s.split('-')[0],editor.value.save())
+      const data = await send("load-blockly-block",r.split('-')[0]);
       loading.value=false;
       await nextTick(()=>{
         oldCurrentId = currentId;
@@ -57,7 +57,7 @@ onMounted(()=>{
     })
   })
 async function save(){
-  if(currentId.value!=undefined)await send('save-blockly',currentId.value.split('-')[0],editor.value.save())
+  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value.split('-')[0],editor.value.save())
 }
 setTimeout(()=>init.value=false,500);
 </script>

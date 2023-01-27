@@ -22,9 +22,9 @@ declare module "koishi"{
 
 declare module '@koishijs/plugin-console' {
   interface Events {
-    'create-blockly'(): void
-    'save-blockly'(id:number,data:{body:object,code:string}): void
-    'load-blockly'(id:number): Promise<object>
+    'create-blockly-block'(): void
+    'save-blockly-block'(id:number, data:{body:object,code:string}): void
+    'load-blockly-block'(id:number): Promise<object>
   }
   namespace Console{
     interface Services {
@@ -88,17 +88,17 @@ export async function apply(ctx: Context) {
     })
   })
 
-  ctx.console.addListener("load-blockly",async (id:number)=>{
+  ctx.console.addListener("load-blockly-block",async (id:number)=>{
     return JSON.parse((await ctx.database.get("blockly",id,['body']))[0].body);
   })
 
-  ctx.console.addListener("save-blockly",async (id:number,data)=>{
+  ctx.console.addListener("save-blockly-block",async (id:number, data)=>{
     await ctx.database.set("blockly",id,{body:JSON.stringify(data.body),code:data.code});
     updatePmPlugins(ctx);
     console.info(data.code)
   })
 
-  ctx.console.addListener("create-blockly",async ()=>{
+  ctx.console.addListener("create-blockly-block",async ()=>{
     await ctx.database.create('blockly',{
       name:'未命名Koishi代码',
       code:'',
