@@ -15,6 +15,7 @@ import {
   ParameterListBlock, PosintParameter,
   StringParameter, TextParameter
 } from "./parameter";
+import {httpGet, HttpGet} from "./networking";
 
 export const Blocks = [
   MiddlewareBlock,
@@ -34,7 +35,8 @@ export const Blocks = [
   BooleanParameter,
   PosintParameter,
   TextParameter,
-  GetArgument
+  GetArgument,
+  HttpGet
 ]
 
 export const BlockGenerators={
@@ -47,5 +49,6 @@ export const BlockGenerators={
   'segment_at':segmentAtBlock,
   'segment_image':segmentImageBlock,
   'command':commandBlock,
-  'get_argument':getArgument
+  'get_argument':getArgument,
+  'http_get':httpGet
 }

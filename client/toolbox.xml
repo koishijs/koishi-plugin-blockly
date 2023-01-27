@@ -296,22 +296,28 @@
       <field name="DIRECTION">1</field>
     </block>
   </category>
-  <sep/>
   <category name="变量" colour="#a55b80">
     <block type="global_declaration"/>
     <block type="lexical_variable_get"/>
     <block type="lexical_variable_set"/>
     <block type="local_declaration_statement"/>
   </category>
-  <category name="机器人" colour="#5b80a5">
+  <sep/>
+  <category name="会话与事件" colour="#5b80a5">
     <block type="middleware">
       <field name="NAME" id="j{f?,R~uQ{$}[B@0sUIA">item</field>
     </block>
-    <block type="send_session_message"/>
-    <block type="break_middleware"/>
-    <block type="return_message"/>
+    <block type="command"/>
+    <block type="get_argument"/>
     <block type="session_message"/>
     <block type="session_user_id"/>
+    <block type="break_middleware"/>
+  </category>
+  <category name="消息" colour="#5b80a5">
+    <block type="send_session_message"/>
+    <block type="return_message"/>
+  </category>
+  <category name="消息元素" colour="#5b80a5">
     <block type="segment_at">
       <value name="user">
         <shadow type="session_user_id"/>
@@ -324,7 +330,14 @@
         </shadow>
       </value>
     </block>
-    <block type="command"/>
-    <block type="get_argument"/>
+  </category>
+  <category name="交互" colour="#5b80a5">
+    <block type="http_get">
+      <value name="url">
+        <shadow type="text">
+          <field name="TEXT">https://koishi.chat/</field>
+        </shadow>
+      </value>
+    </block>
   </category>
 </xml>
