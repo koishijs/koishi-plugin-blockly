@@ -1,14 +1,18 @@
 <template>
   <k-layout>
     <template #left>
+      <div style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
+        <i @click="send('create-blockly')" style="cursor: pointer"><new-file/></i>
+      </div>
+      <hr/>
       <div style="height: 60%">
         <el-scrollbar>
-          <k-button style="width: 100%;height:48px" @click="send('create-blockly');">创建插件</k-button>
-          <k-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id+'-'+t.name,{id:t.id}]))" v-model="currentId"></k-tab-group>
+          <k-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id+'-'+t.name,{id:t.id}]))" v-model="currentId">
+          </k-tab-group>
         </el-scrollbar>
       </div>
       <hr/>
-      <div style="height: 40%;padding:10px">
+      <div style="height: 20%;padding:10px">
         <k-button @click="save()">保存并应用更改</k-button>
       </div>
     </template>
