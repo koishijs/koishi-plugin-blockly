@@ -1,54 +1,21 @@
-import {middlewareBlock, MiddlewareBlock} from "./processing";
-import {
-  breakMiddlewareBlock,
-  BreakMiddlewareBlock, ReturnMessageBlock,
-  returnMessageBlock, SegmentAtBlock, segmentAtBlock, segmentImageBlock, SegmentImageBlock,
-  sendSessionMessageBlock,
-  SendSessionMessageBlock, sessionMessageBlock, SessionMessageBlock, sessionUserIdBlock, SessionUserIdBlock
-} from "./session";
-import {commandBlock, CommandBlock} from "./command";
-import {
-  AnyParameter,
-  BooleanParameter, GetArgument, getArgument,
-  IntParameter,
-  NumberParameter,
-  ParameterListBlock, PosintParameter,
-  StringParameter, TextParameter
-} from "./parameter";
-import {httpGet, HttpGet} from "./networking";
+import {CommandBlocks, commandBlocks} from "./command";
+import {NetworkingBlocks, networkingBlocks} from "./networking";
+import {ParameterBlocks, parameterBlocks} from "./parameter";
+import {ProcessingBlocks, processingBlocks} from "./processing";
+import {SessionBlocks, sessionBlocks} from "./session";
 
 export const Blocks = [
-  MiddlewareBlock,
-  SendSessionMessageBlock,
-  BreakMiddlewareBlock,
-  ReturnMessageBlock,
-  SessionMessageBlock,
-  SessionUserIdBlock,
-  SegmentAtBlock,
-  SegmentImageBlock,
-  CommandBlock,
-  ParameterListBlock,
-  AnyParameter,
-  StringParameter,
-  NumberParameter,
-  IntParameter,
-  BooleanParameter,
-  PosintParameter,
-  TextParameter,
-  GetArgument,
-  HttpGet
+  ...CommandBlocks,
+  ...NetworkingBlocks,
+  ...ParameterBlocks,
+  ...ProcessingBlocks,
+  ...SessionBlocks
 ]
 
-export const BlockGenerators={
-  'middleware':middlewareBlock,
-  'send_session_message':sendSessionMessageBlock,
-  'break_middleware':breakMiddlewareBlock,
-  'return_message':returnMessageBlock,
-  'session_message':sessionMessageBlock,
-  'session_user_id':sessionUserIdBlock,
-  'segment_at':segmentAtBlock,
-  'segment_image':segmentImageBlock,
-  'command':commandBlock,
-  'get_argument':getArgument,
-  'http_get':httpGet
-}
+export const BlockGenerators=Object.assign({},...[
+  commandBlocks,
+  networkingBlocks,
+  parameterBlocks,
+  processingBlocks,
+  sessionBlocks
+])

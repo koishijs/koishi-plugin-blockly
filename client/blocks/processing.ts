@@ -22,3 +22,10 @@ export function middlewareBlock(block){
   let statements_callback = javascriptGenerator.statementToCode(block, 'callback');
   return `ctx.middleware(async (session,next)=>{\n${statements_callback};\nreturn next();\n})`
 }
+
+export const ProcessingBlocks = [
+  MiddlewareBlock
+]
+export const processingBlocks = {
+  'middleware_block':middlewareBlock
+}

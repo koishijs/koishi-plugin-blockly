@@ -42,3 +42,11 @@ export function httpGet(block){
   let response_type = block.getFieldValue('response_type');
   return [`await ctx.http.get(${value_url},{responseType:'${response_type}'})`, javascriptGenerator.ORDER_NONE];
 }
+
+export const NetworkingBlocks = [
+  HttpGet
+]
+
+export const networkingBlocks = {
+  'http_get':httpGet
+}

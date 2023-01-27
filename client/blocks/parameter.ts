@@ -210,3 +210,18 @@ export function getArgument(block){
   let argument_id = block.getFieldValue('id');
   return [`args[${argument_id}]`,javascriptGenerator.ORDER_NONE]
 }
+
+export const ParameterBlocks = [
+  ParameterListBlock,
+  AnyParameter,
+  StringParameter,
+  NumberParameter,
+  IntParameter,
+  BooleanParameter,
+  PosintParameter,
+  TextParameter,
+  GetArgument
+]
+export const parameterBlocks = {
+  'get_argument':getArgument
+}

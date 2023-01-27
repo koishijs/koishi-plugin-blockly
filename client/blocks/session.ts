@@ -137,3 +137,23 @@ export function segmentImageBlock(block){
   let image = javascriptGenerator.valueToCode(block, 'image', javascriptGenerator.ORDER_ATOMIC);
   return [`segment.image(${image})`,javascriptGenerator.ORDER_NONE];
 }
+
+export const SessionBlocks = [
+  SendSessionMessageBlock,
+  BreakMiddlewareBlock,
+  ReturnMessageBlock,
+  SessionMessageBlock,
+  SessionUserIdBlock,
+  SegmentAtBlock,
+  SegmentImageBlock
+]
+
+export const sessionBlocks = {
+  'send_session_message':sendSessionMessageBlock,
+  'break_middleware':breakMiddlewareBlock,
+  'return_message':returnMessageBlock,
+  'session_message':sessionMessageBlock,
+  'session_user_id':sessionUserIdBlock,
+  'segment_at':segmentAtBlock,
+  'segment_image':segmentImageBlock,
+}

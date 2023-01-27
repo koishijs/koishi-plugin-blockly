@@ -33,3 +33,11 @@ export function commandBlock(block){
   }).join(' ')
   return `ctx.command('${command_definition}').action(async ({session},...args)=>{\n${statements_action};\n});\n`;
 }
+
+export const CommandBlocks = [
+  CommandBlock
+]
+
+export const commandBlocks = {
+  'command_block':commandBlock
+}
