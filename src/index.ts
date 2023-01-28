@@ -1,4 +1,4 @@
-import {Context, ForkScope, Schema,segment} from 'koishi'
+import {Context, ForkScope, Logger, Schema, segment} from 'koishi'
 import { resolve } from 'path'
 import {DataService} from '@koishijs/plugin-console'
 import vm from 'node:vm';
