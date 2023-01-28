@@ -103,7 +103,7 @@ export async function apply(ctx: Context) {
 
   ctx.console.addListener("save-blockly-block",async (id:number, data)=>{
     await ctx.database.set("blockly",id,{body:JSON.stringify(data.body),code:data.code});
-    updatePmPlugins(ctx);
+    setTimeout(()=>updatePmPlugins(ctx),0);
     console.info(data.code)
   })
 
