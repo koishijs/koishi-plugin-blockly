@@ -1,4 +1,4 @@
-import {  } from '@koishijs/plugin-console/dist'
+import {} from 'koishi-plugin-blockly'
 import { Context } from '@koishijs/client'
 import Page from './page.vue'
 
