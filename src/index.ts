@@ -23,7 +23,7 @@ declare module "koishi"{
 
 declare module '@koishijs/plugin-console' {
   interface Events {
-    'create-blockly-block'(): void
+    'create-blockly-block'(): Promise<void>
     'save-blockly-block'(id:number, data:{body:object,code:string}): void
     'load-blockly-block'(id:number): Promise<object>
     'set-blockly-block-state'(id:number,enabled:boolean): Promise<void>
