@@ -14,6 +14,8 @@
       <hr/>
       <div style="height: 20%;padding:10px">
         <k-button @click="save()">保存并应用更改</k-button>
+        <k-button @click="enablePlugin()">启用插件</k-button>
+        <k-button @click="enablePlugin()">禁用插件</k-button>
       </div>
     </template>
     <div style="height: 100%">
@@ -58,6 +60,12 @@ onMounted(()=>{
   })
 async function save(){
   if(currentId.value!=undefined)await send('save-blockly-block',currentId.value.split('-')[0],editor.value.save())
+}
+async function enablePlugin(){
+  await send('set-blockly-block-state',currentId.value.split('-')[0],true)
+}
+async function disablePlugin(){
+  await send('set-blockly-block-state',currentId.value.split('-')[0],false)
 }
 setTimeout(()=>init.value=false,500);
 </script>

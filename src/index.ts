@@ -12,6 +12,7 @@ export interface BlocklyDocument{
   name:string
   body:string
   code:string
+  enabled:boolean
 }
 
 declare module "koishi"{
@@ -25,6 +26,7 @@ declare module '@koishijs/plugin-console' {
     'create-blockly-block'(): void
     'save-blockly-block'(id:number, data:{body:object,code:string}): void
     'load-blockly-block'(id:number): Promise<object>
+    'set-blockly-block-state'(id:number,enabled:boolean): Promise<void>
   }
   namespace Console{
     interface Services {
@@ -76,7 +78,8 @@ export async function apply(ctx: Context) {
     id:'integer',
     name:'string',
     body:'text',
-    code:'text'
+    code:'text',
+    enabled:'boolean'
   },{
     autoInc:true
   })
@@ -102,17 +105,28 @@ export async function apply(ctx: Context) {
     await ctx.database.create('blockly',{
       name:'未命名Koishi代码',
       code:'',
-      body:'{}'
+      body:'{}',
+      enabled:false
     })
     await updatePmPlugins(ctx);
   })
 
-  let pm = new PluginManager(ctx.isolate([]));
+  ctx.console.addListener("set-blockly-block-state",async (id, enabled)=>{
+    await ctx.database.set("blockly",id,{enabled});
+    console.info(await ctx.database.get("blockly",id))
+    await updatePmPlugins(ctx);
+  })
+
+  let pm = new PluginManager(ctx.isolate([]))
 
   async function updatePmPlugins(ctx:Context){
-    pm.plugins = (await ctx.database.get('blockly',{id:{$not:-1}},["code"])).map(t=>t.code)
+    pm.plugins = (await ctx.database.get('blockly',{enabled:true},["code","enabled"]))
+      .filter(t=>t.enabled).map(t=>t.code)
     if(ctx['console.blockly']){
-      ctx['console.blockly'].patch((await ctx.database.get('blockly',{id:{$not:-1}},["id","name"])).map(t=>({id:t.id,name:t.name})))
+      ctx['console.blockly']
+        .patch((
+          await ctx.database.get('blockly',{id:{$not:-1}},["id","name"])
+        ).map(t=>({id:t.id,name:t.name})))
     }
     pm.restart()
   }
