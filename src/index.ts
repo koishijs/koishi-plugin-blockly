@@ -136,5 +136,4 @@ export async function apply(ctx: Context) {
     pm.restart()
   }
   await updatePmPlugins(ctx)
-  pm.restart()
 }
