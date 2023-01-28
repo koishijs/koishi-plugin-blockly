@@ -113,7 +113,6 @@ export async function apply(ctx: Context) {
 
   ctx.console.addListener("set-blockly-block-state",async (id, enabled)=>{
     await ctx.database.set("blockly",id,{enabled});
-    console.info(await ctx.database.get("blockly",id))
     await updatePmPlugins(ctx);
   })
 
