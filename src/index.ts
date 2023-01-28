@@ -47,13 +47,18 @@ class BlocklyProvider extends DataService<{id:number,name:string}[]> {
 export class PluginManager{
   plugins:string[] = [];
   runningPlugins:ForkScope[] = [];
+  private logger: Logger;
   constructor(protected ctx:Context) {
     this.restart()
+    this.logger = this.ctx.logger("blockly")
   }
   restart(){
-    this.ctx.logger("blockly").info("Reloading....")
     this.runningPlugins.forEach(t=>t.dispose())
     this.runningPlugins = []
+    if(this.plugins.length == 0){
+      this.logger.info("No plugin loaded")
+    }
+    this.logger.info("Loading "+this.plugins.length +" plugin(s)")
     this.plugins.forEach(p=>{
       const context = vm.createContext({})
       context.segment = segment;
@@ -66,6 +71,7 @@ export class PluginManager{
       if(plugin && plugin['apply'])
         this.runningPlugins.push(this.ctx.plugin(plugin))
     })
+    this.logger.info("Loaded "+this.runningPlugins.length +" plugin(s)")
   }
 }
 
