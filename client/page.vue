@@ -7,15 +7,15 @@
       <hr/>
       <div style="height: 60%">
         <el-scrollbar>
-          <k-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id+'-'+t.name,{id:t.id}]))" v-model="currentId">
-          </k-tab-group>
+          <blockly-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id,t]))" v-model="currentId">
+          </blockly-tab-group>
         </el-scrollbar>
       </div>
       <hr/>
       <div style="height: 20%;padding:10px">
         <k-button @click="save()">保存并应用更改</k-button>
         <k-button @click="enablePlugin()">启用插件</k-button>
-        <k-button @click="enablePlugin()">禁用插件</k-button>
+        <k-button @click="disablePlugin()">禁用插件</k-button>
       </div>
     </template>
     <div style="height: 100%">
@@ -36,6 +36,7 @@
 import {onMounted, ref, watch, nextTick} from "vue";
 import {store,send} from "@koishijs/client"
 import blockly from "./blockly.vue"
+import blocklyTabGroup from './components/blockly-tab-group.vue'
 import NewFile from "./icons/new-file.vue";
 const editor = ref(null)
 const currentId = ref(undefined)
@@ -47,10 +48,9 @@ nextTick(() => {
 const init=ref(true);
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
-      console.info(r,s);
       loading.value=true;
-      if(s!=undefined)await send('save-blockly-block',s.split('-')[0],editor.value.save())
-      const data = await send("load-blockly-block",r.split('-')[0]);
+      if(s!=undefined)await send('save-blockly-block',parseInt(s.toString()),editor.value.save())
+      const data = await send("load-blockly-block",parseInt(r.toString()));
       loading.value=false;
       await nextTick(()=>{
         oldCurrentId = currentId;
@@ -59,13 +59,13 @@ onMounted(()=>{
     })
   })
 async function save(){
-  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value.split('-')[0],editor.value.save())
+  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,editor.value.save())
 }
 async function enablePlugin(){
-  await send('set-blockly-block-state',currentId.value.split('-')[0],true)
+  await send('set-blockly-block-state',currentId.value,true)
 }
 async function disablePlugin(){
-  await send('set-blockly-block-state',currentId.value.split('-')[0],false)
+  await send('set-blockly-block-state',currentId.value,false)
 }
 setTimeout(()=>init.value=false,500);
 </script>

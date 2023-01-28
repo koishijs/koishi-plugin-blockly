@@ -35,12 +35,18 @@ declare module '@koishijs/plugin-console' {
   }
 }
 
-class BlocklyProvider extends DataService<{id:number,name:string}[]> {
+export interface BlocklyMenuItem{
+  id:number
+  name:string
+  enabled:boolean
+}
+
+class BlocklyProvider extends DataService<BlocklyMenuItem[]> {
   constructor(ctx: Context) {
     super(ctx, 'blockly')
   }
   async get() {
-    return (await this.ctx.database.get('blockly',{id:{$not:-1}},["id","name"])).map(t=>({id:t.id,name:t.name}))
+    return (await this.ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled"]))
   }
 }
 
@@ -56,7 +62,8 @@ export class PluginManager{
     this.runningPlugins.forEach(t=>t.dispose())
     this.runningPlugins = []
     if(this.plugins.length == 0){
-      this.logger.info("No plugin loaded")
+      this.logger?.info("No plugin loaded")
+      return;
     }
     this.logger.info("Loading "+this.plugins.length +" plugin(s)")
     this.plugins.forEach(p=>{
@@ -129,9 +136,7 @@ export async function apply(ctx: Context) {
       .filter(t=>t.enabled).map(t=>t.code)
     if(ctx['console.blockly']){
       ctx['console.blockly']
-        .patch((
-          await ctx.database.get('blockly',{id:{$not:-1}},["id","name"])
-        ).map(t=>({id:t.id,name:t.name})))
+        .patch(await ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled"]))
     }
     pm.restart()
   }
