@@ -2,6 +2,7 @@ import {Context, ForkScope, Logger, Schema, segment} from 'koishi'
 import { resolve } from 'path'
 import {DataService} from '@koishijs/plugin-console'
 import vm from 'node:vm';
+import {BlocklyService} from "./service";
 
 export const name = 'blockly'
 
@@ -89,6 +90,7 @@ export const Config: Schema<Config> = Schema.object({})
 export const using = ['database','console']
 
 export async function apply(ctx: Context) {
+  ctx.plugin(BlocklyService)
   ctx.database.extend('blockly',{
     id:'integer',
     name:'string',

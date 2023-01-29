@@ -29,5 +29,8 @@
     "@koishijs/client": "^5.1.5",
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
     "blockly": "^9.2.0"
+  },
+  "dependencies": {
+    "jsonpath": "^1.1.1"
   }
 }

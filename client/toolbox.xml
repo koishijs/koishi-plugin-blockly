@@ -343,6 +343,7 @@
         </shadow>
       </value>
     </block>
+    <block type="json_path_parse"/>
   </category>
   <category name="机器人操作" colour="#5b80a5">
     <block type="delete_message">

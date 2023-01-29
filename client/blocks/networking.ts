@@ -43,10 +43,40 @@ export function httpGet(block){
   return [`await ctx.http.get(${value_url},{responseType:'${response_type}'})`, javascriptGenerator.ORDER_NONE];
 }
 
+export const JsonPathParse = {
+  "type": "json_path_parse",
+  "message0": "解析JSON对象 %1 JSONPath %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "value"
+    },
+    {
+      "type": "field_input",
+      "name": "path",
+      "text": "$"
+    }
+  ],
+  "inputsInline": false,
+  "output": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function jsonPathParse(block:BlockSvg){
+  let value_value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_ATOMIC);
+  let text_path = block.getFieldValue('path');
+  return [`await ctx.blockly.json_parse(${value_value},'${text_path}')`, javascriptGenerator.ORDER_NONE];
+}
+
+
 export const NetworkingBlocks = [
-  HttpGet
+  HttpGet,
+  JsonPathParse
 ]
 
 export const networkingBlocks = {
-  'http_get':httpGet
+  'http_get':httpGet,
+  'json_path_parse':jsonPathParse
 }
