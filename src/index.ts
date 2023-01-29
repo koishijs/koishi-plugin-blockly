@@ -26,6 +26,8 @@ declare module '@koishijs/plugin-console' {
     'create-blockly-block'(): Promise<void>
     'save-blockly-block'(id:number, data:{body:object,code:string}): void
     'load-blockly-block'(id:number): Promise<object>
+    'rename-blockly-block'(id:number, name:string): Promise<void>
+    'delete-blockly-block'(id:number): Promise<void>
     'set-blockly-block-state'(id:number,enabled:boolean): Promise<void>
   }
   namespace Console{
@@ -113,6 +115,21 @@ export async function apply(ctx: Context) {
     setTimeout(()=>updatePmPlugins(ctx),0);
     console.info(data.code)
   })
+
+  ctx.console.addListener("rename-blockly-block",async (id:number, name:string)=>{
+    await ctx.database.set("blockly",id,{name});
+    await updatePmPlugins(ctx)
+  });
+
+  ctx.console.addListener("rename-blockly-block",async (id:number, name:string)=>{
+    await ctx.database.set("blockly",id,{name});
+    await updatePmPlugins(ctx)
+  });
+
+  ctx.console.addListener("delete-blockly-block",async (id:number)=>{
+    await ctx.database.remove("blockly",{id});
+    await updatePmPlugins(ctx)
+  });
 
   ctx.console.addListener("create-blockly-block",async ()=>{
     await ctx.database.create('blockly',{

@@ -13,9 +13,13 @@
       </div>
       <hr/>
       <div style="height: 20%;padding:10px">
-        <k-button @click="save()">保存并应用更改</k-button>
-        <k-button @click="enablePlugin()">启用插件</k-button>
-        <k-button @click="disablePlugin()">禁用插件</k-button>
+        <div v-if="currentId">
+          <k-button @click="save()">保存并应用更改</k-button>
+          <k-button @click="enablePlugin()">启用插件</k-button>
+          <k-button @click="disablePlugin()">禁用插件</k-button>
+          <k-button @click="renamePlugin()">重命名插件</k-button>
+          <k-button @click="deletePlugin()">删除插件</k-button>
+        </div>
       </div>
     </template>
     <div style="height: 100%">
@@ -66,6 +70,15 @@ async function enablePlugin(){
 }
 async function disablePlugin(){
   await send('set-blockly-block-state',currentId.value,false)
+}
+async function renamePlugin(){
+  await send('rename-blockly-block',currentId.value,prompt('输入重命名的插件名词','未命名Koishi插件'))
+}
+async function deletePlugin(){
+  if(confirm("确定删除当前插件?")){
+    await send('delete-blockly-block',currentId.value)
+    window.location.reload() // The temporary solution
+  }
 }
 setTimeout(()=>init.value=false,500);
 </script>
