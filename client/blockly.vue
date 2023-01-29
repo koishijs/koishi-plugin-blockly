@@ -36,7 +36,7 @@ onMounted(() => {
 })
 defineExpose({
   save(){
-    const code = `(function(){return {apply:function(ctx){const session=null;${javascriptGenerator.workspaceToCode(workspace)}}}})();`
+    const code = `(function(){return {apply:function(ctx){${javascriptGenerator.workspaceToCode(workspace)}}}})();`
     return {body:Blockly.serialization.workspaces.save(workspace),code};
   },
   load(data){
