@@ -66,15 +66,16 @@ async function save(){
   if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,editor.value.save())
 }
 async function enablePlugin(){
-  await send('set-blockly-block-state',currentId.value,true)
+  if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,true)
 }
 async function disablePlugin(){
-  await send('set-blockly-block-state',currentId.value,false)
+  if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,false)
 }
 async function renamePlugin(){
-  await send('rename-blockly-block',currentId.value,prompt('输入重命名的插件名词','未命名Koishi插件'))
+  if(currentId.value!=undefined)await send('rename-blockly-block',currentId.value,prompt('输入重命名的插件名词','未命名Koishi插件'))
 }
 async function deletePlugin(){
+  if(currentId.value!=undefined)
   if(confirm("确定删除当前插件?")){
     await send('delete-blockly-block',currentId.value)
     window.location.reload() // The temporary solution
