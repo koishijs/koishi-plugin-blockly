@@ -1,4 +1,5 @@
 import {javascriptGenerator} from "blockly/javascript";
+import {BlockSvg} from "blockly";
 
 export const HttpGet = {
   "type": "http_get",
@@ -37,7 +38,7 @@ export const HttpGet = {
   "helpUrl": ""
 }
 
-export function httpGet(block){
+export function httpGet(block:BlockSvg){
   let value_url = javascriptGenerator.valueToCode(block, 'url', javascriptGenerator.ORDER_ATOMIC);
   let response_type = block.getFieldValue('response_type');
   return [`await ctx.http.get(${value_url},{responseType:'${response_type}'})`, javascriptGenerator.ORDER_NONE];
