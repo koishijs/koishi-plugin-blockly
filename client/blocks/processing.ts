@@ -27,5 +27,5 @@ export const ProcessingBlocks = [
   MiddlewareBlock
 ]
 export const processingBlocks = {
-  'middleware_block':middlewareBlock
+  'middleware':middlewareBlock
 }
