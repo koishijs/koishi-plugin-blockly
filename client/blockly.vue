@@ -12,6 +12,7 @@ import {ref, onMounted,toRef} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
+import {autoSaveListener} from "./listeners/auto-save";
 const blockly_workspace = ref(null)
 
 let value = defineProps({
@@ -29,9 +30,11 @@ Object.entries(BlockGenerators).forEach(([k,v])=>{
   javascriptGenerator[k]=v;
 })
 let workspace : Blockly.WorkspaceSvg = null;
+let listeners = {autoSave:()=>{}}
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value,{toolbox:Toolbox})
   workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
+  workspace.addChangeListener(autoSaveListener.bind(listeners));
   LexicalVariables.init(workspace);
 })
 defineExpose({
@@ -41,6 +44,9 @@ defineExpose({
   },
   load(data){
     return Blockly.serialization.workspaces.load(data,workspace);
+  },
+  setAutoSaveListener(listener){
+    listeners.autoSave = listener
   }
 })
 </script>

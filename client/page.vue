@@ -61,6 +61,11 @@ onMounted(()=>{
         editor.value.load(data);
       })
     })
+    nextTick(()=>{
+      editor.value.setAutoSaveListener(()=>{
+        save();
+      });
+    })
   })
 async function save(){
   if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,editor.value.save())
