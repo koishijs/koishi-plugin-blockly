@@ -1,5 +1,8 @@
 <template>
   <k-layout>
+    <template #header>
+        Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
+    </template>
     <template #left>
       <div style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
         <i @click="send('create-blockly-block')" style="cursor: pointer"><new-file/></i>
