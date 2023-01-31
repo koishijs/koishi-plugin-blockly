@@ -111,28 +111,28 @@ export async function apply(ctx: Context) {
 
   ctx.console.addListener("load-blockly-block",async (id:number)=>{
     return JSON.parse((await ctx.database.get("blockly",id,['body']))[0].body);
-  })
+  },{authority:5})
 
   ctx.console.addListener("save-blockly-block",async (id:number, data)=>{
     await ctx.database.set("blockly",id,{body:JSON.stringify(data.body),code:data.code});
     setTimeout(()=>updatePmPlugins(ctx),0);
     console.info(data.code)
-  })
+  },{authority:5})
 
   ctx.console.addListener("rename-blockly-block",async (id:number, name:string)=>{
     await ctx.database.set("blockly",id,{name});
     await updatePmPlugins(ctx)
-  });
+  },{authority:5});
 
   ctx.console.addListener("rename-blockly-block",async (id:number, name:string)=>{
     await ctx.database.set("blockly",id,{name});
     await updatePmPlugins(ctx)
-  });
+  },{authority:5});
 
   ctx.console.addListener("delete-blockly-block",async (id:number)=>{
     await ctx.database.remove("blockly",{id});
     await updatePmPlugins(ctx)
-  });
+  },{authority:5});
 
   ctx.console.addListener("create-blockly-block",async ()=>{
     await ctx.database.create('blockly',{
@@ -142,12 +142,12 @@ export async function apply(ctx: Context) {
       enabled:false
     })
     await updatePmPlugins(ctx);
-  })
+  },{authority:5})
 
   ctx.console.addListener("set-blockly-block-state",async (id, enabled)=>{
     await ctx.database.set("blockly",id,{enabled});
     await updatePmPlugins(ctx);
-  })
+  },{authority:5})
 
   let pm = new PluginManager(ctx.isolate([]))
 
