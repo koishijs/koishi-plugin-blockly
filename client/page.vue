@@ -46,9 +46,6 @@ const editor = ref(null)
 const currentId = ref(undefined)
 const loading = ref(false)
 let oldCurrentId = {value:undefined}
-nextTick(() => {
-  console.info(editor)
-})
 const init=ref(true);
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
