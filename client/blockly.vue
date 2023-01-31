@@ -32,7 +32,23 @@ Object.entries(BlockGenerators).forEach(([k,v])=>{
 let workspace : Blockly.WorkspaceSvg = null;
 let listeners = {autoSave:()=>{}}
 onMounted(() => {
-  workspace = Blockly.inject(blockly_workspace.value,{toolbox:Toolbox})
+  workspace = Blockly.inject(blockly_workspace.value, {
+      toolbox:Toolbox,
+      zoom : {
+        controls : true,
+        wheel : true,
+        startScale : 1,
+        maxScale : 3,
+        minScale : 0.3,
+        scaleSpeed : 1.2
+      },
+      grid : {
+        spacing : 20,
+        length : 1,
+        colour : '#888',
+        snap : false
+      },
+    })
   workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
   workspace.addChangeListener(autoSaveListener.bind(listeners));
   LexicalVariables.init(workspace);
