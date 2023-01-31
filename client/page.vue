@@ -25,7 +25,7 @@
         </div>
       </div>
     </template>
-    <div style="height: 100%">
+    <div style="height: 70%">
       <k-empty v-if="currentId===undefined && !init">
         <div>在左侧选择或创建一个Blockly代码</div>
       </k-empty>
@@ -37,6 +37,19 @@
           <div>Loading...</div>
         </k-empty>
       </div>
+      <div style="height: 30%;border-top:3px solid var(--bg1)">
+        <div style="height: 25px;background: var(--bg1);display: flex">
+          <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;background: var(--bg3)">编译</div>
+          <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">代码结果</div>
+          <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">运行日志</div>
+          <div style="margin-left: auto;align-self: center;height: 100%;margin-right: 20px;">
+            <div style="height: 18px;width: 18px;background: var(--bg1);padding: 2px;margin: 2px">
+              <window/>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </k-layout>
 </template>
@@ -47,6 +60,7 @@ import {store,send} from "@koishijs/client"
 import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
 import NewFile from "./icons/new-file.vue";
+import Window from "./icons/window.vue";
 const editor = ref(null)
 const currentId = ref(undefined)
 const loading = ref(false)
