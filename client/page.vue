@@ -17,7 +17,7 @@
       <hr/>
       <div style="height: 20%;padding:10px">
         <div v-if="currentId">
-          <k-button @click="save()">保存并应用更改</k-button>
+          <k-button @click="build()">编译插件</k-button>
           <k-button @click="enablePlugin()">启用插件</k-button>
           <k-button @click="disablePlugin()">禁用插件</k-button>
           <k-button @click="renamePlugin()">重命名插件</k-button>
@@ -53,7 +53,7 @@ const init=ref(true);
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
       loading.value=true;
-      if(s!=undefined)await send('save-blockly-block',parseInt(s.toString()),editor.value.save())
+      if(s!=undefined)await send('save-blockly-block',parseInt(s.toString()),{body:editor.value.save()})
       const data = await send("load-blockly-block",parseInt(r.toString()));
       loading.value=false;
       await nextTick(()=>{
@@ -63,12 +63,17 @@ onMounted(()=>{
     })
     nextTick(()=>{
       editor.value.setAutoSaveListener(()=>{
-        save();
+        setTimeout(save,0);
       });
     })
   })
 async function save(){
-  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,editor.value.save())
+  saving.value=true;
+  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,{body:editor.value.save()})
+  saving.value=false;
+}
+async function build(){
+  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,{code:editor.value.build()})
 }
 async function enablePlugin(){
   if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,true)
