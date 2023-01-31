@@ -34,6 +34,7 @@ let listeners = {autoSave:()=>{}}
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value, {
       toolbox:Toolbox,
+      media : '/static/blockly/',
       zoom : {
         controls : true,
         wheel : true,

@@ -1,8 +1,9 @@
 import {Context, ForkScope, Logger, Schema, segment} from 'koishi'
-import { resolve } from 'path'
+import path, { resolve } from 'path'
 import {DataService} from '@koishijs/plugin-console'
 import vm from 'node:vm';
 import {BlocklyService} from "./service";
+import * as fs from "fs";
 
 export const name = 'blockly'
 
@@ -160,4 +161,16 @@ export async function apply(ctx: Context) {
     pm.restart()
   }
   await updatePmPlugins(ctx)
+
+  ctx.router.get(/\/static\/blockly\/([a-z0-9-]+.[a-z0-9]+)/,async function (ctx) {
+    const resource_path = path.resolve(__dirname,'../media/'+ctx.params[0])
+    console.info(resource_path,path.resolve(__dirname+'/../'),path.relative(path.resolve(__dirname+'/../'),resource_path).startsWith('..'))
+    if(path.relative(path.resolve(__dirname+'/../'),resource_path).startsWith('..')){
+      return
+    }
+    if(!fs.existsSync(resource_path)){
+      return
+    }
+    ctx.body = await fs.promises.readFile(resource_path)
+  })
 }
