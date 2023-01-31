@@ -50,16 +50,20 @@ onMounted(() => {
         snap : false
       },
     })
+  window.addEventListener('resize',()=>{
+    Blockly.svgResize(workspace);
+  })
   workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
   workspace.addChangeListener(autoSaveListener.bind(listeners));
   LexicalVariables.init(workspace);
 })
 defineExpose({
   save(){
-    const code = `(function(){return {apply:function(ctx){${javascriptGenerator.workspaceToCode(workspace)}}}})();`
-    return {body:Blockly.serialization.workspaces.save(workspace),code};
+    Blockly.svgResize(workspace);
+    return Blockly.serialization.workspaces.save(workspace);
   },
   load(data){
+    Blockly.svgResize(workspace);
     return Blockly.serialization.workspaces.load(data,workspace);
   },
   build(){

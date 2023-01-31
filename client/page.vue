@@ -91,5 +91,4 @@ async function deletePlugin(){
     window.location.reload() // The temporary solution
   }
 }
-setTimeout(()=>init.value=false,500);
 </script>
