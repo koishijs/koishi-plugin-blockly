@@ -27,13 +27,15 @@
     </template>
     <div style="height: 100%">
       <k-empty v-if="currentId===undefined && !init">
-        <div>Nothing</div>
+        <div>在左侧选择或创建一个Blockly代码</div>
       </k-empty>
       <keep-alive v-show="(currentId!=null && !loading )|| init">
         <blockly ref="editor"></blockly>
       </keep-alive>
       <div v-show="loading && !init">
-        Loading....
+        <k-empty v-if="currentId===undefined && !init">
+          <div>Loading...</div>
+        </k-empty>
       </div>
     </div>
   </k-layout>
