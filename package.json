@@ -10,7 +10,8 @@
   },
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "media"
   ],
   "license": "MIT",
   "scripts": {},
