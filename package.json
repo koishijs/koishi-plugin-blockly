@@ -36,6 +36,6 @@
     "blockly": "^9.2.0"
   },
   "dependencies": {
-    "jsonpath": "^1.1.1"
+    "jsonpath-plus": "^7.2.0"
   }
 }
