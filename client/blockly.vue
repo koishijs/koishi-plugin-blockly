@@ -63,6 +63,9 @@ defineExpose({
   },
   setAutoSaveListener(listener){
     listeners.autoSave = listener
+  },
+  updateSize(){
+    Blockly.svgResize(workspace);
   }
 })
 </script>

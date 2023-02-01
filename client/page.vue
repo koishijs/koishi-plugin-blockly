@@ -23,7 +23,8 @@
         </div>
       </div>
     </template>
-    <div style="height: 70%">
+    <div style="display:flex;flex-flow:column nowrap;height: 100%">
+    <div style="height: 100%">
       <k-empty v-if="currentId===undefined && !init">
         <div>在左侧选择或创建一个Blockly代码</div>
       </k-empty>
@@ -37,21 +38,22 @@
       </div>
 
     </div>
-    <div style="height: 30%;border-top:3px solid var(--bg1);display:flex;flex-flow:column nowrap;">
+    <div class="transition-animation" style="border-top:3px solid var(--bg1);display:flex;flex-flow:column nowrap;" :style="{height:currentPanelId.toString()==='hidden' ? '25px' : '40%'}" v-if="currentId!=undefined">
       <div style="height: 25px;background: var(--bg1);display: flex;width: 100%">
-        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;background: var(--bg3)">编译</div>
-        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">代码结果</div>
-        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">运行日志</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;" @click="currentPanelId = 'build'" :style="{background: currentPanelId=='build'?'var(--bg3)':''}">编译</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px" @click="currentPanelId = 'result'" :style="{background: currentPanelId=='result'?'var(--bg3)':''}">代码结果</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px" @click="currentPanelId = 'log'" :style="{background: currentPanelId=='log'?'var(--bg3)':''}">运行日志</div>
         <div style="margin-left: auto;align-self: center;height: 100%;margin-right: 20px;">
-          <div style="height: 18px;width: 18px;background: var(--bg1);padding: 2px;margin: 2px">
+          <div style="height: 18px;width: 18px;background: var(--bg1);padding: 2px;margin: 2px" @click="currentPanelId = 'hidden'">
             <window/>
           </div>
         </div>
       </div>
 
-      <div style="overflow-y: scroll;overflow-x: hidden" class="scroll">
-        1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9 <br>10<br>11<br>12<br>13
+      <div style="overflow-y: scroll;overflow-x: hidden;background: var(--bg2);color:var(--fg2);height: 100%;padding: 10px" class="scroll" v-if="currentPanelId!='hidden'">
+        <component :is="panels[currentPanelId.toString()]"></component>
       </div>
+    </div>
     </div>
   </k-layout>
 </template>
@@ -61,6 +63,7 @@ import {onMounted, ref, watch, nextTick} from "vue";
 import {store,send} from "@koishijs/client"
 import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
+import ToolboxBuild from './components/toolbox/build.vue'
 import NewFile from "./icons/new-file.vue";
 import Window from "./icons/window.vue";
 const editor = ref(null)
@@ -69,6 +72,10 @@ const loading = ref(false)
 let oldCurrentId = {value:undefined}
 const init=ref(false);
 const saving=ref(false);
+const currentPanelId = ref('hidden')
+const panels = {
+  'build': ToolboxBuild
+}
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
       loading.value=true;
@@ -79,6 +86,15 @@ onMounted(()=>{
         oldCurrentId = currentId;
         editor.value.load(data);
       })
+    })
+    watch(currentPanelId,async ()=>{
+      const svgResize = setInterval(()=>{
+        console.info('resize')
+        editor.value.updateSize()
+      },10)
+      setTimeout(()=>{
+        clearInterval(svgResize)
+      },1000)
     })
     nextTick(()=>{
       editor.value.setAutoSaveListener(()=>{
@@ -122,5 +138,9 @@ async function deletePlugin(){
 }
 .scroll::-webkit-scrollbar-track{
   height: 1px
+}
+
+.transition-animation{
+  transition: 0.3s ease;
 }
 </style>
