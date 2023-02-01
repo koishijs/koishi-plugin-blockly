@@ -35,18 +35,22 @@
           <div>Loading...</div>
         </k-empty>
       </div>
-      <div style="height: 30%;border-top:3px solid var(--bg1)">
-        <div style="height: 25px;background: var(--bg1);display: flex">
-          <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;background: var(--bg3)">编译</div>
-          <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">代码结果</div>
-          <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">运行日志</div>
-          <div style="margin-left: auto;align-self: center;height: 100%;margin-right: 20px;">
-            <div style="height: 18px;width: 18px;background: var(--bg1);padding: 2px;margin: 2px">
-              <window/>
-            </div>
-          </div>
 
+    </div>
+    <div style="height: 30%;border-top:3px solid var(--bg1);display:flex;flex-flow:column nowrap;">
+      <div style="height: 25px;background: var(--bg1);display: flex;width: 100%">
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;background: var(--bg3)">编译</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">代码结果</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px">运行日志</div>
+        <div style="margin-left: auto;align-self: center;height: 100%;margin-right: 20px;">
+          <div style="height: 18px;width: 18px;background: var(--bg1);padding: 2px;margin: 2px">
+            <window/>
+          </div>
         </div>
+      </div>
+
+      <div style="overflow-y: scroll;overflow-x: hidden" class="scroll">
+        1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9 <br>10<br>11<br>12<br>13
       </div>
     </div>
   </k-layout>
@@ -107,3 +111,16 @@ async function deletePlugin(){
   }
 }
 </script>
+
+<style scoped>
+.scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+}
+.scroll::-webkit-scrollbar-track{
+  height: 1px
+}
+</style>
