@@ -14,7 +14,9 @@
     "media"
   ],
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "minify": "esbuild dist/index.js --minify --outfile=dist/index.js --allow-overwrite"
+  },
   "keywords": [
     "chatbot",
     "koishi",
