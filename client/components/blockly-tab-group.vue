@@ -11,7 +11,7 @@ import { computed } from 'vue'
 import blocklyTabItem from './blockly-tab-item.vue'
 const props = defineProps<{
   data: object
-  modelValue: string
+  modelValue?: string
   filter?: (item: any) => boolean
 }>()
 console.info(props.data)

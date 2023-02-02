@@ -4,8 +4,8 @@
         Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
     </template>
     <template #left>
+        <i @click="create()" style="cursor: pointer"><new-file/></i>
       <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
-        <i @click="send('create-blockly-block')" style="cursor: pointer"><new-file/></i>
       </div>
       <div class="list" style="height: 60%">
         <el-scrollbar>
@@ -68,6 +68,9 @@ onMounted(()=>{
       });
     })
   })
+async function create() {
+  currentId.value = (await send('create-blockly-block')).toString()
+}
 async function save(){
   saving.value=true;
   if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,{body:editor.value.save()})
