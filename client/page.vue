@@ -50,8 +50,8 @@
         </div>
       </div>
 
-      <div style="overflow-y: scroll;overflow-x: hidden;background: var(--bg2);color:var(--fg2);height: 100%;padding: 10px" class="scroll" v-if="currentPanelId!='hidden'">
-        <component :is="panels[currentPanelId.toString()]"></component>
+      <div style="overflow-y: scroll;overflow-x: scroll;background: var(--bg2);color:var(--fg2);height: 100%;padding: 10px" class="scroll" v-if="currentPanelId!='hidden'">
+        <component :is="panels[currentPanelId.toString()]" :current="currentId" :blocklyInformation="blocklyToolboxInformation"></component>
       </div>
     </div>
     </div>
@@ -64,6 +64,7 @@ import {store,send} from "@koishijs/client"
 import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
 import ToolboxBuild from './components/toolbox/build.vue'
+import ToolboxCode from './components/toolbox/code.vue'
 import NewFile from "./icons/new-file.vue";
 import Window from "./icons/window.vue";
 const editor = ref(null)
@@ -73,8 +74,13 @@ let oldCurrentId = {value:undefined}
 const init=ref(false);
 const saving=ref(false);
 const currentPanelId = ref('hidden')
+let blocklyToolboxInformation = ref({
+  build:'点击左侧"编译插件"查看',
+  code:'点击左侧"编译插件"查看'
+})
 const panels = {
-  'build': ToolboxBuild
+  'build': ToolboxBuild,
+  'result': ToolboxCode
 }
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
@@ -86,6 +92,8 @@ onMounted(()=>{
         oldCurrentId = currentId;
         editor.value.load(data);
       })
+      blocklyToolboxInformation.value.build = '点击左侧"编译插件"查看'
+      blocklyToolboxInformation.value.code = '点击左侧"编译插件"查看'
     })
     watch(currentPanelId,async ()=>{
       const svgResize = setInterval(()=>{
@@ -108,7 +116,19 @@ async function save(){
   saving.value=false;
 }
 async function build(){
-  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,{code:editor.value.build()})
+  if(currentId.value==undefined)return
+  blocklyToolboxInformation.value.build="正在开始编译.......\n";
+  let code
+  try {
+    code = editor.value.build();
+    blocklyToolboxInformation.value.code = code
+  }catch (e){
+    blocklyToolboxInformation.value.build+="编译时发生错误:"+e.toString()
+    return
+  }
+  blocklyToolboxInformation.value.build+="正在上传......\n";
+  await send('save-blockly-block',currentId.value,{code})
+  blocklyToolboxInformation.value.build+="上传成功!  \n";
 }
 async function enablePlugin(){
   if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,true)
