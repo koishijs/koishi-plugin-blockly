@@ -1,20 +1,18 @@
 <template>
-  <k-layout>
+  <k-layout class="page-blockly">
     <template #header>
         Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
     </template>
     <template #left>
-      <div style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
         <i @click="create()" style="cursor: pointer"><new-file/></i>
+      <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
       </div>
-      <hr/>
-      <div style="height: 60%">
+      <div class="list" style="height: 60%">
         <el-scrollbar>
           <blockly-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id,t]))" v-model="currentId">
           </blockly-tab-group>
         </el-scrollbar>
       </div>
-      <hr/>
       <div style="height: 20%;padding:10px">
         <div v-if="currentId">
           <k-button @click="build()">编译插件</k-button>
@@ -98,3 +96,19 @@ async function deletePlugin(){
   }
 }
 </script>
+
+<style lang="scss">
+
+.page-blockly {
+  .create {
+    height: 3rem;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .list {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+</style>
