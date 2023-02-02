@@ -1,15 +1,22 @@
 {
   "name": "koishi-plugin-blockly",
   "description": "Use blockly to develop a simple koishi plugin",
-  "version": "0.3.0-alpha",
+  "version": "0.3.3",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koishijs/koishi-plugin-blockly.git"
+  },
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "media"
   ],
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "minify": "esbuild dist/index.js --minify --outfile=dist/index.js --allow-overwrite"
+  },
   "keywords": [
     "chatbot",
     "koishi",
@@ -31,6 +38,6 @@
     "blockly": "^9.2.0"
   },
   "dependencies": {
-    "jsonpath": "^1.1.1"
+    "jsonpath-plus": "^7.2.0"
   }
 }

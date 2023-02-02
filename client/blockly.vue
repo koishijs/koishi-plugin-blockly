@@ -13,6 +13,7 @@ import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
 import {autoSaveListener} from "./listeners/auto-save";
+import './msg/zh'
 const blockly_workspace = ref(null)
 
 let value = defineProps({
