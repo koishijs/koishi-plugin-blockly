@@ -5,7 +5,7 @@
     </template>
     <template #left>
       <div style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
-        <i @click="send('create-blockly-block')" style="cursor: pointer"><new-file/></i>
+        <i @click="create()" style="cursor: pointer"><new-file/></i>
       </div>
       <hr/>
       <div style="height: 60%">
@@ -70,6 +70,9 @@ onMounted(()=>{
       });
     })
   })
+async function create() {
+  currentId.value = await send('create-blockly-block')
+}
 async function save(){
   saving.value=true;
   if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,{body:editor.value.save()})
