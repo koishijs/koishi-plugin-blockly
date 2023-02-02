@@ -69,7 +69,7 @@ onMounted(()=>{
     })
   })
 async function create() {
-  currentId.value = await send('create-blockly-block')
+  currentId.value = (await send('create-blockly-block')).toString()
 }
 async function save(){
   saving.value=true;
