@@ -3,16 +3,17 @@
        :class="{ active: value === modelValue }"
        @click="$emit('update:modelValue', value)">
     <slot>
-      {{ label['name'] }}
-      <span class="dot" :style="label['enabled']?'background-color:green':'background-color:red'"> </span>
+      {{ label.name }}
+      <span :class="{ dot: true, enabled: label.enabled }"></span>
     </slot>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { BlocklyMenuItem } from 'koishi-plugin-blockly'
 defineEmits(['update:modelValue'])
 defineProps<{
-  label: object
+  label: BlocklyMenuItem
   value: string
   modelValue?: string
 }>()
@@ -20,21 +21,29 @@ defineProps<{
 
 <style lang="scss" scoped>
 .k-tab-item {
+  display: flex;
   line-height: 2.25rem;
-  padding: 0 2rem 0 4rem;
+  padding: 0 2rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  align-items: center;
+  justify-content: space-between;
+  
   &.active {
     background-color: var(--hover-bg);
   }
 }
+$size: 8px;
 .dot{
   display: inline-block;
-  width: 10px;
-  height: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  width: $size;
+  height: $size;
+  border-radius: $size;
+  background-color: var(--danger);
+
+  &.enabled {
+    background-color: var(--success);
+  }
 }
 </style>
