@@ -1,4 +1,5 @@
 import * as Blockly from "blockly";
+import {unregisterIfRegistered} from "./index";
 
 export const scopes = ['session','argument']
 
@@ -10,6 +11,7 @@ export function registerScopeExtensions(){
 }
 
 export function consumerExtension(name:string){
+  unregisterIfRegistered(name+'_consumer')
   Blockly.Extensions.register(name+'_consumer', function(){
     if(!this['scope'])this['scope'] = {};
     if(!this['scope']['consumes'])this['scope']['consumes'] = [];
@@ -19,6 +21,7 @@ export function consumerExtension(name:string){
 }
 
 export function providerExtension(name:string){
+  unregisterIfRegistered(name+'_provider')
   Blockly.Extensions.register(name+'_provider', function(){
     if(!this['scope'])this['scope'] = {};
     if(!this['scope']['provides'])this['scope']['provides'] = [];
