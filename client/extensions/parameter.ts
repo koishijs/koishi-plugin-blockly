@@ -1,6 +1,8 @@
 import * as Blockly from "blockly";
+import {unregisterIfRegistered} from "./index";
 
 export function parameterListMutator(){
+  unregisterIfRegistered("parameter_list")
   Blockly.Extensions.registerMutator('parameter_list', {
     decompose: function(workspace) {
       let topBlock = workspace.newBlock('parameter_list');
