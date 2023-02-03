@@ -4,8 +4,8 @@
         Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
     </template>
     <template #left>
-        <i @click="create()" style="cursor: pointer"><new-file/></i>
       <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
+        <i @click="create()" style="cursor: pointer"><new-file/></i>
       </div>
       <div class="list" style="height: 60%">
         <el-scrollbar>
@@ -13,7 +13,7 @@
           </blockly-tab-group>
         </el-scrollbar>
       </div>
-      <div style="height: 20%;padding:10px">
+      <div style="height: 40%;padding:10px">
         <div v-if="currentId">
           <k-button @click="build()">编译插件</k-button>
           <k-button @click="enablePlugin()">启用插件</k-button>
