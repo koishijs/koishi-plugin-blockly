@@ -303,12 +303,14 @@
     <block type="local_declaration_statement"/>
   </category>
   <sep/>
-  <category name="会话与事件" colour="#5b80a5">
+  <category name="事件" colour="#5b80a5">
     <block type="middleware">
       <field name="NAME" id="j{f?,R~uQ{$}[B@0sUIA">item</field>
     </block>
     <block type="command"/>
     <block type="plugin_apply"/>
+  </category>
+  <category name="会话" colour="#5b80a5">
     <block type="get_argument"/>
     <block type="session_message"/>
     <block type="session_message_id"/>
