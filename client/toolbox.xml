@@ -308,6 +308,7 @@
       <field name="NAME" id="j{f?,R~uQ{$}[B@0sUIA">item</field>
     </block>
     <block type="command"/>
+    <block type="plugin_apply"/>
     <block type="get_argument"/>
     <block type="session_message"/>
     <block type="session_message_id"/>
