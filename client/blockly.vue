@@ -68,7 +68,7 @@ defineExpose({
     return Blockly.serialization.workspaces.load(data,workspace);
   },
   build(){
-    return  `(function(){return {apply:function(ctx){${javascriptGenerator.workspaceToCode(workspace)}}}})();`
+    return  `(function(){return {apply:function(ctx){const __logger = ctx.logger('blockly-plugin');${javascriptGenerator.workspaceToCode(workspace)}}}})();`
   },
   setAutoSaveListener(listener){
     listeners.autoSave = listener

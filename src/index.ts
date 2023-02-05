@@ -121,7 +121,7 @@ export async function apply(ctx: Context) {
     setTimeout(()=>updatePmPlugins(ctx),0);
     //console.info(save_object)
   },{authority:5})
-
+  const logger = ctx.logger('logger1')
   ctx.console.addListener("rename-blockly-block",async (id:number, name:string)=>{
     await ctx.database.set("blockly",id,{name});
     await updatePmPlugins(ctx)

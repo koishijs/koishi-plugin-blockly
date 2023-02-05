@@ -375,5 +375,14 @@
       </value>
     </block>
   </category>
+  <category name="调试" colour="#5b80a5">
+    <block type="logging">
+      <value name = "log">
+        <shadow type="text">
+          <field name="TEXT">Hello,world</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
 
 </xml>
