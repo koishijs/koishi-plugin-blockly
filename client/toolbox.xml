@@ -309,6 +309,9 @@
     </block>
     <block type="command"/>
     <block type="plugin_apply"/>
+    <block type="on_message_event"/>
+    <block type="on_guild_member_event"/>
+    <block type="on_guild_event"/>
   </category>
   <category name="会话" colour="#5b80a5">
     <block type="get_argument"/>
