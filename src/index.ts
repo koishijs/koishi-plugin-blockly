@@ -15,6 +15,7 @@ export interface BlocklyDocument{
   body:string
   code:string
   enabled:boolean
+  edited:boolean
 }
 
 declare module "koishi"{
@@ -43,6 +44,7 @@ export interface BlocklyMenuItem{
   id:number
   name:string
   enabled:boolean
+  edited:boolean
 }
 
 class BlocklyProvider extends DataService<BlocklyMenuItem[]> {
@@ -50,7 +52,7 @@ class BlocklyProvider extends DataService<BlocklyMenuItem[]> {
     super(ctx, 'blockly')
   }
   async get() {
-    return (await this.ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled"]))
+    return (await this.ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled","edited"]))
   }
 }
 
@@ -97,7 +99,8 @@ export async function apply(ctx: Context) {
     name:'string',
     body:'text',
     code:'text',
-    enabled:'boolean'
+    enabled:'boolean',
+    edited:'boolean'
   },{
     autoInc:true
   })
@@ -117,6 +120,7 @@ export async function apply(ctx: Context) {
     const save_object = {}
     if(data.body)save_object['body'] = JSON.stringify(data.body)
     if(data.code)save_object['code'] = data.code
+    save_object ['edited'] = !data.code
     await ctx.database.set("blockly",id,save_object);
     setTimeout(()=>updatePmPlugins(ctx),0);
     //console.info(save_object)
@@ -142,7 +146,8 @@ export async function apply(ctx: Context) {
       name:'未命名Koishi代码',
       code:'',
       body:'{}',
-      enabled:false
+      enabled:false,
+      edited:false
     })
     await updatePmPlugins(ctx);
     return data.id
@@ -160,7 +165,7 @@ export async function apply(ctx: Context) {
       .filter(t=>t.enabled).map(t=>t.code)
     if(ctx['console.blockly']){
       ctx['console.blockly']
-        .patch(await ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled"]))
+        .patch(await ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled","edited"]))
     }
     pm.restart()
   }

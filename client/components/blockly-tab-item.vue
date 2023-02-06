@@ -4,7 +4,7 @@
        @click="$emit('update:modelValue', value)">
     <slot>
       {{ label.name }}
-      <span :class="{ dot: true, enabled: label.enabled }"></span>
+      <span :class="{ dot: true, enabled: label.enabled , edited:label.edited }"></span>
     </slot>
   </div>
 </template>
@@ -29,7 +29,7 @@ defineProps<{
   text-overflow: ellipsis;
   align-items: center;
   justify-content: space-between;
-  
+
   &.active {
     background-color: var(--hover-bg);
   }
@@ -44,6 +44,10 @@ $size: 8px;
 
   &.enabled {
     background-color: var(--success);
+  }
+
+  &.enabled.edited {
+    background-color: var(--primary);
   }
 }
 </style>
