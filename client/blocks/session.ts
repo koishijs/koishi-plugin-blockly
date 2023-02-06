@@ -152,6 +152,28 @@ export function segmentImageBlock(block){
   return [`segment.image(${image})`,javascriptGenerator.ORDER_NONE];
 }
 
+export const SegmentAudioBlock = {
+  "type": "segment_audio",
+  "message0": "语音 %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "audio",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "extensions":['session_consumer'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function segmentAudio(block){
+  let audio = javascriptGenerator.valueToCode(block, 'audio', javascriptGenerator.ORDER_ATOMIC);
+  return [`segment.audio(${audio})`,javascriptGenerator.ORDER_NONE]
+}
+
 export const SessionGuildId = {
   "type": "session_guild_id",
   "message0": "消息来自的群组编号",
@@ -205,7 +227,8 @@ export const SessionBlocks = [
   SessionChannelId,
   SessionGuildId,
   SessionMessageId,
-  SessionBotBlock
+  SessionBotBlock,
+  SegmentAudioBlock
 ]
 
 export const sessionBlocks = {
@@ -219,5 +242,6 @@ export const sessionBlocks = {
   'session_channel_id':sessionChannelId,
   'session_guild_id':sessionGuildId,
   'session_message_id':sessionMessageId,
-  'session_bot':sessionBotBlock
+  'session_bot':sessionBotBlock,
+  'segment_audio':segmentAudio
 }

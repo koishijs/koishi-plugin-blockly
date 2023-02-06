@@ -340,6 +340,13 @@
         </shadow>
       </value>
     </block>
+    <block type="segment_audio">
+      <value name="audio">
+        <shadow type="text">
+          <field name="TEXT">https://example.org/example.mp3</field>
+        </shadow>
+      </value>
+    </block>
   </category>
   <category name="交互" colour="#5b80a5">
     <block type="http_get">
