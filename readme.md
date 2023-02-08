@@ -5,6 +5,7 @@
 [![Install Size](https://packagephobia.com/badge?p=koishi-plugin-blockly)](https://packagephobia.com/result?p=koishi-plugin-blockly)
 [![Package Quality](https://packagequality.com/shield/koishi-plugin-blockly.svg)](https://packagequality.com/#?package=koishi-plugin-blockly)
 [![Koishi](https://badge.koishi.chat/rating/koishi-plugin-blockly?style=round)](https://koishi.chat)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkoishijs%2Fkoishi-plugin-blockly.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkoishijs%2Fkoishi-plugin-blockly?ref=badge_shield)
 
 使用 Blockly 在你的 Koishi 里进行可视化编程!
 
@@ -21,3 +22,7 @@ The page of the plugin is in the "Blockly" page in the left bar of the console.
 
 ## 文档 Documentations
 暂未完善
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkoishijs%2Fkoishi-plugin-blockly.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkoishijs%2Fkoishi-plugin-blockly?ref=badge_large)
