@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/koishijs/koishi-plugin-blockly.git"
   },
+  "homepage": "https://blockly.koishi.chat",
   "files": [
     "lib",
     "dist",
@@ -15,27 +16,44 @@
   ],
   "license": "MIT",
   "scripts": {
+    "docs:dev": "vitepress dev docs --open",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs",
     "minify": "esbuild dist/index.js --minify --outfile=dist/index.js --allow-overwrite"
   },
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "plugin",
+    "blockly",
+    "lowcode",
+    "program",
+    "develop",
+    "flowgraph",
+    "dataflow",
+    "visualization"
   ],
-  "peerDependencies": {
-    "@koishijs/plugin-console": "^5.1.5",
-    "koishi": "^4.10.6"
-  },
   "koishi": {
     "description": {
       "en": "Use blockly to develop a simple koishi plugin",
-      "zh": "Blockly可视化编程插件"
+      "zh": "Blockly 可视化编程插件"
     }
+  },
+  "peerDependencies": {
+    "@koishijs/plugin-console": "^5.1.5",
+    "koishi": "^4.10.0"
   },
   "devDependencies": {
     "@koishijs/client": "^5.1.5",
+    "@koishijs/plugin-console": "^5.1.5",
+    "@koishijs/vitepress": "^1.6.1",
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
-    "blockly": "^9.2.0"
+    "@types/node": "^18.11.18",
+    "blockly": "^9.2.0",
+    "koishi": "^4.10.6",
+    "sass": "^1.57.1",
+    "typescript": "^4.9.4",
+    "vitepress": "1.0.0-alpha.26"
   },
   "dependencies": {
     "jsonpath-plus": "^7.2.0"
