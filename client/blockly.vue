@@ -32,6 +32,9 @@ Object.entries(BlockGenerators).forEach(([k,v])=>{
 })
 let workspace : Blockly.WorkspaceSvg = null;
 let listeners = {autoSave:()=>{}}
+
+Blockly.VerticalFlyout.prototype.getFlyoutScale = ()=>1;
+
 onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value, {
       toolbox:Toolbox,
