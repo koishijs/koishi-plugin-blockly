@@ -35,3 +35,16 @@ onMounted(()=>{
   }
 }
 </style>
+
+<style>
+.baklava-node-palette::-webkit-scrollbar {
+  width: 10px;
+}
+.baklava-node-palette::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--fg2);
+}
+.baklava-node-palette::-webkit-scrollbar-track{
+  height: 1px
+}
+</style>
