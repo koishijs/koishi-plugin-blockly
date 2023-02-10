@@ -1,4 +1,4 @@
-import {defineNode, NodeInterface, TextInputInterface} from "baklavajs";
+import {defineDynamicNode, defineNode, NodeInterface, TextInputInterface} from "baklavajs";
 
 export const GetObjectProperty = defineNode({
   type: "获取对象属性",
@@ -29,7 +29,37 @@ export const SetObjectProperty = defineNode({
   }
 });
 
+export const CreateObject = defineDynamicNode({
+  type: "创建对象",
+  inputs: {
+    prototype: () => new TextInputInterface("原型，用逗号分隔", "").setPort(false)
+  },
+  outputs: {
+    value: () => new NodeInterface("对象", 0)
+  },
+  onUpdate(){
+    return {
+      inputs: Object.fromEntries(this.inputs.prototype.value?.split(",").filter(t=>t).map((name) => [name, () => new NodeInterface(name, 0)]))
+    }
+  }
+})
+
+export const SplitObject = defineDynamicNode({
+  type: "分离对象",
+  inputs: {
+    value: () => new NodeInterface("对象", 0),
+    prototype: () => new TextInputInterface("原型，用逗号分隔", "").setPort(false)
+  },
+  onUpdate(){
+    return {
+      outputs: Object.fromEntries(this.inputs.prototype.value?.split(",").filter(t=>t).map((name) => [name, () => new NodeInterface(name, 0)]))
+    }
+  }
+})
+
 export const ObjectNodes = [
+  CreateObject,
+  SplitObject,
   GetObjectProperty,
   SetObjectProperty
 ].map((node) => [node,"对象"]);
