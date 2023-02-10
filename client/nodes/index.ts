@@ -4,6 +4,7 @@ import {LogicalNodes} from "./logical";
 import {StringNode} from "./string";
 import {NumericNodes} from "./numeric";
 import {Structure} from "./structure";
+import {InterfaceNodes} from "./interface";
 
 export const Nodes = [
   ...IOBlocks,
@@ -11,5 +12,6 @@ export const Nodes = [
   ...LogicalNodes,
   ...StringNode,
   ...NumericNodes,
-  ...Structure
+  ...Structure,
+  ...InterfaceNodes
 ]
