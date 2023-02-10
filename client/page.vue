@@ -86,7 +86,11 @@ async function disablePlugin(){
   if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,false)
 }
 async function renamePlugin(){
-  if(currentId.value!=undefined)await send('rename-blockly-block',currentId.value,prompt('输入重命名的插件名词','未命名Koishi插件'))
+  if(currentId.value!=undefined){
+    const name = prompt('输入重命名的插件名词','未命名Koishi插件')
+    if(!name)return;
+    await send('rename-blockly-block',currentId.value,name)
+  }
 }
 async function deletePlugin(){
   if(currentId.value!=undefined)
