@@ -163,11 +163,10 @@ export async function apply(ctx: Context) {
   async function updatePmPlugins(ctx:Context){
     pm.plugins = (await ctx.database.get('blockly',{enabled:true},["code","enabled"]))
       .filter(t=>t.enabled).map(t=>t.code)
-    if(ctx['console.blockly']){
-      ctx['console.blockly']
-        .patch(await ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled","edited"]))
-    }
     pm.restart()
+    if(ctx['console.blockly']){
+      await ctx['console.blockly'].refresh()
+    }
   }
   await updatePmPlugins(ctx)
 
