@@ -27,7 +27,7 @@ declare module "koishi"{
 declare module '@koishijs/plugin-console' {
   interface Events {
     'create-blockly-block'(): Promise<number>
-    'save-blockly-block'(id:number, data:{body?:object,code?:string}): void
+    'save-blockly-block'(id:number, data:{body?:object,code?:string,name?:string}): void
     'load-blockly-block'(id:number): Promise<object>
     'rename-blockly-block'(id:number, name:string): Promise<void>
     'delete-blockly-block'(id:number): Promise<void>
@@ -120,6 +120,7 @@ export async function apply(ctx: Context) {
     const save_object = {}
     if(data.body)save_object['body'] = JSON.stringify(data.body)
     if(data.code)save_object['code'] = data.code
+    if(data.name)save_object['name'] = data.name
     save_object ['edited'] = !data.code
     await ctx.database.set("blockly",id,save_object);
     setTimeout(()=>updatePmPlugins(ctx),0);
