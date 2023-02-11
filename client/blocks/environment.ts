@@ -57,9 +57,9 @@ export function timeFormat(block) {
 export const EnvironmentBlocks = [
     TimeStamp,
     TimeFormat
-  ]
+]
   
-  export const environmentBlocks = {
-    'time_stamp':timeStamp,
-    'time_format':timeFormat
-  }
+export const environmentBlocks = {
+   'time_stamp':timeStamp,
+   'time_format':timeFormat
+}
