@@ -6,6 +6,7 @@ import {SessionBlocks, sessionBlocks} from "./session";
 import {botBlocks, BotBlocks} from "./bot";
 import {debugBlocks, DebugBlocks} from "./debugging";
 import {eventBlocks, EventBlocks} from "./event";
+import {environmentBlocks, EnvironmentBlocks} from "./environment";
 
 export const Blocks = [
   ...CommandBlocks,
@@ -15,7 +16,8 @@ export const Blocks = [
   ...SessionBlocks,
   ...BotBlocks,
   ...DebugBlocks,
-  ...EventBlocks
+  ...EventBlocks,
+  ...EnvironmentBlocks
 ]
 
 export const BlockGenerators=Object.assign({},...[
@@ -26,5 +28,6 @@ export const BlockGenerators=Object.assign({},...[
   sessionBlocks,
   botBlocks,
   debugBlocks,
-  eventBlocks
+  eventBlocks,
+  environmentBlocks
 ])
