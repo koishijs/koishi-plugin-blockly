@@ -396,5 +396,8 @@
       </value>
     </block>
   </category>
+  <category name="环境" colour="#5b80a5">
+    <block type="time_stamp"/>
+  </category>
 
 </xml>
