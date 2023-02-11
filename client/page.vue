@@ -1,11 +1,26 @@
 <template>
+  <el-dialog v-model="exportMessageBoxVisible" title="导出插件" width="700px">
+    <el-input type="textarea" rows="10" input-style="height: 200px;resize:none;" v-model="importAndExportContent"></el-input>
+  </el-dialog>
+  <el-dialog v-model="importMessageBoxVisible" title="导入插件" width="700px">
+    <el-input type="textarea" rows="10" input-style="height: 200px;resize:none;" v-model="importAndExportContent"></el-input>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="importMessageBoxVisible = false">关闭</el-button>
+        <el-button type="primary" @click="importPlugin()">
+          导入
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
   <k-layout class="page-blockly">
     <template #header>
         Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
     </template>
     <template #left>
       <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
-        <i @click="create()" style="cursor: pointer"><new-file/></i>
+        <i @click="create()" style="cursor: pointer;padding-right: 5px"><new-file/></i>
+        <i @click="importMessageBoxVisible=true;importAndExportContent=''" style="cursor: pointer;padding-right: 20px"><import-icon/></i>
       </div>
       <div class="list" style="height: 60%">
         <el-scrollbar>
@@ -20,6 +35,7 @@
           <k-button @click="disablePlugin()">禁用插件</k-button>
           <k-button @click="renamePlugin()">重命名插件</k-button>
           <k-button @click="deletePlugin()">删除插件</k-button>
+          <k-button @click="exportPlugin()">导出插件</k-button>
         </div>
       </div>
     </template>
@@ -46,6 +62,15 @@ import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
 import { ElMessageBox } from 'element-plus'
 import NewFile from "./icons/new-file.vue";
+import {gzip,ungzip} from 'pako'
+import {stringToArrayBuffer} from "./utils";
+import {ElDialog} from 'element-plus'
+import ImportIcon from "./icons/import.vue"
+
+const exportMessageBoxVisible = ref(false)
+const importMessageBoxVisible = ref(false)
+const importAndExportContent = ref('')
+
 const editor = ref(null)
 const currentId = ref(undefined)
 const loading = ref(false)
@@ -54,8 +79,8 @@ const init=ref(false);
 const saving=ref(false);
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
+      if(!r)return;
       loading.value=true;
-      // if(s!=undefined)await send('save-blockly-block',parseInt(s.toString()),{body:editor.value.save()})
       const data = await send("load-blockly-block",parseInt(r.toString()));
       loading.value=false;
       await nextTick(()=>{
@@ -99,6 +124,25 @@ async function deletePlugin(){
       await send('delete-blockly-block',currentId.value)
       currentId.value = undefined
     }
+}
+async function exportPlugin(){
+  if(currentId.value!=undefined){
+    exportMessageBoxVisible.value = true
+    const name = store.blockly.filter((v)=>v.id?.toString()==currentId.value)[0]?.name
+    importAndExportContent.value = `插件名称: ${name}\n导出时间: ${new Date().toLocaleString()}\n-=-=-=-=--=-=-=-=- BEGIN BLOCKLY BLOCK -=-=--=-=-=--=-=--=-=-=-\n${btoa(String.fromCharCode.apply(null, gzip(JSON.stringify({body:editor.value.save(),name})))).replace(/(.{64})/g, "$1\n")}\n-=-=--=-=-=--=-=-=-=- END BLOCKLY BLOCK -=-=--=-=-=--=-=--=-=-=-`
+  }
+}
+async function importPlugin(){
+  if(importAndExportContent.value.length==0)return;
+  const data_body = importAndExportContent.value.match(/-=-=-=-=--=-=-=-=-\s+BEGIN BLOCKLY BLOCK\s+-=-=--=-=-=--=-=--=-=-=-\n([\s\S]*)\n-=-=--=-=-=--=-=-=-=-\s+END BLOCKLY BLOCK\s+-=-=--=-=-=--=-=--=-=-=-/)?.[1]
+    .replace(/[\r\n\t ]/g,'')
+  if(!data_body)return;
+  const data = JSON.parse(String.fromCharCode.apply(null, ungzip(stringToArrayBuffer(atob(data_body)))))
+  if(!data)return;
+  const id = await send('create-blockly-block')
+  await send('save-blockly-block',id,data)
+  importMessageBoxVisible.value=false
+  currentId.value = id.toString()
 }
 </script>
 
