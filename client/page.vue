@@ -44,6 +44,7 @@ import {onMounted, ref, watch, nextTick} from "vue";
 import {store,send} from "@koishijs/client"
 import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
+import { ElMessageBox } from 'element-plus'
 import NewFile from "./icons/new-file.vue";
 const editor = ref(null)
 const currentId = ref(undefined)
@@ -94,10 +95,10 @@ async function renamePlugin(){
 }
 async function deletePlugin(){
   if(currentId.value!=undefined)
-  if(confirm("确定删除当前插件?")){
-    await send('delete-blockly-block',currentId.value)
-    window.location.reload() // The temporary solution
-  }
+    if(await ElMessageBox.confirm("确定删除当前插件?") === 'confirm'){
+      await send('delete-blockly-block',currentId.value)
+      currentId.value = undefined
+    }
 }
 </script>
 
