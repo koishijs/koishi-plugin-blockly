@@ -129,15 +129,15 @@ async function exportPlugin(){
   if(currentId.value!=undefined){
     exportMessageBoxVisible.value = true
     const name = store.blockly.filter((v)=>v.id?.toString()==currentId.value)[0]?.name
-    importAndExportContent.value = `插件名称: ${name}\n导出时间: ${new Date().toLocaleString()}\n-=-=-=-=--=-=-=-=- BEGIN BLOCKLY BLOCK -=-=--=-=-=--=-=--=-=-=-\n${btoa(String.fromCharCode.apply(null, gzip(JSON.stringify({body:editor.value.save(),name})))).replace(/(.{64})/g, "$1\n")}\n-=-=--=-=-=--=-=-=-=- END BLOCKLY BLOCK -=-=--=-=-=--=-=--=-=-=-`
+    importAndExportContent.value = `插件名称: ${name}\n导出时间: ${new Date().toLocaleString()}\n-=-=-=-=--=-=-=-=- BEGIN KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-\n${btoa(String.fromCharCode.apply(null, gzip(encodeURI(JSON.stringify({version:1,body:editor.value.save(),name}))))).replace(/(.{64})/g, "$1\n")}\n-=-=--=-=-=--=-=-=-=- END KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-`
   }
 }
 async function importPlugin(){
   if(importAndExportContent.value.length==0)return;
-  const data_body = importAndExportContent.value.match(/-=-=-=-=--=-=-=-=-\s+BEGIN BLOCKLY BLOCK\s+-=-=--=-=-=--=-=--=-=-=-\n([\s\S]*)\n-=-=--=-=-=--=-=-=-=-\s+END BLOCKLY BLOCK\s+-=-=--=-=-=--=-=--=-=-=-/)?.[1]
+  const data_body = importAndExportContent.value.match(/-=-=-=-=--=-=-=-=-\s+BEGIN KOISHI BLOCKLY BLOCK V1\s+-=-=--=-=-=--=-=--=-=-=-\n([\s\S]*)\n-=-=--=-=-=--=-=-=-=-\s+END KOISHI BLOCKLY BLOCK V1\s+-=-=--=-=-=--=-=--=-=-=-/)?.[1]
     .replace(/[\r\n\t ]/g,'')
   if(!data_body)return;
-  const data = JSON.parse(String.fromCharCode.apply(null, ungzip(stringToArrayBuffer(atob(data_body)))))
+  const data = JSON.parse(decodeURI(String.fromCharCode.apply(null, ungzip(stringToArrayBuffer(atob(data_body))))))
   if(!data)return;
   const id = await send('create-blockly-block')
   await send('save-blockly-block',id,data)
