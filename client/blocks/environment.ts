@@ -8,12 +8,12 @@ export const TimeStamp = {
         "name": "type",
         "options": [
           [
-            "11位",
-            "11"
-          ],
-          [
             "13位",
             "13"
+          ],
+          [
+            "11位",
+            "11"
           ]
         ]
       }
