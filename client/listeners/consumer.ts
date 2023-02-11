@@ -17,6 +17,7 @@ export function disableOrphansAndOrphanConsumersEvent(_event:Abstract){
   disableOrphanConsumers(block);
 }
 export function disableOrphanConsumers(block:BlockSvg){
+  if(!block)return
   const children = [].concat(block.getChildren(false))
   if(children)
     children.forEach(b=>{
