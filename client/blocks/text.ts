@@ -28,7 +28,7 @@ export function regularExp(block) {
   let text_regular = block.getFieldValue('regular');
   let text_modifier = block.getFieldValue('modifier');
   let value_text = javascriptGenerator.valueToCode(block, 'text', javascriptGenerator.ORDER_ATOMIC);
-  return [`${value_text}.match(/${text_regular}/${text_modifier})`, javascriptGenerator.ORDER_NONE];
+  return [`${ value_text }.match(new RegExp("${ text_regular }", "${ text_modifier }"))`, javascriptGenerator.ORDER_NONE];
 }
 
 export const TextBlocks = [
