@@ -134,7 +134,7 @@ async function exportPlugin(){
 }
 async function importPlugin(){
   if(importAndExportContent.value.length==0)return;
-  const data_body = importAndExportContent.value.match(/-=-=-=-=--=-=-=-=-\s+BEGIN KOISHI BLOCKLY BLOCK V1\s+-=-=--=-=-=--=-=--=-=-=-\n([\s\S]*)\n-=-=--=-=-=--=-=-=-=-\s+END KOISHI BLOCKLY BLOCK V1\s+-=-=--=-=-=--=-=--=-=-=-/)?.[1]
+  const data_body = importAndExportContent.value.match(/[=–-]+\s+BEGIN KOISHI BLOCKLY BLOCK V1\s+[=–-]+\n([\s\S]+)\n[=–-]+\s+END KOISHI BLOCKLY BLOCK V1\s+[=–-]+/)?.[1]
     .replace(/[\r\n\t ]/g,'')
   if(!data_body)return;
   const data = JSON.parse(decodeURI(String.fromCharCode.apply(null, ungzip(stringToArrayBuffer(atob(data_body))))))
