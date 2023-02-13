@@ -13,7 +13,13 @@
     </block>
     <block type="logic_null"/>
     <block type="logic_ternary"/>
-    <block type="sleep"/>
+    <block type="sleep">
+      <value name="milliseconds">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
   </category>
   <category name="循环" colour="#5ba55b">
     <block type="controls_repeat_ext">
