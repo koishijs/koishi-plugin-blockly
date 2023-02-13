@@ -101,7 +101,7 @@ onMounted(()=>{
       blocklyToolboxInformation.value.build = '点击左侧"编译插件"查看'
     })
     watch(currentPanelId,async (c,o)=>{
-      if([c,o].includes('hidden'))return;
+      if(![c,o].includes('hidden'))return;
       const svgResize = setInterval(()=>{
         console.info('resize')
         editor.value.updateSize()
