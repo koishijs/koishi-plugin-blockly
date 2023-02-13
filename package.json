@@ -50,11 +50,9 @@
     "@koishijs/plugin-console": "^5.1.5",
     "@koishijs/vitepress": "^1.6.1",
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
-    "baklavajs": "2.0.2-beta.3",
-    "blockly": "^9.2.0",
-    "uuid": "^9.0.0",
     "@types/node": "^18.11.18",
     "@types/pako": "^2.0.0",
+    "baklavajs": "2.0.2-beta.3",
     "blockly": "^9.2.0",
     "element-plus": "^2.2.30",
     "highlight.js": "^11.7.0",
@@ -62,7 +60,9 @@
     "pako": "^2.1.0",
     "sass": "^1.57.1",
     "typescript": "^4.9.4",
-    "vitepress": "1.0.0-alpha.26"
+    "uuid": "^9.0.0",
+    "vitepress": "1.0.0-alpha.26",
+    "xterm": "^5.1.0"
   },
   "dependencies": {
     "jsonpath-plus": "^7.2.0"
