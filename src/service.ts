@@ -1,5 +1,6 @@
 import {Service} from "koishi";
 import {JSONPath} from 'jsonpath-plus';
+import {Time} from "koishi"
 export class BlocklyService extends Service{
   constructor(ctx) {
     super(ctx,'blockly');
@@ -12,25 +13,8 @@ export class BlocklyService extends Service{
       return undefined
     }
   }
-  
+
   async date_format(t, f){
-    var o = {
-      "M+": t.getMonth() + 1,
-      "d+": t.getDate(),
-      "h+": t.getHours(),
-      "m+": t.getMinutes(),
-      "s+": t.getSeconds(),
-      "q+": Math.floor((t.getMonth() + 3) / 3),
-      "S": t.getMilliseconds()
-    };
-    if (/(y+)/.test(f)) {
-      f = f.replace(RegExp.$1, (t.getFullYear() + "").substr(4 - RegExp.$1.length));
-    }
-    for (var k in o) {
-      if (new RegExp("(" + k + ")").test(f)) {
-        f = f.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-      }
-    }
-    return await f;
+    return Time.template(f,t)
   }
 }
