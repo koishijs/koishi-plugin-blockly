@@ -27,10 +27,9 @@
     if (current.value == undefined) {
       return
     }
-    const result = build(current.value, props.workspace,{})
+    const result = await build(current.value, props.workspace,{})
     if (result) {
-      panel.value = 'build'
-      dialog.value.build = result
+      panel.code = result
     }
   }
 
