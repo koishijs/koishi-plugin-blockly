@@ -51,7 +51,7 @@ export const TimeFormat = {
 export function timeFormat(block) {
     var text_date = javascriptGenerator.valueToCode(block, 'date', javascriptGenerator.ORDER_ATOMIC);
     var text_fmt = block.getFieldValue('fmt');
-    return [`await ctx.blockly.date_format(${text_date},'${text_fmt}')`, javascriptGenerator.ORDER_NONE];
+    return [`await ctx.blockly.date_format(new Date(${text_date}),'${text_fmt}')`, javascriptGenerator.ORDER_NONE];
 }
 
 export const EnvironmentBlocks = [
