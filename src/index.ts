@@ -75,9 +75,11 @@ export class PluginManager{
     this.plugins.forEach(p=>{
       const context = vm.createContext({})
       context.segment = segment;
+      context.module = {exports:{}};
       let plugin = null
       try{
-        plugin = vm.runInContext(p,context)
+        vm.runInContext(p,context)
+        plugin = context.module.exports
       }catch (e){
         this.ctx.logger("blockly").warn(e);
       }
