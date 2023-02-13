@@ -44,10 +44,14 @@
     "koishi": "^4.10.0"
   },
   "devDependencies": {
+    "@baklavajs/themes": "^2.0.1-next.0",
     "@koishijs/client": "^5.1.5",
     "@koishijs/plugin-console": "^5.1.5",
     "@koishijs/vitepress": "^1.6.1",
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
+    "baklavajs": "2.0.2-beta.3",
+    "blockly": "^9.2.0",
+    "uuid": "^9.0.0",
     "@types/node": "^18.11.18",
     "@types/pako": "^2.0.0",
     "blockly": "^9.2.0",

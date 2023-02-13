@@ -8,7 +8,7 @@ import * as ZhHans from 'blockly/msg/zh-hans';
 import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
 import Toolbox from './toolbox.xml?raw';
 import {javascriptGenerator} from 'blockly/javascript';
-import {ref, onMounted,toRef} from 'vue';
+import {ref, onMounted, toRef, nextTick} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
@@ -36,7 +36,8 @@ let listeners = {autoSave:()=>{}}
 Blockly.VerticalFlyout.prototype.getFlyoutScale = ()=>1;
 
 onMounted(() => {
-  workspace = Blockly.inject(blockly_workspace.value, {
+  nextTick(()=>{
+    workspace = Blockly.inject(blockly_workspace.value, {
       toolbox:Toolbox,
       media : '/static/blockly/',
       grid : {
@@ -46,12 +47,13 @@ onMounted(() => {
         snap : false
       },
     })
-  window.addEventListener('resize',()=>{
-    Blockly.svgResize(workspace);
+    window.addEventListener('resize',()=>{
+      Blockly.svgResize(workspace);
+    })
+    workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
+    workspace.addChangeListener(autoSaveListener.bind(listeners));
+    LexicalVariables.init(workspace);
   })
-  workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
-  workspace.addChangeListener(autoSaveListener.bind(listeners));
-  LexicalVariables.init(workspace);
 })
 defineExpose({
   save(){

@@ -44,9 +44,12 @@
       <k-empty v-if="currentId===undefined && !init">
         <div>在左侧选择或创建一个Blockly代码</div>
       </k-empty>
-      <keep-alive v-show="(currentId!=null && !loading )|| init">
-        <blockly ref="editor"></blockly>
+      <keep-alive v-show="workspaceType === 'blockly' && (currentId!=null && !loading )|| init ">
+        <blockly ref="editor" v-model:flow="flow" v-model:workspace="workspaceType"></blockly>
       </keep-alive>
+      <div v-show="workspaceType === 'data-flow' && (currentId!=null && !loading )|| init" style="height: 100%">
+        <data-flow v-model:flow="flow" v-model:workspace="workspaceType"></data-flow>
+      </div>
       <div v-show="loading && !init">
         <k-empty v-if="currentId===undefined && !init">
           <div>Loading...</div>
@@ -93,12 +96,16 @@ const importMessageBoxVisible = ref(false)
 const importAndExportContent = ref('')
 
 import Window from "./icons/window.vue";
+import DataFlow from "./data-flow.vue"
 const editor = ref(null)
 const currentId = ref(undefined)
 const loading = ref(false)
 let oldCurrentId = {value:undefined}
 const init=ref(false);
 const saving=ref(false);
+const workspaceType = ref('blockly')
+const flow = ref({})
+
 const currentPanelId = ref('hidden')
 let blocklyToolboxInformation = ref({
   build:'点击左侧"编译插件"查看',
