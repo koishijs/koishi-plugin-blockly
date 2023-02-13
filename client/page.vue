@@ -1,18 +1,6 @@
 <template>
-  <el-dialog v-model="exportMessageBoxVisible" title="导出插件" width="700px">
-    <el-input type="textarea" rows="10" input-style="height: 200px;resize:none;" v-model="importAndExportContent"></el-input>
-  </el-dialog>
-  <el-dialog v-model="importMessageBoxVisible" title="导入插件" width="700px">
-    <el-input type="textarea" rows="10" input-style="height: 200px;resize:none;" v-model="importAndExportContent"></el-input>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="importMessageBoxVisible = false">关闭</el-button>
-        <el-button type="primary" @click="importPlugin()">
-          导入
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <ImportDialog v-model="dialogOpenStates.import" @callback="importPlugin"></ImportDialog>
+  <ExportDialog v-model="dialogOpenStates.export"></ExportDialog>
   <k-layout class="page-blockly">
     <template #header>
         Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
@@ -20,7 +8,7 @@
     <template #left>
       <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
         <i @click="create()" style="cursor: pointer;padding-right: 5px"><new-file/></i>
-        <i @click="importMessageBoxVisible=true;importAndExportContent=''" style="cursor: pointer;padding-right: 20px"><import-icon/></i>
+        <i @click="dialogOpenStates.import=true" style="cursor: pointer;padding-right: 20px"><import-icon/></i>
       </div>
       <div class="list" style="height: 60%">
         <el-scrollbar>
@@ -80,6 +68,19 @@
 <script setup lang="ts">
 import {onMounted, ref, watch, nextTick} from "vue";
 import {store,send} from "@koishijs/client"
+
+
+import ImportDialog from './components/dialogs/import.vue';
+import ExportDialog from './components/dialogs/export.vue';
+
+const dialogOpenStates = ref<{
+  import:boolean,
+  export:false | string
+}>({
+  import:false,
+  export:false
+})
+
 import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
 import { ElMessageBox } from 'element-plus'
@@ -90,10 +91,6 @@ import {gzip,ungzip} from 'pako'
 import {stringToArrayBuffer} from "./utils";
 import {ElDialog} from 'element-plus'
 import ImportIcon from "./icons/import.vue"
-
-const exportMessageBoxVisible = ref(false)
-const importMessageBoxVisible = ref(false)
-const importAndExportContent = ref('')
 
 import Window from "./icons/window.vue";
 import DataFlow from "./data-flow.vue"
@@ -188,21 +185,19 @@ async function deletePlugin(){
 }
 async function exportPlugin(){
   if(currentId.value!=undefined){
-    exportMessageBoxVisible.value = true
     const name = store.blockly.filter((v)=>v.id?.toString()==currentId.value)[0]?.name
-    importAndExportContent.value = `插件名称: ${name}\n导出时间: ${new Date().toLocaleString()}\n-=-=-=-=--=-=-=-=- BEGIN KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-\n${btoa(String.fromCharCode.apply(null, gzip(encodeURI(JSON.stringify({version:1,body:editor.value.save(),name}))))).replace(/(.{64})/g, "$1\n")}\n-=-=--=-=-=--=-=-=-=- END KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-`.replace("\n\n","\n")
+    dialogOpenStates.value.export = `插件名称: ${name}\n导出时间: ${new Date().toLocaleString()}\n-=-=-=-=--=-=-=-=- BEGIN KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-\n${btoa(String.fromCharCode.apply(null, gzip(encodeURI(JSON.stringify({version:1,body:editor.value.save(),name}))))).replace(/(.{64})/g, "$1\n")}\n-=-=--=-=-=--=-=-=-=- END KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-`.replace("\n\n","\n")
   }
 }
-async function importPlugin(){
-  if(importAndExportContent.value.length==0)return;
-  const data_body = importAndExportContent.value.match(/[=–-]+\s+BEGIN KOISHI BLOCKLY BLOCK V1\s+[=–-]+\n([\s\S]+)\n[=–-]+\s+END KOISHI BLOCKLY BLOCK V1\s+[=–-]+/)?.[1]
+async function importPlugin(content){
+  if(content.length==0)return;
+  const data_body = content.match(/[=–-]+\s+BEGIN KOISHI BLOCKLY BLOCK V1\s+[=–-]+\n([\s\S]+)\n[=–-]+\s+END KOISHI BLOCKLY BLOCK V1\s+[=–-]+/)?.[1]
     .replace(/[\r\n\t ]/g,'')
   if(!data_body)return;
   const data = JSON.parse(decodeURI(String.fromCharCode.apply(null, ungzip(stringToArrayBuffer(atob(data_body))))))
   if(!data)return;
   const id = await send('create-blockly-block')
   await send('save-blockly-block',id,data)
-  importMessageBoxVisible.value=false
   currentId.value = id.toString()
 }
 </script>
