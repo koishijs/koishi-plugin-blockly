@@ -27,7 +27,7 @@ declare module "koishi"{
 declare module '@koishijs/plugin-console' {
   interface Events {
     'create-blockly-block'(): Promise<number>
-    'save-blockly-block'(id:number, data:{body?:object,code?:string}): void
+    'save-blockly-block'(id:number, data:{body?:object,code?:string,name?:string}): void
     'load-blockly-block'(id:number): Promise<object>
     'rename-blockly-block'(id:number, name:string): Promise<void>
     'delete-blockly-block'(id:number): Promise<void>
@@ -120,9 +120,10 @@ export async function apply(ctx: Context) {
     const save_object = {}
     if(data.body)save_object['body'] = JSON.stringify(data.body)
     if(data.code)save_object['code'] = data.code
+    if(data.name)save_object['name'] = data.name
     save_object ['edited'] = !data.code
     await ctx.database.set("blockly",id,save_object);
-    setTimeout(()=>updatePmPlugins(ctx),0);
+    setTimeout(()=>updatePmPlugins(ctx,!!data.code),0);
     //console.info(save_object)
   },{authority:5})
   const logger = ctx.logger('logger1')
@@ -160,10 +161,12 @@ export async function apply(ctx: Context) {
 
   let pm = new PluginManager(ctx.isolate([]))
 
-  async function updatePmPlugins(ctx:Context){
-    pm.plugins = (await ctx.database.get('blockly',{enabled:true},["code","enabled"]))
-      .filter(t=>t.enabled).map(t=>t.code)
-    pm.restart()
+  async function updatePmPlugins(ctx:Context,restart=true){
+    if(restart){
+      pm.plugins = (await ctx.database.get('blockly',{enabled:true},["code","enabled"]))
+        .filter(t=>t.enabled).map(t=>t.code)
+      pm.restart()
+    }
     if(ctx['console.blockly']){
       await ctx['console.blockly'].refresh()
     }
