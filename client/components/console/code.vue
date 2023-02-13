@@ -10,6 +10,8 @@ const props = defineProps([
 ])
 </script>
 <template>
-  <high-light :code="blocklyInformation.code"></high-light>
+  <template v-if="blocklyInformation.code">
+    <high-light :code="blocklyInformation.code"></high-light>
+  </template>
 </template>
 

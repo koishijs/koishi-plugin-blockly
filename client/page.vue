@@ -6,7 +6,7 @@
         Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
     </template>
     <template #left>
-      <SideBar :blocks="store.blockly" v-model:current="currentId" :workspace="editor" :panel="blocklyToolboxInformation" :dialog="dialogOpenStates"/>
+      <SideBar :blocks="store.blockly" v-model:current="currentId" :workspace="editor" :panel="blocklyToolboxInformation" :dialog="dialogOpenStates" :logger="build_console"/>
     </template>
     <div style="display:flex;flex-flow:column nowrap;height: 100%;width: 100%">
     <div style="height: 100%">
@@ -38,8 +38,9 @@
         </div>
       </div>
 
-      <div style="overflow:scroll;background: var(--bg2);color:var(--fg2);height: 100%;width: 100%;contain: size" class="scroll" v-if="currentPanelId!='hidden'">
-        <component :is="panels[currentPanelId.toString()]" :current="currentId" :blocklyInformation="blocklyToolboxInformation"></component>
+      <div style="overflow:scroll;color:var(--fg2);height: 100%;width: 100%;contain: size" class="scroll" v-show="currentPanelId!='hidden'" :style="{background:currentPanelId === 'build'?'black':'var(--bg2)'}">
+        <ToolboxBuild :current="currentId" ref="build_console" v-show="currentPanelId==='build'"></ToolboxBuild>
+        <ToolboxCode :current="currentId" :blocklyInformation="blocklyToolboxInformation" v-show="currentPanelId==='result'" v-if="currentPanelId!='hidden'"></ToolboxCode>
       </div>
     </div>
     </div>
@@ -77,11 +78,11 @@ const init=ref(false);
 const saving=ref(false);
 const workspaceType = ref('blockly')
 const flow = ref({})
+const build_console = ref(null)
 
 const currentPanelId = ref('hidden')
 let blocklyToolboxInformation = ref({
-  build:'点击左侧"编译插件"查看',
-  code:'点击左侧"编译插件"查看'
+  build:'点击左侧"编译插件"查看'
 })
 const panels = {
   'build': ToolboxBuild,
@@ -98,9 +99,9 @@ onMounted(()=>{
         editor.value.load(data);
       })
       blocklyToolboxInformation.value.build = '点击左侧"编译插件"查看'
-      blocklyToolboxInformation.value.code = '点击左侧"编译插件"查看'
     })
-    watch(currentPanelId,async ()=>{
+    watch(currentPanelId,async (c,o)=>{
+      if([c,o].includes('hidden'))return;
       const svgResize = setInterval(()=>{
         console.info('resize')
         editor.value.updateSize()
@@ -137,9 +138,6 @@ async function importBlockly(content){
 .scroll::-webkit-scrollbar-track{
   height: 1px
 }
-
-.scroll::-webkit-scrollbar
-
 
 .transition-animation{
   transition: 0.3s ease;

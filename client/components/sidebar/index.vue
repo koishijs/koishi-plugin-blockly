@@ -7,9 +7,8 @@
   import NewFile from "../../icons/new-file.vue";
   import {createBlockly as create,deletePlugin as __delete,enableBlockly,disableBlockly,renameBlockly as rename,exportPlugin as _export,buildBlockly as build} from "../../api/manager";
 
-  const props = defineProps(['blocks','workspace','dialog','current','panel'])
+  const props = defineProps(['blocks','workspace','dialog','current','panel','logger'])
   const $emit = defineEmits(['update:dialog','update:current'])
-
 
   const { panel,blocks } = props
 
@@ -27,7 +26,7 @@
     if (current.value == undefined) {
       return
     }
-    const result = await build(current.value, store.blockly.find(t=>t.id==current.value).name , props.workspace,{})
+    const result = await build(current.value, store.blockly.find(t=>t.id==current.value).name , props.workspace,props.logger.logger)
     if (result) {
       panel.code = result
     }
