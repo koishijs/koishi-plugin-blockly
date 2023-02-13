@@ -1,31 +1,12 @@
 <template>
-  <ImportDialog v-model="dialogOpenStates.import" @callback="importPlugin"></ImportDialog>
+  <ImportDialog v-model="dialogOpenStates.import" @callback="importBlockly"></ImportDialog>
   <ExportDialog v-model="dialogOpenStates.export"></ExportDialog>
   <k-layout class="page-blockly">
     <template #header>
         Blockly - {{store.blockly.filter((v)=>v.id?.toString()===currentId?.toString())?.[0]?.name ?? '主页'}} {{saving?'保存中...':''}}
     </template>
     <template #left>
-      <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
-        <i @click="create()" style="cursor: pointer;padding-right: 5px"><new-file/></i>
-        <i @click="dialogOpenStates.import=true" style="cursor: pointer;padding-right: 20px"><import-icon/></i>
-      </div>
-      <div class="list" style="height: 60%">
-        <el-scrollbar>
-          <blockly-tab-group :data="Object.fromEntries(store.blockly.map(t=>[t.id,t]))" v-model="currentId">
-          </blockly-tab-group>
-        </el-scrollbar>
-      </div>
-      <div style="height: 40%;padding:10px">
-        <div v-if="currentId">
-          <k-button @click="build()">编译插件</k-button>
-          <k-button @click="enablePlugin()">启用插件</k-button>
-          <k-button @click="disablePlugin()">禁用插件</k-button>
-          <k-button @click="renamePlugin()">重命名插件</k-button>
-          <k-button @click="deletePlugin()">删除插件</k-button>
-          <k-button @click="exportPlugin()">导出插件</k-button>
-        </div>
-      </div>
+      <SideBar :blocks="store.blockly" v-model:current="currentId" :workspace="editor" :panel="blocklyToolboxInformation" :dialog="dialogOpenStates"/>
     </template>
     <div style="display:flex;flex-flow:column nowrap;height: 100%">
     <div style="height: 100%">
@@ -72,6 +53,7 @@ import {store,send} from "@koishijs/client"
 
 import ImportDialog from './components/dialogs/import.vue';
 import ExportDialog from './components/dialogs/export.vue';
+import SideBar from './components/sidebar/index.vue';
 
 const dialogOpenStates = ref<{
   import:boolean,
@@ -81,19 +63,12 @@ const dialogOpenStates = ref<{
   export:false
 })
 
-import blockly from "./blockly.vue"
-import blocklyTabGroup from './components/blockly-tab-group.vue'
-import { ElMessageBox } from 'element-plus'
+import blockly from "./blockly/blockly.vue"
 import ToolboxBuild from './components/console/build.vue'
 import ToolboxCode from './components/console/code.vue'
-import NewFile from "./icons/new-file.vue";
-import {gzip,ungzip} from 'pako'
-import {stringToArrayBuffer} from "./utils";
-import {ElDialog} from 'element-plus'
-import ImportIcon from "./icons/import.vue"
-
 import Window from "./icons/window.vue";
 import DataFlow from "./data-flow.vue"
+import {importPlugin as _import, saveBlockly} from "./api/manager";
 const editor = ref(null)
 const currentId = ref(undefined)
 const loading = ref(false)
@@ -136,70 +111,18 @@ onMounted(()=>{
     })
     nextTick(()=>{
       editor.value.setAutoSaveListener(()=>{
-        setTimeout(save,0);
+        setTimeout(()=>saveBlockly(currentId.value,editor),0);
       });
     })
   })
-async function create() {
-  currentId.value = (await send('create-blockly-block')).toString()
-}
-async function save(){
-  saving.value=true;
-  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,{body:editor.value.save()})
-  saving.value=false;
-}
-async function build(){
-  if(currentId.value==undefined)return
-  blocklyToolboxInformation.value.build="正在开始编译.......\n";
-  let code
-  try {
-    code = editor.value.build();
-    blocklyToolboxInformation.value.code = code
-  }catch (e){
-    blocklyToolboxInformation.value.build+="编译时发生错误:"+e.toString()
+async function importBlockly(content){
+  const newPluginId = _import(content)
+  if(!newPluginId){
     return
   }
-  blocklyToolboxInformation.value.build+="正在上传......\n";
-  await send('save-blockly-block',currentId.value,{code})
-  blocklyToolboxInformation.value.build+="上传成功!  \n";
+  currentId.value = newPluginId
 }
-async function enablePlugin(){
-  if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,true)
-}
-async function disablePlugin(){
-  if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,false)
-}
-async function renamePlugin(){
-  if(currentId.value!=undefined){
-    const name = prompt('输入重命名的插件名词','未命名Koishi插件')
-    if(!name)return;
-    await send('rename-blockly-block',currentId.value,name)
-  }
-}
-async function deletePlugin(){
-  if(currentId.value!=undefined)
-    if(await ElMessageBox.confirm("确定删除当前插件?") === 'confirm'){
-      await send('delete-blockly-block',currentId.value)
-      currentId.value = undefined
-    }
-}
-async function exportPlugin(){
-  if(currentId.value!=undefined){
-    const name = store.blockly.filter((v)=>v.id?.toString()==currentId.value)[0]?.name
-    dialogOpenStates.value.export = `插件名称: ${name}\n导出时间: ${new Date().toLocaleString()}\n-=-=-=-=--=-=-=-=- BEGIN KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-\n${btoa(String.fromCharCode.apply(null, gzip(encodeURI(JSON.stringify({version:1,body:editor.value.save(),name}))))).replace(/(.{64})/g, "$1\n")}\n-=-=--=-=-=--=-=-=-=- END KOISHI BLOCKLY BLOCK V1 -=-=--=-=-=--=-=--=-=-=-`.replace("\n\n","\n")
-  }
-}
-async function importPlugin(content){
-  if(content.length==0)return;
-  const data_body = content.match(/[=–-]+\s+BEGIN KOISHI BLOCKLY BLOCK V1\s+[=–-]+\n([\s\S]+)\n[=–-]+\s+END KOISHI BLOCKLY BLOCK V1\s+[=–-]+/)?.[1]
-    .replace(/[\r\n\t ]/g,'')
-  if(!data_body)return;
-  const data = JSON.parse(decodeURI(String.fromCharCode.apply(null, ungzip(stringToArrayBuffer(atob(data_body))))))
-  if(!data)return;
-  const id = await send('create-blockly-block')
-  await send('save-blockly-block',id,data)
-  currentId.value = id.toString()
-}
+
 </script>
 
 <style scoped>
