@@ -44,8 +44,8 @@
     "koishi": "^4.10.0"
   },
   "devDependencies": {
-    "@koishijs/client": "^5.3.2",
-    "@koishijs/plugin-console": "^5.3.2",
+    "@koishijs/client": "^5.3.3",
+    "@koishijs/plugin-console": "^5.3.3",
     "@koishijs/vitepress": "^1.6.4",
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
     "@types/node": "^18.13.0",
