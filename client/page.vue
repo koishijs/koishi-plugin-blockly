@@ -39,6 +39,7 @@
         </div>
       </div>
     </template>
+    <div style="display:flex;flex-flow:column nowrap;height: 100%">
     <div style="height: 100%">
       <k-empty v-if="currentId===undefined && !init">
         <div>在左侧选择或创建一个Blockly代码</div>
@@ -51,6 +52,24 @@
           <div>Loading...</div>
         </k-empty>
       </div>
+
+    </div>
+    <div class="transition-animation" style="border-top:3px solid var(--bg1);display:flex;flex-flow:column nowrap;" :style="{height:currentPanelId.toString()==='hidden' ? '25px' : '40%'}" v-if="currentId!=undefined">
+      <div style="height: 25px;background: var(--bg1);display: flex;width: 100%">
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;" @click="currentPanelId = 'build'" :style="{background: currentPanelId=='build'?'var(--bg3)':''}">编译</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px" @click="currentPanelId = 'result'" :style="{background: currentPanelId=='result'?'var(--bg3)':''}">代码结果</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px" @click="currentPanelId = 'log'" :style="{background: currentPanelId=='log'?'var(--bg3)':''}">运行日志</div>
+        <div style="margin-left: auto;align-self: center;height: 100%;margin-right: 20px;">
+          <div style="height: 18px;width: 18px;background: var(--bg1);padding: 2px;margin: 2px" @click="currentPanelId = 'hidden'">
+            <window/>
+          </div>
+        </div>
+      </div>
+
+      <div style="overflow-y: scroll;overflow-x: scroll;background: var(--bg2);color:var(--fg2);height: 100%;padding: 10px" class="scroll" v-if="currentPanelId!='hidden'">
+        <component :is="panels[currentPanelId.toString()]" :current="currentId" :blocklyInformation="blocklyToolboxInformation"></component>
+      </div>
+    </div>
     </div>
   </k-layout>
 </template>
@@ -61,6 +80,8 @@ import {store,send} from "@koishijs/client"
 import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
 import { ElMessageBox } from 'element-plus'
+import ToolboxBuild from './components/toolbox/build.vue'
+import ToolboxCode from './components/toolbox/code.vue'
 import NewFile from "./icons/new-file.vue";
 import {gzip,ungzip} from 'pako'
 import {stringToArrayBuffer} from "./utils";
@@ -71,12 +92,22 @@ const exportMessageBoxVisible = ref(false)
 const importMessageBoxVisible = ref(false)
 const importAndExportContent = ref('')
 
+import Window from "./icons/window.vue";
 const editor = ref(null)
 const currentId = ref(undefined)
 const loading = ref(false)
 let oldCurrentId = {value:undefined}
 const init=ref(false);
 const saving=ref(false);
+const currentPanelId = ref('hidden')
+let blocklyToolboxInformation = ref({
+  build:'点击左侧"编译插件"查看',
+  code:'点击左侧"编译插件"查看'
+})
+const panels = {
+  'build': ToolboxBuild,
+  'result': ToolboxCode
+}
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
       if(!r)return;
@@ -87,6 +118,17 @@ onMounted(()=>{
         oldCurrentId = currentId;
         editor.value.load(data);
       })
+      blocklyToolboxInformation.value.build = '点击左侧"编译插件"查看'
+      blocklyToolboxInformation.value.code = '点击左侧"编译插件"查看'
+    })
+    watch(currentPanelId,async ()=>{
+      const svgResize = setInterval(()=>{
+        console.info('resize')
+        editor.value.updateSize()
+      },10)
+      setTimeout(()=>{
+        clearInterval(svgResize)
+      },1000)
     })
     nextTick(()=>{
       editor.value.setAutoSaveListener(()=>{
@@ -103,7 +145,19 @@ async function save(){
   saving.value=false;
 }
 async function build(){
-  if(currentId.value!=undefined)await send('save-blockly-block',currentId.value,{code:editor.value.build()})
+  if(currentId.value==undefined)return
+  blocklyToolboxInformation.value.build="正在开始编译.......\n";
+  let code
+  try {
+    code = editor.value.build();
+    blocklyToolboxInformation.value.code = code
+  }catch (e){
+    blocklyToolboxInformation.value.build+="编译时发生错误:"+e.toString()
+    return
+  }
+  blocklyToolboxInformation.value.build+="正在上传......\n";
+  await send('save-blockly-block',currentId.value,{code})
+  blocklyToolboxInformation.value.build+="上传成功!  \n";
 }
 async function enablePlugin(){
   if(currentId.value!=undefined)await send('set-blockly-block-state',currentId.value,true)
@@ -145,6 +199,23 @@ async function importPlugin(){
   currentId.value = id.toString()
 }
 </script>
+
+<style scoped>
+.scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+}
+.scroll::-webkit-scrollbar-track{
+  height: 1px
+}
+
+.transition-animation{
+  transition: 0.3s ease;
+}
+</style>
 
 <style lang="scss">
 

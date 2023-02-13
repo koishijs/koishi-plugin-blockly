@@ -39,14 +39,6 @@ onMounted(() => {
   workspace = Blockly.inject(blockly_workspace.value, {
       toolbox:Toolbox,
       media : '/static/blockly/',
-      zoom : {
-        controls : true,
-        wheel : true,
-        startScale : 1,
-        maxScale : 3,
-        minScale : 0.3,
-        scaleSpeed : 1.2
-      },
       grid : {
         spacing : 20,
         length : 1,
@@ -75,6 +67,9 @@ defineExpose({
   },
   setAutoSaveListener(listener){
     listeners.autoSave = listener
+  },
+  updateSize(){
+    Blockly.svgResize(workspace);
   }
 })
 </script>
