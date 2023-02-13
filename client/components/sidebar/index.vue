@@ -27,7 +27,7 @@
     if (current.value == undefined) {
       return
     }
-    const result = await build(current.value, props.workspace,{})
+    const result = await build(current.value, store.blockly.find(t=>t.id==current.value).name , props.workspace,{})
     if (result) {
       panel.code = result
     }
@@ -52,7 +52,7 @@
     if(current.value==undefined){
       return
     }
-    const result = await _export(current.value, blocks.find(t=>t.id==current.value).name,props.workspace)
+    const result = await _export(current.value, store.blockly.find(t=>t.id==current.value).name,props.workspace)
     if(result){
       dialog.value.export = result
     }
