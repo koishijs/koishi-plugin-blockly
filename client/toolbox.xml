@@ -13,6 +13,7 @@
     </block>
     <block type="logic_null"/>
     <block type="logic_ternary"/>
+    <block type="sleep"/>
   </category>
   <category name="循环" colour="#5ba55b">
     <block type="controls_repeat_ext">

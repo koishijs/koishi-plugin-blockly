@@ -8,6 +8,7 @@ import {debugBlocks, DebugBlocks} from "./debugging";
 import {eventBlocks, EventBlocks} from "./event";
 import {environmentBlocks, EnvironmentBlocks} from "./environment";
 import {stringBlocks, StringBlocks} from "./string";
+import {logicalBlocks, LogicalBlocks} from "./logic";
 
 export const Blocks = [
   ...CommandBlocks,
@@ -19,7 +20,8 @@ export const Blocks = [
   ...DebugBlocks,
   ...EventBlocks,
   ...EnvironmentBlocks,
-  ...StringBlocks
+  ...StringBlocks,
+  ...LogicalBlocks
 ]
 
 export const BlockGenerators=Object.assign({},...[
@@ -32,5 +34,6 @@ export const BlockGenerators=Object.assign({},...[
   debugBlocks,
   eventBlocks,
   environmentBlocks,
-  stringBlocks
+  stringBlocks,
+  logicalBlocks
 ])
