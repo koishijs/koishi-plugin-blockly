@@ -64,14 +64,14 @@ defineExpose({
     Blockly.svgResize(workspace);
     return Blockly.serialization.workspaces.load(data,workspace);
   },
-  build(){
-    return  `(function(){return {apply:async function(ctx){const __logger = ctx.logger('blockly-plugin');${javascriptGenerator.workspaceToCode(workspace)}}}})();`
-  },
   setAutoSaveListener(listener){
     listeners.autoSave = listener
   },
   updateSize(){
     Blockly.svgResize(workspace);
+  },
+  getWorkspaceSvg(){
+    return workspace;
   }
 })
 </script>
