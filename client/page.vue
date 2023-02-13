@@ -84,8 +84,8 @@ const dialogOpenStates = ref<{
 import blockly from "./blockly.vue"
 import blocklyTabGroup from './components/blockly-tab-group.vue'
 import { ElMessageBox } from 'element-plus'
-import ToolboxBuild from './components/toolbox/build.vue'
-import ToolboxCode from './components/toolbox/code.vue'
+import ToolboxBuild from './components/console/build.vue'
+import ToolboxCode from './components/console/code.vue'
 import NewFile from "./icons/new-file.vue";
 import {gzip,ungzip} from 'pako'
 import {stringToArrayBuffer} from "./utils";
