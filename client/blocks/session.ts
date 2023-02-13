@@ -1,6 +1,6 @@
 import {javascriptGenerator} from 'blockly/javascript'
 
-export const GetArgument = {
+export const GetArgumentBlock = {
   "type": "get_argument",
   "message0": "第 %1 个参数",
   "args0": [
@@ -17,7 +17,7 @@ export const GetArgument = {
   "helpUrl": ""
 }
 
-export function getArgument(block){
+export function getArgumentBlockGenerator(block){
   let argument_id = block.getFieldValue('id');
   return [`args[${argument_id}]`,javascriptGenerator.ORDER_NONE]
 }
@@ -32,7 +32,7 @@ export const BreakMiddlewareBlock = {
   "helpUrl": ""
 };
 
-export function breakMiddlewareBlock(){
+export function breakMiddlewareBlockGenerator(){
   return 'return null;\n';
 }
 
@@ -46,7 +46,7 @@ export const SessionMessageBlock = {
   "helpUrl": ""
 }
 
-export function sessionMessageBlock(){
+export function sessionMessageBlockGenerator(){
   return [`session.content`,javascriptGenerator.ORDER_NONE];
 }
 
@@ -61,7 +61,7 @@ export const SessionUserIdBlock = {
   "helpUrl": ""
 }
 
-export function sessionUserIdBlock(){
+export function sessionUserIdBlockGenerator(){
   return [`session.userId`,javascriptGenerator.ORDER_NONE];
 }
 
@@ -75,11 +75,11 @@ export const SessionBotBlock = {
   "helpUrl": ""
 }
 
-export function sessionBotBlock(){
+export function sessionBotBlockGenerator(){
   return [`session.bot`,javascriptGenerator.ORDER_NONE];
 }
 
-export const SessionGuildId = {
+export const SessionGuildIdBlock = {
   "type": "session_guild_id",
   "message0": "消息来自的群组编号",
   "output": "String",
@@ -89,11 +89,11 @@ export const SessionGuildId = {
   "helpUrl": ""
 }
 
-export function sessionChannelId(){
+export function sessionChannelIdBlockGenerator(){
   return [`session.channelId`,javascriptGenerator.ORDER_NONE];
 }
 
-export const SessionChannelId = {
+export const SessionChannelIdBlock = {
   "type": "session_channel_id",
   "message0": "消息来自的频道编号(群号)",
   "output": "String",
@@ -103,11 +103,11 @@ export const SessionChannelId = {
   "helpUrl": ""
 }
 
-export function sessionGuildId(){
+export function sessionGuildIdBlockGenerator(){
   return [`session.guildId`,javascriptGenerator.ORDER_NONE];
 }
 
-export const SessionMessageId = {
+export const SessionMessageIdBlock = {
   "type": "session_message_id",
   "message0": "消息编号",
   "output": "String",
@@ -117,28 +117,28 @@ export const SessionMessageId = {
   "helpUrl": ""
 }
 
-export function sessionMessageId(){
+export function sessionMessageIdBlockGenerator(){
   return [`session.messageId`,javascriptGenerator.ORDER_NONE];
 }
 
 export const SessionBlocks = [
-  GetArgument,
+  GetArgumentBlock,
   BreakMiddlewareBlock,
   SessionMessageBlock,
   SessionUserIdBlock,
-  SessionChannelId,
-  SessionGuildId,
-  SessionMessageId,
+  SessionChannelIdBlock,
+  SessionGuildIdBlock,
+  SessionMessageIdBlock,
   SessionBotBlock
 ]
 
-export const sessionBlocks = {
-  'get_argument':getArgument,
-  'break_middleware':breakMiddlewareBlock,
-  'session_message':sessionMessageBlock,
-  'session_user_id':sessionUserIdBlock,
-  'session_channel_id':sessionChannelId,
-  'session_guild_id':sessionGuildId,
-  'session_message_id':sessionMessageId,
-  'session_bot':sessionBotBlock,
+export const sessionBlockGenerators = {
+  'get_argument':getArgumentBlockGenerator,
+  'break_middleware':breakMiddlewareBlockGenerator,
+  'session_message':sessionMessageBlockGenerator,
+  'session_user_id':sessionUserIdBlockGenerator,
+  'session_channel_id':sessionChannelIdBlockGenerator,
+  'session_guild_id':sessionGuildIdBlockGenerator,
+  'session_message_id':sessionMessageIdBlockGenerator,
+  'session_bot':sessionBotBlockGenerator,
 }

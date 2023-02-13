@@ -1,7 +1,7 @@
 import {javascriptGenerator} from "blockly/javascript";
 import {BlockSvg} from "blockly";
 
-export const HttpGet = {
+export const HttpGetBlock = {
   "type": "http_get",
   "message0": "发送简单HTTP GET请求 %1 网址 %2 返回类型 %3",
   "args0": [
@@ -38,13 +38,13 @@ export const HttpGet = {
   "helpUrl": ""
 }
 
-export function httpGet(block:BlockSvg){
+export function httpGetBlockGenerator(block:BlockSvg){
   let value_url = javascriptGenerator.valueToCode(block, 'url', javascriptGenerator.ORDER_ATOMIC);
   let response_type = block.getFieldValue('response_type');
   return [`await ctx.http.get(${value_url},{responseType:'${response_type}'})`, javascriptGenerator.ORDER_NONE];
 }
 
-export const JsonPathParse = {
+export const JsonPathParseBlock = {
   "type": "json_path_parse",
   "message0": "解析JSON对象 %1 JSONPath %2",
   "args0": [
@@ -65,7 +65,7 @@ export const JsonPathParse = {
   "helpUrl": ""
 }
 
-export function jsonPathParse(block:BlockSvg){
+export function jsonPathBlockGenerator(block:BlockSvg){
   let value_value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_ATOMIC);
   let text_path = block.getFieldValue('path');
   return [`await ctx.blockly.json_parse(${value_value},'${text_path}')`, javascriptGenerator.ORDER_NONE];
@@ -73,11 +73,11 @@ export function jsonPathParse(block:BlockSvg){
 
 
 export const DataBlocks = [
-  HttpGet,
-  JsonPathParse
+  HttpGetBlock,
+  JsonPathParseBlock
 ]
 
-export const dataBlocks = {
-  'http_get':httpGet,
-  'json_path_parse':jsonPathParse
+export const dataBlockGenerators = {
+  'http_get':httpGetBlockGenerator,
+  'json_path_parse':jsonPathBlockGenerator
 }

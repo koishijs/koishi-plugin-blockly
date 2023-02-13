@@ -18,7 +18,7 @@ export const MiddlewareBlock = {
   "helpUrl": ""
 }
 
-export function middlewareBlock(block){
+export function middlewareBlockGenerator(block){
   let statements_callback = javascriptGenerator.statementToCode(block, 'callback');
   return `ctx.middleware(async (session,next)=>{\n${statements_callback};\nreturn next();\n})`
 }
@@ -131,13 +131,13 @@ export const OnGuildEvent = {
   "helpUrl": ""
 }
 
-export function eventBlockBuilder(block){
+export function eventBlockGenerator(block){
   var dropdown_event_name = block.getFieldValue('event_name')
   var statements_listener = javascriptGenerator.statementToCode(block, 'listener')
   return `ctx.on('${dropdown_event_name}',async (session)=>{\n${statements_listener}\n})`
 }
 
-export const PluginApply = {
+export const PluginApplyBlock = {
   "type":"plugin_apply",
   "message0":"当启用插件时 %1 执行 %2",
   "args0":[
@@ -155,7 +155,7 @@ export const PluginApply = {
   "helpUrl": ""
 }
 
-export function pluginApply(block){
+export function pluginApplyBlockGenerator(block){
   return javascriptGenerator.statementToCode(block, 'apply')
 }
 
@@ -182,7 +182,7 @@ export const CommandBlock = {
   "tooltip": "",
   "helpUrl": ""
 };
-export function commandBlock(block){
+export function commandBlockGenerator(block){
   let text_name = block.getFieldValue('name');
   let parameters = block.parameters ?? []
   let statements_action = javascriptGenerator.statementToCode(block, 'action');
@@ -199,15 +199,15 @@ export const EventBlocks = [
   OnMessageEvent,
   OnGuildMemberEvent,
   OnGuildEvent,
-  PluginApply,
+  PluginApplyBlock,
   CommandBlock
 ]
 
-export const eventBlocks = {
-  'middleware':middlewareBlock,
-  'command':commandBlock,
-  'plugin_apply':pluginApply,
-  'on_message_event':eventBlockBuilder,
-  'on_guild_member_event':eventBlockBuilder,
-  'on_guild_event':eventBlockBuilder
+export const eventBlockGenerators = {
+  'middleware':middlewareBlockGenerator,
+  'command':commandBlockGenerator,
+  'plugin_apply':pluginApplyBlockGenerator,
+  'on_message_event':eventBlockGenerator,
+  'on_guild_member_event':eventBlockGenerator,
+  'on_guild_event':eventBlockGenerator
 }

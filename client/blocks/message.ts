@@ -21,7 +21,7 @@ export const SendSessionMessageBlock = {
   "helpUrl": ""
 };
 
-export function sendSessionMessageBlock(block){
+export function sendSessionMessageBlockGenerator(block){
   let value_name = javascriptGenerator.valueToCode(block, 'content', javascriptGenerator.ORDER_ATOMIC);
   return `await session.send(${value_name});\n`;
 }
@@ -46,7 +46,7 @@ export const ReturnMessageBlock = {
   "helpUrl": ""
 };
 
-export function returnMessageBlock(block){
+export function returnMessageBlockGenerator(block){
   let value_name = javascriptGenerator.valueToCode(block, 'content', javascriptGenerator.ORDER_ATOMIC);
   return `return ${value_name};\n`;
 }
@@ -57,6 +57,6 @@ export const MessageBlocks = [
 ]
 
 export const messageBlocks = {
-  'send_session_message':sendSessionMessageBlock,
-  'return_message':returnMessageBlock
+  'send_session_message':sendSessionMessageBlockGenerator,
+  'return_message':returnMessageBlockGenerator
 }

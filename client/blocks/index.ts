@@ -1,19 +1,19 @@
 
-import {DataBlocks, dataBlocks} from "./data";
+import {DataBlocks, dataBlockGenerators} from "./data";
 import {ParameterBlocks} from "./parameter";
-import {SessionBlocks, sessionBlocks} from "./session";
-import {botBlocks, BotBlocks} from "./bot";
-import {debugBlocks, DebugBlocks} from "./debugging";
-import {eventBlocks, EventBlocks} from "./event";
-import {environmentBlocks, EnvironmentBlocks} from "./environment";
-import {stringBlocks, StringBlocks} from "./string";
+import {SessionBlocks, sessionBlockGenerators} from "./session";
+import {botBlockGenerators, BotBlocks} from "./bot";
+import {debugBlockGenerators, DebugBlocks} from "./debugging";
+import {eventBlockGenerators, EventBlocks} from "./event";
+import {environmentBlockGenerators, EnvironmentBlocks} from "./environment";
+import {textBlockGenerators, TextBlocks} from "./text";
 import {logicalBlocks, LogicalBlocks} from "./logic";
 import {messageBlocks, MessageBlocks} from "./message";
-import {segmentBlocks, SegmentBlocks} from "./segment";
+import {segmentBlockGenerators, SegmentBlocks} from "./segment";
 
 export const Blocks = [
   ...LogicalBlocks,
-  ...StringBlocks,
+  ...TextBlocks,
   ...EventBlocks,
   ...SessionBlocks,
   ...MessageBlocks,
@@ -27,13 +27,13 @@ export const Blocks = [
 
 export const BlockGenerators=Object.assign({},...[
   logicalBlocks,
-  stringBlocks,
-  eventBlocks,
-  sessionBlocks,
+  textBlockGenerators,
+  eventBlockGenerators,
+  sessionBlockGenerators,
   messageBlocks,
-  segmentBlocks,
-  dataBlocks,
-  botBlocks,
-  debugBlocks,
-  environmentBlocks,
+  segmentBlockGenerators,
+  dataBlockGenerators,
+  botBlockGenerators,
+  debugBlockGenerators,
+  environmentBlockGenerators,
 ])
