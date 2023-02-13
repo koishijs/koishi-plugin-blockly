@@ -1,5 +1,7 @@
 import {send} from "@koishijs/client";
 import {decodeBlocklyExport, encodeBlocklyExport} from "../blockly/pack";
+import {createWrapper} from "../blockly/build";
+import {javascriptGenerator} from "blockly/javascript";
 
 export const createBlockly = async () => (await send('create-blockly-block')).toString()
 
@@ -8,14 +10,15 @@ export const saveBlockly = async (current,workspace) => {
   await send('save-blockly-block',current,{body:workspace.save()})
 }
 
-export async function buildBlockly(id:number|undefined,workspace,logger){
+export async function buildBlockly(id:number|undefined,name:string,workspace,logger){
   if(id==undefined)return
   logger.info("正在开始编译.......")
   let code
   try {
-    code = workspace.build()
+    code = createWrapper(name,[],javascriptGenerator.workspaceToCode(workspace.getWorkspaceSvg()))
   }catch (e){
-    logger.error("编译时发生错误:"+e.toString())
+    logger.error("编译时发生错误: "+e.toString())
+    console.error(e)
     return
   }
   logger.info("正在上传......")
