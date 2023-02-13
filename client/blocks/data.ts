@@ -72,12 +72,12 @@ export function jsonPathParse(block:BlockSvg){
 }
 
 
-export const NetworkingBlocks = [
+export const DataBlocks = [
   HttpGet,
   JsonPathParse
 ]
 
-export const networkingBlocks = {
+export const dataBlocks = {
   'http_get':httpGet,
   'json_path_parse':jsonPathParse
 }

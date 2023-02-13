@@ -1,28 +1,25 @@
 import {javascriptGenerator} from 'blockly/javascript'
-export const SendSessionMessageBlock = {
-  "type": "send_session_message",
-  "message0": "发送消息给事件发送者 %1",
+
+export const GetArgument = {
+  "type": "get_argument",
+  "message0": "第 %1 个参数",
   "args0": [
     {
-      "type": "input_value",
-      "name": "content",
-      "check": [
-        "Boolean",
-        "String"
-      ]
+      "type": "field_number",
+      "name": "id",
+      "value": 0
     }
   ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "extensions":['session_consumer'],
+  "output": "String",
+  "extensions":["argument_consumer"],
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
-};
+}
 
-export function sendSessionMessageBlock(block){
-  let value_name = javascriptGenerator.valueToCode(block, 'content', javascriptGenerator.ORDER_ATOMIC);
-  return `await session.send(${value_name});\n`;
+export function getArgument(block){
+  let argument_id = block.getFieldValue('id');
+  return [`args[${argument_id}]`,javascriptGenerator.ORDER_NONE]
 }
 
 export const BreakMiddlewareBlock = {
@@ -37,32 +34,6 @@ export const BreakMiddlewareBlock = {
 
 export function breakMiddlewareBlock(){
   return 'return null;\n';
-}
-
-
-export const ReturnMessageBlock = {
-  "type": "return_message",
-  "message0": "终止后续逻辑并发送消息 %1",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "content",
-      "check": [
-        "Boolean",
-        "String"
-      ]
-    }
-  ],
-  "previousStatement": null,
-  "extensions":['session_consumer'],
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-};
-
-export function returnMessageBlock(block){
-  let value_name = javascriptGenerator.valueToCode(block, 'content', javascriptGenerator.ORDER_ATOMIC);
-  return `return ${value_name};\n`;
 }
 
 export const SessionMessageBlock = {
@@ -108,72 +79,6 @@ export function sessionBotBlock(){
   return [`session.bot`,javascriptGenerator.ORDER_NONE];
 }
 
-export const SegmentAtBlock = {
-  "type": "segment_at",
-  "message0": "@ %1",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "user",
-      "check": "String"
-    }
-  ],
-  "output": "String",
-  "extensions":['session_consumer'],
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}
-
-export function segmentAtBlock(block){
-  let user = javascriptGenerator.valueToCode(block, 'user', javascriptGenerator.ORDER_ATOMIC);
-  return [`segment.at(${user})`,javascriptGenerator.ORDER_NONE];
-}
-
-export const SegmentImageBlock = {
-  "type": "segment_image",
-  "message0": "图片 %1",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "image",
-      "check": "String"
-    }
-  ],
-  "output": "String",
-  "extensions":['session_consumer'],
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}
-
-export function segmentImageBlock(block){
-  let image = javascriptGenerator.valueToCode(block, 'image', javascriptGenerator.ORDER_ATOMIC);
-  return [`segment.image(${image})`,javascriptGenerator.ORDER_NONE];
-}
-
-export const SegmentAudioBlock = {
-  "type": "segment_audio",
-  "message0": "语音 %1",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "audio",
-      "check": "String"
-    }
-  ],
-  "output": "String",
-  "extensions":['session_consumer'],
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}
-
-export function segmentAudio(block){
-  let audio = javascriptGenerator.valueToCode(block, 'audio', javascriptGenerator.ORDER_ATOMIC);
-  return [`segment.audio(${audio})`,javascriptGenerator.ORDER_NONE]
-}
-
 export const SessionGuildId = {
   "type": "session_guild_id",
   "message0": "消息来自的群组编号",
@@ -217,31 +122,23 @@ export function sessionMessageId(){
 }
 
 export const SessionBlocks = [
-  SendSessionMessageBlock,
+  GetArgument,
   BreakMiddlewareBlock,
-  ReturnMessageBlock,
   SessionMessageBlock,
   SessionUserIdBlock,
-  SegmentAtBlock,
-  SegmentImageBlock,
   SessionChannelId,
   SessionGuildId,
   SessionMessageId,
-  SessionBotBlock,
-  SegmentAudioBlock
+  SessionBotBlock
 ]
 
 export const sessionBlocks = {
-  'send_session_message':sendSessionMessageBlock,
+  'get_argument':getArgument,
   'break_middleware':breakMiddlewareBlock,
-  'return_message':returnMessageBlock,
   'session_message':sessionMessageBlock,
   'session_user_id':sessionUserIdBlock,
-  'segment_at':segmentAtBlock,
-  'segment_image':segmentImageBlock,
   'session_channel_id':sessionChannelId,
   'session_guild_id':sessionGuildId,
   'session_message_id':sessionMessageId,
   'session_bot':sessionBotBlock,
-  'segment_audio':segmentAudio
 }

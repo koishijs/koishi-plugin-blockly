@@ -1,5 +1,3 @@
-import {javascriptGenerator} from "blockly/javascript";
-
 export const ParameterListBlock = {
   "type": "parameter_list",
   "message0": "参数列表 %1",
@@ -189,27 +187,7 @@ export const TextParameter = {
   "tooltip": "",
   "helpUrl": ""
 }
-export const GetArgument = {
-  "type": "get_argument",
-  "message0": "第 %1 个参数",
-  "args0": [
-    {
-      "type": "field_number",
-      "name": "id",
-      "value": 0
-    }
-  ],
-  "output": "String",
-  "extensions":["argument_consumer"],
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}
 
-export function getArgument(block){
-  let argument_id = block.getFieldValue('id');
-  return [`args[${argument_id}]`,javascriptGenerator.ORDER_NONE]
-}
 
 export const ParameterBlocks = [
   ParameterListBlock,
@@ -219,9 +197,5 @@ export const ParameterBlocks = [
   IntParameter,
   BooleanParameter,
   PosintParameter,
-  TextParameter,
-  GetArgument
+  TextParameter
 ]
-export const parameterBlocks = {
-  'get_argument':getArgument
-}

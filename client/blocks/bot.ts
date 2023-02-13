@@ -75,37 +75,13 @@ export function muteUser(block){
   return `await ${bot}.muteGuildMember(${guild_id},${user_id},${time});\n`
 }
 
-export const PluginApply = {
-  "type":"plugin_apply",
-  "message0":"当启用插件时 %1 执行 %2",
-  "args0":[
-    {
-      "type":"input_dummy"
-    },
-    {
-      "type":"input_statement",
-      "name":"apply"
-    }
-  ],
-  "inputsInline": false,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}
-
-export function pluginApply(block){
-  let statement = javascriptGenerator.statementToCode(block, 'apply')
-  return statement
-}
 
 export const BotBlocks = [
   DeleteMessage,
-  MuteUser,
-  PluginApply
+  MuteUser
 ]
 
 export const botBlocks = {
   'delete_message':deleteMessage,
-  'mute_user':muteUser,
-  'plugin_apply':pluginApply
+  'mute_user':muteUser
 }
