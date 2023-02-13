@@ -22,3 +22,12 @@
 .blocklyScrollbarHandle:hover {
   opacity: var(--el-scrollbar-hover-opacity, 0.5) !important;
 }
+
+.layout-container .layout-left{
+  min-width: var(--aside-width);
+}
+
+.hljs{
+  background-color: var(--bg2);
+  overflow-x: unset!important;
+}

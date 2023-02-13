@@ -8,7 +8,7 @@
     <template #left>
       <SideBar :blocks="store.blockly" v-model:current="currentId" :workspace="editor" :panel="blocklyToolboxInformation" :dialog="dialogOpenStates"/>
     </template>
-    <div style="display:flex;flex-flow:column nowrap;height: 100%">
+    <div style="display:flex;flex-flow:column nowrap;height: 100%;width: 100%">
     <div style="height: 100%">
       <k-empty v-if="currentId===undefined && !init">
         <div>在左侧选择或创建一个Blockly代码</div>
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div style="overflow-y: scroll;overflow-x: scroll;background: var(--bg2);color:var(--fg2);height: 100%;padding: 10px" class="scroll" v-if="currentPanelId!='hidden'">
+      <div style="overflow:scroll;background: var(--bg2);color:var(--fg2);height: 100%;width: 100%;contain: size" class="scroll" v-if="currentPanelId!='hidden'">
         <component :is="panels[currentPanelId.toString()]" :current="currentId" :blocklyInformation="blocklyToolboxInformation"></component>
       </div>
     </div>
@@ -111,7 +111,7 @@ onMounted(()=>{
     })
     nextTick(()=>{
       editor.value.setAutoSaveListener(()=>{
-        setTimeout(()=>saveBlockly(currentId.value,editor),0);
+        setTimeout(()=>saveBlockly(currentId.value,editor.value),0);
       });
     })
   })
@@ -128,6 +128,7 @@ async function importBlockly(content){
 <style scoped>
 .scroll::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 .scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
@@ -136,6 +137,9 @@ async function importBlockly(content){
 .scroll::-webkit-scrollbar-track{
   height: 1px
 }
+
+.scroll::-webkit-scrollbar
+
 
 .transition-animation{
   transition: 0.3s ease;

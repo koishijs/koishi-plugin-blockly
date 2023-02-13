@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@baklavajs/themes": "^2.0.1-next.0",
+    "@highlightjs/vue-plugin": "^2.1.0",
     "@koishijs/client": "^5.1.5",
     "@koishijs/plugin-console": "^5.1.5",
     "@koishijs/vitepress": "^1.6.1",
@@ -56,6 +57,7 @@
     "@types/pako": "^2.0.0",
     "blockly": "^9.2.0",
     "element-plus": "^2.2.30",
+    "highlight.js": "^11.7.0",
     "koishi": "^4.10.6",
     "pako": "^2.1.0",
     "sass": "^1.57.1",

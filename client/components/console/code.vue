@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import {defineProps} from 'vue'
+import 'highlight.js/styles/stackoverflow-light.css'
+import 'highlight.js/lib/common';
+import HighlightVue from "@highlightjs/vue-plugin";
+const HighLight = HighlightVue.component
 const props = defineProps([
   'blocklyInformation',
   'current'
 ])
 </script>
 <template>
-  <div style="width: 100%;overflow: hidden">
-    {{blocklyInformation.code}}
-  </div>
+  <high-light :code="blocklyInformation.code"></high-light>
 </template>
 
