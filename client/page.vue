@@ -117,7 +117,7 @@ onMounted(()=>{
     })
   })
 async function importBlockly(content){
-  const newPluginId = _import(content)
+  const newPluginId = await _import(content)
   if(!newPluginId){
     return
   }
