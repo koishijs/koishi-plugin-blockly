@@ -19,11 +19,12 @@ export async function apply(ctx: Context) {
 
   initializeDatabase(ctx);
 
-  ctx.using(['console'], (ctx) => {
+  ctx.using(['console','blockly'], (ctx) => {
     ctx.console.addEntry({
       dev: resolve(__dirname, '../client/index.ts'),
       prod: resolve(__dirname, '../dist'),
     })
+    ctx.blockly.reload(true)
   })
 
   initializeConsoleApiBacked(ctx)
