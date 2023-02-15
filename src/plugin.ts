@@ -1,5 +1,6 @@
 import {Context, ForkScope, Logger, segment} from "koishi";
 import vm from "node:vm";
+import {esModuleToCommonJs} from "./transpiler";
 
 export class PluginManager{
   plugins:string[] = [];
@@ -18,12 +19,15 @@ export class PluginManager{
     }
     this.logger.info("Loading "+this.plugins.length +" plugin(s)")
     this.plugins.forEach(p=>{
-      const context = vm.createContext({})
+      const context = vm.createContext()
+      context.module = {
+        require,
+        exports:{}
+      }
       context.segment = segment;
-      context.module = {exports:{}};
       let plugin = null
       try{
-        vm.runInContext(p,context)
+        vm.runInContext(esModuleToCommonJs(p),context)
         plugin = context.module.exports
       }catch (e){
         this.ctx.logger("blockly").warn(e);

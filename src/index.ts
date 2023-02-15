@@ -38,3 +38,4 @@ export * from "./plugin"
 export * from "./service"
 export * from "./static"
 export * from './console'
+export * from './transpiler'
