@@ -21,9 +21,9 @@ export class PluginManager{
     this.plugins.forEach(p=>{
       const context = vm.createContext()
       context.module = {
-        require,
         exports:{}
       }
+      context.require = require;
       context.segment = segment;
       let plugin = null
       try{
