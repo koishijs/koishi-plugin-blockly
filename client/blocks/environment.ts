@@ -52,7 +52,7 @@ export const TimeFormatBlock = {
 export function timeFormatBlockGenerator(block) {
     var text_date = javascriptGenerator.valueToCode(block, 'date', javascriptGenerator.ORDER_ATOMIC);
     var text_fmt = block.getFieldValue('fmt');
-    return [`Time.format('${text_fmt}',new Date(${text_date}))`, javascriptGenerator.ORDER_NONE];
+    return [`Time.template('${text_fmt}',new Date(${text_date}))`, javascriptGenerator.ORDER_NONE];
 }
 
 export const EnvironmentBlocks = [
