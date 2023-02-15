@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-blockly",
   "description": "Use blockly to develop a simple koishi plugin",
-  "version": "0.4.1",
+  "version": "0.5.4",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
@@ -44,19 +44,25 @@
     "koishi": "^4.10.0"
   },
   "devDependencies": {
-    "@koishijs/client": "^5.3.3",
-    "@koishijs/plugin-console": "^5.3.3",
-    "@koishijs/vitepress": "^1.6.4",
+    "@baklavajs/themes": "^2.0.1-next.0",
+    "@highlightjs/vue-plugin": "^2.1.0",
+    "@koishijs/client": "^5.1.5",
+    "@koishijs/plugin-console": "^5.1.5",
+    "@koishijs/vitepress": "^1.6.1",
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
     "@types/node": "^18.13.0",
     "@types/pako": "^2.0.0",
-    "blockly": "^9.2.1",
+    "baklavajs": "2.0.2-beta.3",
+    "blockly": "^9.2.0",
     "element-plus": "^2.2.30",
-    "koishi": "^4.11.6",
+    "highlight.js": "^11.7.0",
+    "koishi": "^4.10.6",
     "pako": "^2.1.0",
-    "sass": "^1.58.0",
-    "typescript": "^4.9.5",
-    "vitepress": "1.0.0-alpha.26"
+    "sass": "^1.57.1",
+    "typescript": "^4.9.4",
+    "uuid": "^9.0.0",
+    "vitepress": "1.0.0-alpha.26",
+    "xterm": "^5.1.0"
   },
   "dependencies": {
     "jsonpath-plus": "^7.2.0"

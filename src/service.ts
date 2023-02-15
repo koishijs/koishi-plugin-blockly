@@ -1,8 +1,21 @@
 import {Service} from "koishi";
 import {JSONPath} from 'jsonpath-plus';
+import {Time} from "koishi"
+import {PluginManager} from "./plugin";
+
+declare module "koishi"{
+  interface Context{
+    blockly:BlocklyService
+  }
+}
+
 export class BlocklyService extends Service{
+
+  manager : PluginManager
+
   constructor(ctx) {
     super(ctx,'blockly');
+    this.manager = new PluginManager(ctx)
   }
   async json_parse(v,t){
     try {
@@ -12,25 +25,19 @@ export class BlocklyService extends Service{
       return undefined
     }
   }
-  
+
   async date_format(t, f){
-    var o = {
-      "M+": t.getMonth() + 1,
-      "d+": t.getDate(),
-      "h+": t.getHours(),
-      "m+": t.getMinutes(),
-      "s+": t.getSeconds(),
-      "q+": Math.floor((t.getMonth() + 3) / 3),
-      "S": t.getMilliseconds()
-    };
-    if (/(y+)/.test(f)) {
-      f = f.replace(RegExp.$1, (t.getFullYear() + "").substr(4 - RegExp.$1.length));
+    return Time.template(f,t)
+  }
+
+  async reload(restart?:boolean){
+    if(restart){
+      this.manager.plugins = (await this.ctx.database.get('blockly',{enabled:true},["code","enabled"]))
+        .filter(t=>t.enabled).map(t=>t.code)
+      this.manager.restart()
     }
-    for (var k in o) {
-      if (new RegExp("(" + k + ")").test(f)) {
-        f = f.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-      }
+    if(this.ctx['console.blockly']){
+      await this.ctx['console.blockly'].refresh()
     }
-    return await f;
   }
 }

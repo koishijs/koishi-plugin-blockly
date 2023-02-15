@@ -1,39 +1,39 @@
-import {CommandBlocks, commandBlocks} from "./command";
-import {NetworkingBlocks, networkingBlocks} from "./networking";
-import {ParameterBlocks, parameterBlocks} from "./parameter";
-import {ProcessingBlocks, processingBlocks} from "./processing";
-import {SessionBlocks, sessionBlocks} from "./session";
-import {botBlocks, BotBlocks} from "./bot";
-import {debugBlocks, DebugBlocks} from "./debugging";
-import {eventBlocks, EventBlocks} from "./event";
-import {environmentBlocks, EnvironmentBlocks} from "./environment";
-import {stringBlocks, StringBlocks} from "./string";
+
+import {DataBlocks, dataBlockGenerators} from "./data";
+import {ParameterBlocks} from "./parameter";
+import {SessionBlocks, sessionBlockGenerators} from "./session";
+import {botBlockGenerators, BotBlocks} from "./bot";
+import {debugBlockGenerators, DebugBlocks} from "./debugging";
+import {eventBlockGenerators, EventBlocks} from "./event";
+import {environmentBlockGenerators, EnvironmentBlocks} from "./environment";
+import {textBlockGenerators, TextBlocks} from "./text";
 import {logicalBlocks, LogicalBlocks} from "./logic";
+import {messageBlocks, MessageBlocks} from "./message";
+import {segmentBlockGenerators, SegmentBlocks} from "./segment";
 
 export const Blocks = [
-  ...CommandBlocks,
-  ...NetworkingBlocks,
-  ...ParameterBlocks,
-  ...ProcessingBlocks,
+  ...LogicalBlocks,
+  ...TextBlocks,
+  ...EventBlocks,
   ...SessionBlocks,
+  ...MessageBlocks,
+  ...SegmentBlocks,
+  ...DataBlocks,
   ...BotBlocks,
   ...DebugBlocks,
-  ...EventBlocks,
   ...EnvironmentBlocks,
-  ...StringBlocks,
-  ...LogicalBlocks
+  ...ParameterBlocks,
 ]
 
 export const BlockGenerators=Object.assign({},...[
-  commandBlocks,
-  networkingBlocks,
-  parameterBlocks,
-  processingBlocks,
-  sessionBlocks,
-  botBlocks,
-  debugBlocks,
-  eventBlocks,
-  environmentBlocks,
-  stringBlocks,
-  logicalBlocks
+  logicalBlocks,
+  textBlockGenerators,
+  eventBlockGenerators,
+  sessionBlockGenerators,
+  messageBlocks,
+  segmentBlockGenerators,
+  dataBlockGenerators,
+  botBlockGenerators,
+  debugBlockGenerators,
+  environmentBlockGenerators,
 ])

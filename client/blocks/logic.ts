@@ -1,6 +1,6 @@
 import {javascriptGenerator} from "blockly/javascript";
 
-export const Sleep = {
+export const SleepBlock = {
   "type": "sleep",
   "message0": "等待 %1 毫秒",
   "args0": [
@@ -19,15 +19,15 @@ export const Sleep = {
   "helpUrl": ""
 };
 
-export function sleep(block){
+export function sleepBlockGenerator(block){
   let value_name = javascriptGenerator.valueToCode(block, 'milliseconds', javascriptGenerator.ORDER_ATOMIC);
   return `await new Promise(resolve => ctx.setTimeout(resolve, ${value_name}));\n`;
 }
 
 export const LogicalBlocks = [
-  Sleep
+  SleepBlock
 ]
 
 export const logicalBlocks = {
-  sleep
+  sleep: sleepBlockGenerator
 }

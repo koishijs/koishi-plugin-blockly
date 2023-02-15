@@ -1,5 +1,28 @@
 import {javascriptGenerator} from "blockly/javascript";
 
+export const MiddlewareBlock = {
+  "type": "middleware",
+  "message0": "当接受到聊天消息 %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "callback"
+    }
+  ],
+  "extensions":['session_provider'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function middlewareBlockGenerator(block){
+  let statements_callback = javascriptGenerator.statementToCode(block, 'callback');
+  return `ctx.middleware(async (session,next)=>{\n${statements_callback}  return next();\n})`
+}
+
 export const OnMessageEvent = {
   "type": "on_message_event",
   "message0": "当消息 %1 %2 运行 %3",
@@ -108,20 +131,83 @@ export const OnGuildEvent = {
   "helpUrl": ""
 }
 
-export function eventBlockBuilder(block){
+export function eventBlockGenerator(block){
   var dropdown_event_name = block.getFieldValue('event_name')
   var statements_listener = javascriptGenerator.statementToCode(block, 'listener')
   return `ctx.on('${dropdown_event_name}',async (session)=>{\n${statements_listener}\n})`
 }
 
+export const PluginApplyBlock = {
+  "type":"plugin_apply",
+  "message0":"当启用插件时 %1 执行 %2",
+  "args0":[
+    {
+      "type":"input_dummy"
+    },
+    {
+      "type":"input_statement",
+      "name":"apply"
+    }
+  ],
+  "inputsInline": false,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function pluginApplyBlockGenerator(block){
+  return javascriptGenerator.statementToCode(block, 'apply')
+}
+
+export const CommandBlock = {
+  "type": "command",
+  "message0": "创建一个新的指令 %1 %2 调用函数 %3",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "name",
+      "text": "指令名称"
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "action"
+    }
+  ],
+  "mutator":"parameter_list",
+  "extensions":['session_provider','argument_provider'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+};
+export function commandBlockGenerator(block){
+  let text_name = block.getFieldValue('name');
+  let parameters = block.parameters ?? []
+  let statements_action = javascriptGenerator.statementToCode(block, 'action');
+  let command_definition = text_name + ' ' + parameters.map((parameter)=>{
+    const {required,name,type} = parameter
+
+    return (required?'<':'[') + name + (type!='any_parameter'?':'+type.split('_')[0]:'') + (required?'>':']')
+  }).join(' ')
+  return `ctx.command('${command_definition}').action(async ({session},...args)=>{\n${statements_action}\n});\n`;
+}
+
 export const EventBlocks = [
+  MiddlewareBlock,
   OnMessageEvent,
   OnGuildMemberEvent,
-  OnGuildEvent
+  OnGuildEvent,
+  PluginApplyBlock,
+  CommandBlock
 ]
 
-export const eventBlocks = {
-  'on_message_event':eventBlockBuilder,
-  'on_guild_member_event':eventBlockBuilder,
-  'on_guild_event':eventBlockBuilder
+export const eventBlockGenerators = {
+  'middleware':middlewareBlockGenerator,
+  'command':commandBlockGenerator,
+  'plugin_apply':pluginApplyBlockGenerator,
+  'on_message_event':eventBlockGenerator,
+  'on_guild_member_event':eventBlockGenerator,
+  'on_guild_event':eventBlockGenerator
 }

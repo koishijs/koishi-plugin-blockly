@@ -1,6 +1,6 @@
 import {javascriptGenerator} from "blockly/javascript";
 
-export const DeleteMessage = {
+export const DeleteMessageBlock = {
   "type": "delete_message",
   "message0": "撤回消息 %1 机器人对象 %2 消息ID %3 频道ID %4",
   "args0": [
@@ -28,14 +28,14 @@ export const DeleteMessage = {
   "helpUrl": ""
 }
 
-export function deleteMessage(block){
+export function deleteMessageBlockGenerator(block){
   let bot = javascriptGenerator.valueToCode(block, 'bot', javascriptGenerator.ORDER_ATOMIC)
   let message_id = javascriptGenerator.valueToCode(block, 'message_id', javascriptGenerator.ORDER_ATOMIC)
   let channel_id = javascriptGenerator.valueToCode(block, 'channel_id', javascriptGenerator.ORDER_ATOMIC)
   return `await ${bot}.deleteMessage(${channel_id},${message_id});\n`
 }
 
-export const MuteUser = {
+export const MuteUserBlock = {
   "type": "mute_user",
   "message0": "禁言用户 %1 机器人对象 %2 用户ID %3 群组ID %4 禁言时间(毫秒) %5",
   "args0": [
@@ -67,7 +67,7 @@ export const MuteUser = {
   "helpUrl": ""
 }
 
-export function muteUser(block){
+export function muteUserGenerator(block){
   let bot = javascriptGenerator.valueToCode(block, 'bot', javascriptGenerator.ORDER_ATOMIC)
   let user_id = javascriptGenerator.valueToCode(block, 'user_id', javascriptGenerator.ORDER_ATOMIC)
   let guild_id = javascriptGenerator.valueToCode(block, 'guild_id', javascriptGenerator.ORDER_ATOMIC)
@@ -75,37 +75,12 @@ export function muteUser(block){
   return `await ${bot}.muteGuildMember(${guild_id},${user_id},${time});\n`
 }
 
-export const PluginApply = {
-  "type":"plugin_apply",
-  "message0":"当启用插件时 %1 执行 %2",
-  "args0":[
-    {
-      "type":"input_dummy"
-    },
-    {
-      "type":"input_statement",
-      "name":"apply"
-    }
-  ],
-  "inputsInline": false,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}
-
-export function pluginApply(block){
-  let statement = javascriptGenerator.statementToCode(block, 'apply')
-  return statement
-}
-
 export const BotBlocks = [
-  DeleteMessage,
-  MuteUser,
-  PluginApply
+  DeleteMessageBlock,
+  MuteUserBlock
 ]
 
-export const botBlocks = {
-  'delete_message':deleteMessage,
-  'mute_user':muteUser,
-  'plugin_apply':pluginApply
+export const botBlockGenerators = {
+  'delete_message':deleteMessageBlockGenerator,
+  'mute_user':muteUserGenerator
 }
