@@ -1,5 +1,5 @@
 import {javascriptGenerator} from "blockly/javascript";
-export const Regular = {
+export const RegularBlock = {
   "type": "regular",
   "message0": "正则表达式 %1 %2",
   "args0": [
@@ -19,17 +19,17 @@ export const Regular = {
   "helpUrl": ""
 }
 
-export function regular(block) {
+export function regularBlockGenerator(block) {
   let text_regular = block.getFieldValue('regular')
   let value_text = javascriptGenerator.valueToCode(block, 'str', javascriptGenerator.ORDER_ATOMIC)
   let reg_exp = text_regular?.match("\/(.*)\/([gmiyusd]*)")
   return [`(${value_text}).match(new RegExp("${reg_exp[1]}", "${reg_exp[2]}"))`,javascriptGenerator.ORDER_ATOMIC]
 }
 
-export const StringBlocks = [
-  Regular
+export const TextBlocks = [
+  RegularBlock
 ]
 
-export const stringBlocks = {
-  "regular":regular
+export const textBlockGenerators = {
+  "regular":regularBlockGenerator
 }
