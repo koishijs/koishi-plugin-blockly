@@ -19,7 +19,7 @@ export const SegmentAtBlock = {
 
 export function segmentAtBlockGenerator(block){
   let user = javascriptGenerator.valueToCode(block, 'user', javascriptGenerator.ORDER_ATOMIC);
-  return [`h.at(${user})`,javascriptGenerator.ORDER_NONE];
+  return [`h('at',{ id: ${user} })`,javascriptGenerator.ORDER_NONE];
 }
 
 export const SegmentImageBlock = {
@@ -41,7 +41,7 @@ export const SegmentImageBlock = {
 
 export function segmentImageBlockGenerator(block){
   let image = javascriptGenerator.valueToCode(block, 'image', javascriptGenerator.ORDER_ATOMIC);
-  return [`h.image(${image})`,javascriptGenerator.ORDER_NONE];
+  return [`h('image',{ url: ${image} })`,javascriptGenerator.ORDER_NONE];
 }
 
 export const SegmentAudioBlock = {
@@ -63,7 +63,7 @@ export const SegmentAudioBlock = {
 
 export function segmentAudioBlockGenerator(block){
   let audio = javascriptGenerator.valueToCode(block, 'audio', javascriptGenerator.ORDER_ATOMIC);
-  return [`h.audio(${audio})`,javascriptGenerator.ORDER_NONE]
+  return [`h('audio',{ url: ${audio} })`,javascriptGenerator.ORDER_NONE]
 }
 
 export const SegmentBlocks = [
