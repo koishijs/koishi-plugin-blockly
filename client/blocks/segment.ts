@@ -11,7 +11,7 @@ export const SegmentAtBlock = {
     }
   ],
   "output": "String",
-  "extensions":['session_consumer'],
+  "imports":{koishi:['h']},
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -19,7 +19,7 @@ export const SegmentAtBlock = {
 
 export function segmentAtBlockGenerator(block){
   let user = javascriptGenerator.valueToCode(block, 'user', javascriptGenerator.ORDER_ATOMIC);
-  return [`segment.at(${user})`,javascriptGenerator.ORDER_NONE];
+  return [`h.at(${user})`,javascriptGenerator.ORDER_NONE];
 }
 
 export const SegmentImageBlock = {
@@ -33,7 +33,7 @@ export const SegmentImageBlock = {
     }
   ],
   "output": "String",
-  "extensions":['session_consumer'],
+  "imports":{koishi:['h']},
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -41,7 +41,7 @@ export const SegmentImageBlock = {
 
 export function segmentImageBlockGenerator(block){
   let image = javascriptGenerator.valueToCode(block, 'image', javascriptGenerator.ORDER_ATOMIC);
-  return [`segment.image(${image})`,javascriptGenerator.ORDER_NONE];
+  return [`h.image(${image})`,javascriptGenerator.ORDER_NONE];
 }
 
 export const SegmentAudioBlock = {
@@ -55,7 +55,7 @@ export const SegmentAudioBlock = {
     }
   ],
   "output": "String",
-  "extensions":['session_consumer'],
+  "imports":{koishi:['h']},
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
@@ -63,7 +63,7 @@ export const SegmentAudioBlock = {
 
 export function segmentAudioBlockGenerator(block){
   let audio = javascriptGenerator.valueToCode(block, 'audio', javascriptGenerator.ORDER_ATOMIC);
-  return [`segment.audio(${audio})`,javascriptGenerator.ORDER_NONE]
+  return [`h.audio(${audio})`,javascriptGenerator.ORDER_NONE]
 }
 
 export const SegmentBlocks = [

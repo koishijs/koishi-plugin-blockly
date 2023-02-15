@@ -14,6 +14,7 @@ import {registerExtensions} from "../extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "../listeners/consumer";
 import {autoSaveListener} from "../listeners/auto-save";
 import '../msg/zh'
+import {defineBlocksWithJsonCustomFields} from "../helper";
 const blockly_workspace = ref(null)
 
 let value = defineProps({
@@ -25,7 +26,9 @@ let _value = toRef(value,"modelValue")
 let emits = defineEmits(['update:modelValue'])
 
 Blockly.setLocale(ZhHans);
-Blockly.defineBlocksWithJsonArray(Blocks);
+
+defineBlocksWithJsonCustomFields(Blocks);
+
 registerExtensions();
 Object.entries(BlockGenerators).forEach(([k,v])=>{
   javascriptGenerator[k]=v;
@@ -56,7 +59,7 @@ onMounted(() => {
       }
     })
     window.addEventListener('resize',()=>{
-      Blockly.svgResize(workspace);
+      Blockly.svgResize(workspace)
     })
     workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
     workspace.addChangeListener(autoSaveListener.bind(listeners));

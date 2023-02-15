@@ -20,7 +20,7 @@ export const MiddlewareBlock = {
 
 export function middlewareBlockGenerator(block){
   let statements_callback = javascriptGenerator.statementToCode(block, 'callback');
-  return `ctx.middleware(async (session,next)=>{\n${statements_callback};\nreturn next();\n})`
+  return `ctx.middleware(async (session,next)=>{\n${statements_callback}  return next();\n})`
 }
 
 export const OnMessageEvent = {
@@ -191,7 +191,7 @@ export function commandBlockGenerator(block){
 
     return (required?'<':'[') + name + (type!='any_parameter'?':'+type.split('_')[0]:'') + (required?'>':']')
   }).join(' ')
-  return `ctx.command('${command_definition}').action(async ({session},...args)=>{\n${statements_action};\n});\n`;
+  return `ctx.command('${command_definition}').action(async ({session},...args)=>{\n${statements_action}\n});\n`;
 }
 
 export const EventBlocks = [

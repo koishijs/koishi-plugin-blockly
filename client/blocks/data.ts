@@ -41,7 +41,7 @@ export const HttpGetBlock = {
 export function httpGetBlockGenerator(block:BlockSvg){
   let value_url = javascriptGenerator.valueToCode(block, 'url', javascriptGenerator.ORDER_ATOMIC);
   let response_type = block.getFieldValue('response_type');
-  return [`await ctx.http.get(${value_url},{responseType:'${response_type}'})`, javascriptGenerator.ORDER_NONE];
+  return [`await ctx.http.get(${value_url},{responseType:"${response_type}"})`, javascriptGenerator.ORDER_NONE];
 }
 
 export const JsonPathParseBlock = {
@@ -59,6 +59,7 @@ export const JsonPathParseBlock = {
     }
   ],
   "inputsInline": false,
+  "imports":{'jsonpath-plus':['JSONPath as parseJson']},
   "output": null,
   "colour": 230,
   "tooltip": "",
@@ -68,7 +69,7 @@ export const JsonPathParseBlock = {
 export function jsonPathBlockGenerator(block:BlockSvg){
   let value_value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_ATOMIC);
   let text_path = block.getFieldValue('path');
-  return [`await ctx.blockly.json_parse(${value_value},'${text_path}')`, javascriptGenerator.ORDER_NONE];
+  return [`await parseJson(${value_value},"${text_path}")`, javascriptGenerator.ORDER_NONE];
 }
 
 
