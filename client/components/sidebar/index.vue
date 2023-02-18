@@ -5,7 +5,16 @@
   import {ElMessageBox} from "element-plus";
   import ImportIcon from "../../icons/import.vue"
   import NewFile from "../../icons/new-file.vue";
-  import {createBlockly as create,deletePlugin as __delete,enableBlockly,disableBlockly,renameBlockly as rename,exportPlugin as _export,buildBlockly as build} from "../../api/manager";
+  import {
+    createBlockly as create,
+    deletePlugin as __delete,
+    enableBlockly,
+    disableBlockly,
+    renameBlockly as rename,
+    exportPlugin as _export,
+    buildBlockly as build,
+    saveBlockly
+  } from "../../api/manager";
 
   const props = defineProps(['blocks','workspace','dialog','current','panel','logger'])
   const $emit = defineEmits(['update:dialog','update:current'])
@@ -23,6 +32,7 @@
   })
 
   const buildBlockly = async ()=> {
+    await saveBlockly(current.value,props.workspace)
     if (current.value == undefined) {
       return
     }
@@ -51,7 +61,8 @@
     if(current.value==undefined){
       return
     }
-    const result = await _export(current.value, store.blockly.find(t=>t.id==current.value).name,props.workspace)
+    const block = store.blockly.find(t=>t.id==current.value)
+    const result = await _export(current.value, block.name,block.uuid,props.workspace)
     if(result){
       dialog.value.export = result
     }

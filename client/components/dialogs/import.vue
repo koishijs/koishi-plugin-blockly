@@ -9,11 +9,13 @@
 
   const visible = ref<any>(false)
 
+  const asNewPlugin = ref(false)
 
   function execute(){
     $emit('update:modelValue',false)
-    $emit('callback',content.value)
+    $emit('callback',content.value,asNewPlugin.value)
     content.value = ''
+    asNewPlugin.value = false
   }
 
   watch(model,(newValue)=>{
@@ -27,6 +29,7 @@
 <template>
   <el-dialog v-model="visible" title="导入插件" width="700px">
     <el-input type="textarea" rows="10" input-style="height: 200px;resize:none;" v-model="content"></el-input>
+    <el-checkbox label="作为全新插件导入" v-model="asNewPlugin"/>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="$emit('update:modelValue')">关闭</el-button>

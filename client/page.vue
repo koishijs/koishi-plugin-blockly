@@ -20,7 +20,7 @@
         <data-flow v-model:flow="flow" v-model:workspace="workspaceType"></data-flow>
       </div>
       <div v-show="workspaceType === 'meta' && (currentId!=null && !loading )|| init" style="height: 100%">
-        <plugin-meta v-model:workspace="workspaceType"></plugin-meta>
+        <plugin-meta v-model:workspace="workspaceType" :current="currentId" @metaChange="save()"></plugin-meta>
       </div>
       <div v-show="loading && !init">
         <k-empty v-if="currentId===undefined && !init">
@@ -92,6 +92,18 @@ const panels = {
   'build': ToolboxBuild,
   'result': ToolboxCode
 }
+
+let saveTimer = null
+async function saveNow(){
+  await saveBlockly(currentId.value,editor.value)
+}
+function save(){
+  if(saveTimer)clearTimeout(saveTimer)
+  saveTimer = setTimeout(()=>{
+    saveNow();
+    saveTimer = null
+  },1000);
+}
 onMounted(()=>{
     watch(currentId,async (r,s)=>{
       if(!r)return;
@@ -115,13 +127,11 @@ onMounted(()=>{
       },1000)
     })
     nextTick(()=>{
-      editor.value.setAutoSaveListener(()=>{
-        setTimeout(()=>saveBlockly(currentId.value,editor.value),0);
-      });
+      editor.value.setAutoSaveListener(save);
     })
   })
-async function importBlockly(content){
-  const newPluginId = await _import(content)
+async function importBlockly(content,asNewPlugin){
+  const newPluginId = await _import(content,asNewPlugin)
   if(!newPluginId){
     return
   }

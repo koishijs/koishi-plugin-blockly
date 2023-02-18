@@ -1,11 +1,13 @@
 import {gzip, ungzip} from "pako";
 import {stringToArrayBuffer} from "../utils";
+import type {BlocklyDocument} from "koishi-plugin-blockly";
 
-export function encodeBlocklyExport(name:string,body){
+export function encodeBlocklyExport(name:string,uuid:string,body){
   const exportObject = {
     version:1,
     body,
-    name
+    name,
+    uuid
   }
 
   const encodedShareObject = encodeURI(JSON.stringify(exportObject))
@@ -20,7 +22,7 @@ export function encodeBlocklyExport(name:string,body){
   return shareCode.replace("\n\n","\n")
 }
 
-export function decodeBlocklyExport(content:string):{body:object,name:string}|null{
+export function decodeBlocklyExport(content:string):Partial<BlocklyDocument & {body:object}>|null{
 
   const data_body = content
     .match(/[=–-]+\s+BEGIN KOISHI BLOCKLY BLOCK V1\s+[=–-]+\n([\s\S]+)\n[=–-]+\s+END KOISHI BLOCKLY BLOCK V1\s+[=–-]+/)?.[1]
