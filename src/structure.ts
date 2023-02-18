@@ -1,5 +1,6 @@
 export interface BlocklyDocument{
   id:number
+  uuid:string
   name:string
   body:string
   code:string

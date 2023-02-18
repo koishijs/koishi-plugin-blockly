@@ -17,7 +17,7 @@ export async function apply(ctx: Context) {
   ctx.plugin(BlocklyService)
   ctx.plugin(BlocklyProvider)
 
-  initializeDatabase(ctx);
+  await initializeDatabase(ctx);
 
   ctx.using(['console','blockly'], (ctx) => {
     ctx.console.addEntry({
