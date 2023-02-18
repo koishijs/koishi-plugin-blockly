@@ -4,6 +4,7 @@ export function defineBlockWithJsonCustomFields(block:any){
     init: function() {
       this.jsonInit(block);
       this.imports = block.imports;
+      this.template = block.template;
     }
   }
 }

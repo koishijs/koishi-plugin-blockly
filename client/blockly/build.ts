@@ -3,6 +3,7 @@ import {javascriptGenerator} from "blockly/javascript";
 import {deduplicate} from "cosmokit"
 import {Workspace} from "blockly";
 import {Dict, } from "cosmokit";
+import {TemplateCodes} from "../template";
 export function createWrapper(imports:Dict<any>,name="",using=[],apply=""){
   return [...Object.entries(imports)].map(([i,j])=>
       `import { ${j.join(', ')} } from "${i}"\n`
@@ -14,11 +15,19 @@ export function createWrapper(imports:Dict<any>,name="",using=[],apply=""){
 }
 export function build(name,workspace:Workspace){
   let currentImportMap = {}
-  workspace.getAllBlocks(false).filter(b=>b['imports']).map(b=>b['imports']).forEach(t=>{
+  const blocks = workspace.getAllBlocks(false)
+  blocks.filter(b=>b['imports']).map(b=>b['imports']).forEach(t=>{
     [...Object.entries(t)].forEach(([i,j])=>{
       if(!currentImportMap[i]) currentImportMap[i] = []
       currentImportMap[i] = deduplicate([...currentImportMap[i],...j as any])
     })
   })
-  return createWrapper(currentImportMap,name,[],javascriptGenerator.workspaceToCode(workspace))
+  const templates = [];
+  blocks.filter(b=>b['template']).map(b=>b['template']).forEach(t=>{
+    t.forEach(t=>{
+      if(!templates.includes(t)) templates.push(t)
+    })
+  })
+
+  return createWrapper(currentImportMap,name,[],templates.map(t=>TemplateCodes[t]+"\n").join("")+javascriptGenerator.workspaceToCode(workspace))
 }

@@ -365,6 +365,26 @@
       </value>
     </block>
     <block type="json_path_parse"/>
+    <block type="key_value_write">
+      <value name="key">
+        <shadow type="text">
+          <field name="TEXT">键值对键</field>
+        </shadow>
+      </value>
+
+      <value name="value">
+        <shadow type="text">
+          <field name="TEXT">写入值</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="key_value_read">
+      <value name="key">
+        <shadow type="text">
+          <field name="TEXT">键值对键</field>
+        </shadow>
+      </value>
+    </block>
   </category>
   <category name="机器人操作" colour="#5b80a5">
     <block type="delete_message">

@@ -72,13 +72,68 @@ export function jsonPathBlockGenerator(block:BlockSvg){
   return [`await parseJson(${value_value},"${text_path}")`, javascriptGenerator.ORDER_NONE];
 }
 
+export const KeyValueWriteBlock = {
+  "type": "key_value_write",
+  "message0": "写入键值对 键 %1 值 %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key"
+    },
+    {
+      "type": "input_value",
+      "name": "value",
+      "align": "RIGHT"
+    }
+  ],
+  "template":["key_value_initialize"],
+  "inputsInline": false,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function keyValueWriteBlockGenerator(block:BlockSvg){
+  let value_key = javascriptGenerator.valueToCode(block, 'key', javascriptGenerator.ORDER_ATOMIC);
+  let value_value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_ATOMIC);
+  return `await ctx.database.upsert('blockly_key_value',[{key:${value_key},value:${value_value}}],['key'])\n`;
+}
+
+export const KeyValueReadBlock = {
+  "type": "key_value_read",
+  "message0": "读取键值对 键 %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key"
+    }
+  ],
+  "template":["key_value_initialize"],
+  "inputsInline": false,
+  "output": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function keyValueReadBlockGenerator(block:BlockSvg){
+  let value_key = javascriptGenerator.valueToCode(block, 'key', javascriptGenerator.ORDER_ATOMIC);
+  return [`(await ctx.database.get('blockly_key_value',{key:${value_key}}))[0]?.value`, javascriptGenerator.ORDER_NONE];
+}
+
 
 export const DataBlocks = [
   HttpGetBlock,
-  JsonPathParseBlock
+  JsonPathParseBlock,
+  KeyValueWriteBlock,
+  KeyValueReadBlock
 ]
 
 export const dataBlockGenerators = {
   'http_get':httpGetBlockGenerator,
-  'json_path_parse':jsonPathBlockGenerator
+  'json_path_parse':jsonPathBlockGenerator,
+  'key_value_write':keyValueWriteBlockGenerator,
+  'key_value_read':keyValueReadBlockGenerator
 }
