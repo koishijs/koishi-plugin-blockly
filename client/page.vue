@@ -9,7 +9,7 @@
       <SideBar :blocks="store.blockly" v-model:current="currentId" :workspace="editor" :panel="blocklyToolboxInformation" :dialog="dialogOpenStates" :logger="build_console"/>
     </template>
     <div style="display:flex;flex-flow:column nowrap;height: 100%;width: 100%">
-    <div style="height: 100%">
+    <div style="height: 100%; display: flex;flex-flow: column">
       <k-empty v-if="currentId===undefined && !init">
         <div>在左侧选择或创建一个Blockly代码</div>
       </k-empty>
@@ -18,6 +18,9 @@
       </keep-alive>
       <div v-show="workspaceType === 'data-flow' && (currentId!=null && !loading )|| init" style="height: 100%">
         <data-flow v-model:flow="flow" v-model:workspace="workspaceType"></data-flow>
+      </div>
+      <div v-show="workspaceType === 'meta' && (currentId!=null && !loading )|| init" style="height: 100%">
+        <plugin-meta v-model:workspace="workspaceType"></plugin-meta>
       </div>
       <div v-show="loading && !init">
         <k-empty v-if="currentId===undefined && !init">
@@ -55,6 +58,7 @@ import {store,send} from "@koishijs/client"
 import ImportDialog from './components/dialogs/import.vue';
 import ExportDialog from './components/dialogs/export.vue';
 import SideBar from './components/sidebar/index.vue';
+import PluginMeta from './meta.vue'
 
 const dialogOpenStates = ref<{
   import:boolean,

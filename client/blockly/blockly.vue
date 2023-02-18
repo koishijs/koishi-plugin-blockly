@@ -1,5 +1,10 @@
 <template>
-  <div style="height: 100%;" ref="blockly_workspace"></div>
+  <div style="height: 100%;flex:auto;margin-bottom: 35px">
+    <div style="width: 100%;padding: 5px;padding-left: 20px;height:25px;border-bottom: 1px solid var(--bg1)">
+      <button class="menu-button" @click="$emit('update:workspace','meta')">编辑插件元数据</button>
+    </div>
+    <div style="height: 100%;flex:auto" ref="blockly_workspace"></div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -18,12 +23,13 @@ import {defineBlocksWithJsonCustomFields} from "../helper";
 const blockly_workspace = ref(null)
 
 let value = defineProps({
-  modelValue:Object
+  modelValue:Object,
+  workspace:String
 })
 
 let _value = toRef(value,"modelValue")
 
-let emits = defineEmits(['update:modelValue'])
+let emits = defineEmits(['update:modelValue','update:workspace'])
 
 Blockly.setLocale(ZhHans);
 
@@ -87,6 +93,16 @@ defineExpose({
 })
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.menu-button{
+  border:none;
+  border-radius: 5px;
+  padding: 3px 8px;
+  margin: 0 10px;
+  background: var(--bg3);
+  color:var(--fg0);
+  &:hover{
+    background:var(--bg2);
+  }
+}
 </style>
