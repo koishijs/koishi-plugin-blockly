@@ -69,7 +69,7 @@ export const JsonPathParseBlock = {
 export function jsonPathBlockGenerator(block:BlockSvg){
   let value_value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_ATOMIC);
   let text_path = block.getFieldValue('path');
-  return [`await parseJson(${value_value},"${text_path}")`, javascriptGenerator.ORDER_NONE];
+  return [`await parseJson({path: "${text_path}", json: ${value_value}})`, javascriptGenerator.ORDER_NONE];
 }
 
 export const KeyValueWriteBlock = {
