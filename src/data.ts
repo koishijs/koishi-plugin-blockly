@@ -16,7 +16,7 @@ export class BlocklyProvider extends DataService<BlocklyMenuItem[]> {
     super(ctx, 'blockly')
   }
   async get() {
-    return (await this.ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled","edited"]))
+    return (await this.ctx.database.get('blockly',{id:{$not:-1}},["id","name","enabled","edited","uuid"]))
   }
 }
 

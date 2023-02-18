@@ -19,5 +19,6 @@ export interface BlocklyMenuItem{
   name:string
   enabled:boolean
   edited:boolean
+  uuid:string
 }
 
