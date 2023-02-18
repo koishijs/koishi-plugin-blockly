@@ -34,6 +34,7 @@ export const LoggingBlock = {
     "name": "log"
   }
 ],
+  "template":['logger_initialize'],
   "previousStatement": null,
   "nextStatement": null,
   "colour": 230,
@@ -43,7 +44,7 @@ export const LoggingBlock = {
 const loggingBlockGenerator = function(block) {
   var dropdown_level = block.getFieldValue('level');
   var log = javascriptGenerator.valueToCode(block, 'log', javascriptGenerator.ORDER_ATOMIC)
-  return `__logger.${dropdown_level}(${log});\n`;
+  return `logger.${dropdown_level}(${log});\n`;
 };
 
 export const DebugBlocks = [

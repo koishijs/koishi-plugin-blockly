@@ -29,5 +29,5 @@ export function build(name,workspace:Workspace){
     })
   })
 
-  return createWrapper(currentImportMap,name,[],templates.map(t=>TemplateCodes[t]+"\n").join("")+javascriptGenerator.workspaceToCode(workspace))
+  return createWrapper(currentImportMap,name,[],templates.map(t=>TemplateCodes[t]+"\n").map(t=>t.replace('{{name}}',name)).join("")+javascriptGenerator.workspaceToCode(workspace))
 }
