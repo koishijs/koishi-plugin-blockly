@@ -356,7 +356,7 @@
       </value>
     </block>
   </category>
-  <category name="交互" colour="#5b80a5">
+  <category name="数据" colour="#5b80a5">
     <block type="http_get">
       <value name="url">
         <shadow type="text">
