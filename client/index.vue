@@ -72,7 +72,7 @@ import blockly from "./blockly/blockly.vue"
 import ToolboxBuild from './components/console/build.vue'
 import ToolboxCode from './components/console/code.vue'
 import Window from "./icons/window.vue";
-import DataFlow from "./data-flow.vue"
+import DataFlow from "./flow-engine/data-flow.vue"
 import {importPlugin as _import, saveBlockly} from "./api/manager";
 const editor = ref(null)
 const currentId = ref(undefined)

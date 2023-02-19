@@ -3,7 +3,7 @@ import {javascriptGenerator} from "blockly/javascript";
 import {deduplicate} from "cosmokit"
 import {Workspace} from "blockly";
 import {Dict, } from "cosmokit";
-import {TemplateCodes} from "../template";
+import {TemplateCodes} from "./template";
 export function createWrapper(imports:Dict<any>,name="",using=[],apply=""){
   return [...Object.entries(imports)].map(([i,j])=>
       `import { ${j.join(', ')} } from "${i}"\n`

@@ -1,6 +1,6 @@
 import {} from 'koishi-plugin-blockly'
 import { Context, icons } from '@koishijs/client'
-import Page from './page.vue'
+import Page from './index.vue'
 import Activity from './icons/activity.vue'
 
 icons.register('blockly', Activity)

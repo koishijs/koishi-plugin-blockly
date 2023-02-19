@@ -14,11 +14,11 @@ import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-varia
 import Toolbox from '../toolbox.xml?raw';
 import {javascriptGenerator} from 'blockly/javascript';
 import {ref, onMounted, toRef, nextTick} from 'vue';
-import {Blocks,BlockGenerators} from "../blocks";
-import {registerExtensions} from "../extensions";
-import {disableOrphansAndOrphanConsumersEvent} from "../listeners/consumer";
-import {autoSaveListener} from "../listeners/auto-save";
-import '../msg/zh'
+import {Blocks,BlockGenerators} from "./blocks";
+import {registerExtensions} from "./extensions";
+import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
+import {autoSaveListener} from "./listeners/auto-save";
+import './msg/zh'
 import {defineBlocksWithJsonCustomFields} from "../helper";
 const blockly_workspace = ref(null)
 

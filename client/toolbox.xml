@@ -61,6 +61,7 @@
     <block type="math_number">
       <field name="NUM">0</field>
     </block>
+    <block type="to_number"/>
     <block type="math_arithmetic">
       <field name="OP">ADD</field>
       <value name="A">
