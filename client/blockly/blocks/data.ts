@@ -105,7 +105,7 @@ export function keyValueWriteBlockGenerator(block:BlockSvg){
   let value_scope_id = javascriptGenerator.valueToCode(block, 'scope_id', javascriptGenerator.ORDER_ATOMIC);
   if(value_scope_id.length){
     // For backwards compatibility only, remove this in 1.x
-    value_scope_id += "+"
+    value_scope_id += "+\".\"+"
   }
   return `await ctx.database.upsert('blockly_key_value',[{key:${value_scope_id}${value_key},value:${value_value}}],['key'])\n`;
 }
@@ -136,7 +136,7 @@ export function keyValueReadBlockGenerator(block:BlockSvg){
   let value_scope_id = javascriptGenerator.valueToCode(block, 'scope_id', javascriptGenerator.ORDER_ATOMIC);
   if(value_scope_id.length){
     // For backwards compatibility only, remove this in 1.x
-    value_scope_id += "+"
+    value_scope_id += "+\".\"+"
   }
   return [`(await ctx.database.get('blockly_key_value',{key:${value_scope_id}${value_key}}))[0]?.value`, javascriptGenerator.ORDER_NONE];
 }
