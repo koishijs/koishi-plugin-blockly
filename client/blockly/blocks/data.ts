@@ -74,8 +74,12 @@ export function jsonPathBlockGenerator(block:BlockSvg){
 
 export const KeyValueWriteBlock = {
   "type": "key_value_write",
-  "message0": "写入键值对 键 %1 值 %2",
+  "message0": "写入键值对 作用域ID %1 键 %2 值 %3",
   "args0": [
+    {
+      "type": "input_value",
+      "name": "scope_id"
+    },
     {
       "type": "input_value",
       "name": "key"
@@ -98,13 +102,22 @@ export const KeyValueWriteBlock = {
 export function keyValueWriteBlockGenerator(block:BlockSvg){
   let value_key = javascriptGenerator.valueToCode(block, 'key', javascriptGenerator.ORDER_ATOMIC);
   let value_value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_ATOMIC);
-  return `await ctx.database.upsert('blockly_key_value',[{key:${value_key},value:${value_value}}],['key'])\n`;
+  let value_scope_id = javascriptGenerator.valueToCode(block, 'scope_id', javascriptGenerator.ORDER_ATOMIC);
+  if(value_scope_id.length){
+    // For backwards compatibility only, remove this in 1.x
+    value_scope_id += "+"
+  }
+  return `await ctx.database.upsert('blockly_key_value',[{key:${value_scope_id}${value_key},value:${value_value}}],['key'])\n`;
 }
 
 export const KeyValueReadBlock = {
   "type": "key_value_read",
-  "message0": "读取键值对 键 %1",
+  "message0": "读取键值对 作用域ID %1 键 %2",
   "args0": [
+    {
+      "type": "input_value",
+      "name": "scope_id"
+    },
     {
       "type": "input_value",
       "name": "key"
@@ -120,7 +133,12 @@ export const KeyValueReadBlock = {
 
 export function keyValueReadBlockGenerator(block:BlockSvg){
   let value_key = javascriptGenerator.valueToCode(block, 'key', javascriptGenerator.ORDER_ATOMIC);
-  return [`(await ctx.database.get('blockly_key_value',{key:${value_key}}))[0]?.value`, javascriptGenerator.ORDER_NONE];
+  let value_scope_id = javascriptGenerator.valueToCode(block, 'scope_id', javascriptGenerator.ORDER_ATOMIC);
+  if(value_scope_id.length){
+    // For backwards compatibility only, remove this in 1.x
+    value_scope_id += "+"
+  }
+  return [`(await ctx.database.get('blockly_key_value',{key:${value_scope_id}${value_key}}))[0]?.value`, javascriptGenerator.ORDER_NONE];
 }
 
 

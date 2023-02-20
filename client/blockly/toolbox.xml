@@ -370,6 +370,9 @@
       </block>
       <block type="json_path_parse"/>
       <block type="key_value_write">
+        <value name="scope_id">
+          <shadow type="plugin_id"/>
+        </value>
         <value name="key">
           <shadow type="text">
             <field name="TEXT">键值对键</field>
@@ -383,6 +386,14 @@
         </value>
       </block>
       <block type="key_value_read">
+        <value name="scope_id">
+          <shadow type="plugin_id"/>
+        </value>
+        <value name="key">
+          <shadow type="text">
+            <field name="TEXT">键值对键</field>
+          </shadow>
+        </value>
         <value name="key">
           <shadow type="text">
             <field name="TEXT">键值对键</field>
@@ -435,6 +446,7 @@
           <shadow type="time_stamp"></shadow>
         </value>
       </block>
+      <block type="plugin_id"/>
     </category>
   </category>
   <category name="第三方">

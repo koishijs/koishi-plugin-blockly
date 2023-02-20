@@ -13,7 +13,7 @@ export function createWrapper(imports:Dict<any>,name="",using=[],apply=""){
     .replace(/\{\{using}}/g,JSON.stringify(using))
     .replace(/\{\{apply}}/g,apply.split("\n").map(t=>"  "+t).join("\n"))
 }
-export function build(name,workspace:Workspace){
+export function build(name,plugin_id,workspace:Workspace){
   let currentImportMap = {}
   const blocks = workspace.getAllBlocks(false)
   blocks.filter(b=>b['imports']).map(b=>b['imports']).forEach(t=>{
@@ -29,5 +29,5 @@ export function build(name,workspace:Workspace){
     })
   })
 
-  return createWrapper(currentImportMap,name,[],templates.map(t=>TemplateCodes[t]+"\n").map(t=>t.replace('{{name}}',name)).join("")+javascriptGenerator.workspaceToCode(workspace))
+  return createWrapper(currentImportMap,name,[],templates.map(t=>TemplateCodes[t]+"\n").map(t=>t.replace('{{name}}',name).replace("{{plugin_id}}",plugin_id)).join("")+javascriptGenerator.workspaceToCode(workspace))
 }

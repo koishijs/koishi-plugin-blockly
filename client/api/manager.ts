@@ -11,12 +11,12 @@ export const saveBlockly = async (current,workspace) => {
   await send('save-blockly-block',current,{body:workspace.save()})
 }
 
-export async function buildBlockly(id:number|undefined,name:string,workspace,logger){
+export async function buildBlockly(id:number|undefined,name:string,plugin_id:string,workspace,logger){
   if(id==undefined)return
   logger.info("正在开始编译.......")
   let code
   try {
-    code = build(name,workspace.getWorkspaceSvg())
+    code = build(name,plugin_id,workspace.getWorkspaceSvg())
   }catch (e){
     logger.error("编译时发生错误: "+e.toString())
     console.error(e)

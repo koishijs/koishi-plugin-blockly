@@ -36,7 +36,8 @@
     if (current.value == undefined) {
       return
     }
-    const result = await build(current.value, store.blockly.find(t=>t.id==current.value).name , props.workspace,props.logger.logger)
+    const block = store.blockly.find(t=>t.id==current.value)
+    const result = await build(current.value, block.name,block.uuid, props.workspace,props.logger.logger)
     if (result) {
       panel.code = result
     }

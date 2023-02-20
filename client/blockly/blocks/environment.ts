@@ -55,12 +55,28 @@ export function timeFormatBlockGenerator(block) {
     return [`Time.template('${text_fmt}',new Date(${text_date}))`, javascriptGenerator.ORDER_NONE];
 }
 
+export const PluginIdBlock = {
+    "type": "plugin_id",
+    "message0": "当前插件ID",
+    "output": null,
+    "colour": 230,
+    "tooltip": "",
+    "template":["plugin_id"],
+    "helpUrl": ""
+}
+
+export function pluginIdBlockGenerator(block) {
+    return [`pluginId`, javascriptGenerator.ORDER_NONE];
+}
+
 export const EnvironmentBlocks = [
     TimestampBlock,
-    TimeFormatBlock
+    TimeFormatBlock,
+    PluginIdBlock
 ]
 
 export const environmentBlockGenerators = {
    'time_stamp':timestampBlockGenerator,
-   'time_format':timeFormatBlockGenerator
+   'time_format':timeFormatBlockGenerator,
+   'plugin_id':pluginIdBlockGenerator
 }
