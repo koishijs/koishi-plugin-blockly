@@ -20,6 +20,7 @@ import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
 import {autoSaveListener} from "./listeners/auto-save";
 import './msg/zh'
 import {defineBlocksWithJsonCustomFields} from "../helper";
+import {vendorCallback} from "./vendor";
 const blockly_workspace = ref(null)
 
 let value = defineProps({
@@ -67,6 +68,7 @@ onMounted(() => {
     window.addEventListener('resize',()=>{
       Blockly.svgResize(workspace)
     })
+    workspace.registerToolboxCategoryCallback('VENDOR_UNCATEGORIZED',vendorCallback)
     workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
     workspace.addChangeListener(autoSaveListener.bind(listeners));
     LexicalVariables.init(workspace);

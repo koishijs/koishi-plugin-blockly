@@ -4,6 +4,7 @@ import {BlocklyService} from "./service";
 import {BlocklyProvider, initializeDatabase} from "./data";
 import {initializeConsoleApiBacked} from "./console";
 import {registerStaticFileRoute} from "./static";
+import {BlocklyVendorDataService} from "./vendor";
 
 export const name = 'blockly'
 
@@ -16,6 +17,7 @@ export const using = ['database','console']
 export async function apply(ctx: Context) {
   ctx.plugin(BlocklyService)
   ctx.plugin(BlocklyProvider)
+  ctx.using(['blockly'],()=>ctx.plugin(BlocklyVendorDataService))
 
   await initializeDatabase(ctx);
 
@@ -40,3 +42,4 @@ export * from "./service"
 export * from "./static"
 export * from './console'
 export * from './transpiler'
+export * from './vendor'

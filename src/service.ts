@@ -1,5 +1,6 @@
-import {Service} from "koishi";
+import {Service,Dict} from "koishi";
 import {PluginManager} from "./plugin";
+import {BlocklyVendor} from "./vendor";
 
 declare module "koishi"{
   interface Context{
@@ -10,6 +11,8 @@ declare module "koishi"{
 export class BlocklyService extends Service{
 
   manager : PluginManager
+
+  vendors : Dict<BlocklyVendor> = {}
 
   constructor(ctx) {
     super(ctx,'blockly');
@@ -24,6 +27,14 @@ export class BlocklyService extends Service{
     }
     if(this.ctx['console.blockly']){
       await this.ctx['console.blockly'].refresh()
+    }
+  }
+
+  async registerVendor(vendor:BlocklyVendor){
+    this.vendors[vendor.id] = vendor
+
+    if(this.ctx['console.blockly_console']){
+      await this.ctx['console.blockly_console'].patch(Object.fromEntries([[vendor.id,vendor]]))
     }
   }
 }
