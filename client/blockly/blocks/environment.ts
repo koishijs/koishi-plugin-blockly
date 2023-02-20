@@ -66,7 +66,7 @@ export const PluginIdBlock = {
 }
 
 export function pluginIdBlockGenerator(block) {
-    return [`pluginId`, javascriptGenerator.ORDER_NONE];
+    return [`plugin_id`, javascriptGenerator.ORDER_NONE];
 }
 
 export const EnvironmentBlocks = [
