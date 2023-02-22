@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref,watch} from "vue";
+import {computed, ref,watch,toRaw} from "vue";
 import {store} from "@koishijs/client";
 import * as Blockly from "blockly";
 import AuthorDialog from './components/dialogs/author.vue'
@@ -33,7 +33,8 @@ function checkBlocks(this:WorkspaceSvg){
 try{
   Blockly.serialization.registry.unregister('plugin-meta')
   Blockly.serialization.registry.register('plugin-meta',{
-    save(){
+    save(workspace){
+      workspace.meta = toRaw(meta.value)
       return meta.value
     },
     load(state:any,workspace) {
@@ -45,11 +46,13 @@ try{
       workspace['metaListener']();
       meta.value.commands = state.commands??{};
       meta.value.tables = state.tables??{};
+      workspace.meta = toRaw(meta.value)
     },
     clear(workspace) {
       meta.value.description = ''
       meta.value.author = undefined
       workspace.removeChangeListener(workspace['metaListener'])
+      workspace.meta = {}
     },
     priority:10
   })
