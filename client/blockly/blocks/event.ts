@@ -186,12 +186,17 @@ export function commandBlockGenerator(block){
   let text_name = block.getFieldValue('name');
   let parameters = block.parameters ?? []
   let statements_action = javascriptGenerator.statementToCode(block, 'action');
+  console.info(block.workspace.meta)
+  let configure = block.workspace.meta.commands?.[text_name] ?? {}
+  let description = configure.description ? `,\`${configure.description.replace('\n','\\n')}\`` : ''
+  if(configure['description']) delete configure['description']
+  let configure_object = configure && Object.keys(configure).length>0 ? `,${JSON.stringify(configure)}` : ''
   let command_definition = text_name + ' ' + parameters.map((parameter)=>{
     const {required,name,type} = parameter
 
     return (required?'<':'[') + name + (type!='any_parameter'?':'+type.split('_')[0]:'') + (required?'>':']')
   }).join(' ')
-  return `ctx.command('${command_definition}').action(async ({session},...args)=>{\n${statements_action}\n});\n`;
+  return `ctx.command('${command_definition.trim()}'${description}${configure_object}).action(async ({session},...args)=>{\n${statements_action}\n});\n`;
 }
 
 export const EventBlocks = [
