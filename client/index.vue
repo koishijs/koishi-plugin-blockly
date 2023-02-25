@@ -130,6 +130,13 @@ onMounted(()=>{
       editor.value.setAutoSaveListener(save);
     })
   })
+watch(workspaceType,(t,o)=>{
+  currentPanelId.value = 'hidden'
+  if(t == 'blockly')
+    nextTick(()=>{
+      editor.value.updateSize()
+    })
+})
 async function importBlockly(content,asNewPlugin){
   const newPluginId = await _import(content,asNewPlugin)
   if(!newPluginId){
