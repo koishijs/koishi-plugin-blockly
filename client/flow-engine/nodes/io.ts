@@ -1,6 +1,7 @@
 import {defineNode, NodeInterface, TextInputInterface} from "baklavajs";
 export const InputBlock = defineNode({
-  type: "输入",
+  type: "input",
+  title: "输入",
   inputs: {
     name: () => new TextInputInterface("字段名称", "").setPort(false),
   },
@@ -13,7 +14,8 @@ export const InputBlock = defineNode({
 });
 
 export const OutputBlock = defineNode({
-  type: "输出",
+  type: "output",
+  title: "输出",
   inputs: {
     output: () => new NodeInterface("输出值", 0),
   },

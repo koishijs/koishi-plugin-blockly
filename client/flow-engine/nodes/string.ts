@@ -2,7 +2,8 @@ import {NodeInterface} from "@baklavajs/core";
 import {TextInputInterface, defineDynamicNode} from "baklavajs";
 
 export const StringTemplateNode = defineDynamicNode({
-  type: "字符串模板",
+  type: "string_template",
+  title: "字符串模板",
   inputs: {
     template: () => new TextInputInterface("模板", "").setPort(false),
   },

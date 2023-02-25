@@ -2,7 +2,8 @@ import {defineNode} from "@baklavajs/core";
 import {defineDynamicNode, NodeInterface, SelectInterface, TextInputInterface} from "baklavajs";
 
 export const HttpNode = defineNode({
-  type: "HTTP",
+  type: "http",
+  title: "HTTP请求",
   inputs: {
     url: () => new TextInputInterface("URL", ""),
     method: () => new SelectInterface("方法", 'GET', ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS']).setPort(false),
@@ -17,7 +18,8 @@ export const HttpNode = defineNode({
 })
 
 export const CallBlocklyNode = defineDynamicNode({
-  type: "调用Blockly代码",
+  type: "call_blockly",
+  title: "调用Blockly",
   inputs: {
     script: () => new SelectInterface("脚本", "",[]).setPort(false)
   },

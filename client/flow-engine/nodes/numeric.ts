@@ -2,7 +2,8 @@ import {TextInputInterface} from "baklavajs";
 import {defineNode, NodeInterface} from "@baklavajs/core";
 
 export const ConstNumber = defineNode({
-  type: "数字常量/转为数字",
+  type: "toNumber",
+  title: "转为数字/数字常量",
   inputs: {
     value: () => new TextInputInterface("输入", "0"),
   },

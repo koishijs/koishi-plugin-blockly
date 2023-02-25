@@ -3,7 +3,8 @@ import {NodeInterface, TextInputInterface} from "baklavajs";
 
 
 export const Queue = defineNode({
-  type: "队列",
+  type: "queue",
+  title: "队列",
   inputs: {
     value: () => new NodeInterface("输入值", 0),
     length: () => new TextInputInterface("长度", "10").setPort(false)

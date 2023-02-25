@@ -1,7 +1,8 @@
 import {SelectInterface,defineNode, NodeInterface, TextInputInterface} from "baklavajs";
 
 export const LRLogicalExpression = defineNode({
-  type: "二元逻辑运算",
+  type: "lr_logical_expression",
+  title: "双元逻辑运算",
   inputs: {
     left: () => new NodeInterface("A", 0),
     right: () => new NodeInterface("B", 0),
@@ -13,7 +14,8 @@ export const LRLogicalExpression = defineNode({
 });
 
 export const SingleLogicalExpression = defineNode({
-  type: "单元逻辑运算",
+  type: "single_logical_expression",
+  title: "单元逻辑运算",
   inputs: {
     value: () => new NodeInterface("值", 0),
     operator: () => new SelectInterface("运算符", "!",["取反"]),
@@ -24,7 +26,8 @@ export const SingleLogicalExpression = defineNode({
 })
 
 export const TernaryLogicalExpression = defineNode({
-  type: "三元逻辑运算",
+  type: "ternary_logical_expression",
+  title: "三元逻辑运算",
   inputs: {
     condition: () => new NodeInterface("条件", 0),
     trueValue: () => new TextInputInterface("真值", ""),
