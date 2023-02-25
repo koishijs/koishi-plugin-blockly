@@ -13,7 +13,7 @@ import * as ZhHans from 'blockly/msg/zh-hans';
 import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
 import Toolbox from './toolbox.xml?raw';
 import {javascriptGenerator} from 'blockly/javascript';
-import {ref, onMounted, toRef, nextTick} from 'vue';
+import {ref, onMounted, toRef, nextTick, watch, toRaw} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
@@ -74,6 +74,29 @@ onMounted(() => {
     workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
     workspace.addChangeListener(autoSaveListener.bind(listeners));
     LexicalVariables.init(workspace);
+    workspace['topLevel'] = {
+      setWorkspaceType(type){
+        $emit('update:workspace',type)
+      },
+      waitFlowEngineSave:function(original){
+        return new Promise((resolve,reject)=>{
+          nextTick(()=> {
+            $emit('update:flow', original)
+            const disposables = []
+            disposables.push(watch(current, () => {
+              resolve(toRaw(flow.value))
+              $emit('update:flow', {})
+              disposables.forEach(d => d())
+            }))
+            disposables.push(watch(workspaceType, () => {
+              resolve(toRaw(flow.value))
+              $emit('update:flow', {})
+              disposables.forEach(d => d())
+            }))
+          });
+        })
+      }
+    }
   })
 })
 defineExpose({
