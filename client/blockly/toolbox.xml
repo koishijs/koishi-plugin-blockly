@@ -449,6 +449,11 @@
       <block type="plugin_id"/>
     </category>
   </category>
+  <category name="数据处理与流">
+    <category name="数据处理与流">
+      <block type="flow_process"></block>
+    </category>
+  </category>
   <category name="第三方">
     <category name="未分类" custom="VENDOR_UNCATEGORIZED"/>
   </category>

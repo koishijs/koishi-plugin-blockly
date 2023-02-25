@@ -11,6 +11,7 @@ import {logicalBlocks, LogicalBlocks} from "./logic";
 import {messageBlocks, MessageBlocks} from "./message";
 import {segmentBlockGenerators, SegmentBlocks} from "./segment";
 import {numberBlockGenerators, NumberBlocks} from "./number";
+import {flowBlockGenerators, FlowBlocks} from "./flow";
 
 export const Blocks = [
   ...LogicalBlocks,
@@ -25,6 +26,7 @@ export const Blocks = [
   ...EnvironmentBlocks,
   ...ParameterBlocks,
   ...NumberBlocks,
+  ...FlowBlocks
 ]
 
 export const BlockGenerators=Object.assign({},...[
@@ -38,5 +40,6 @@ export const BlockGenerators=Object.assign({},...[
   botBlockGenerators,
   debugBlockGenerators,
   environmentBlockGenerators,
-  numberBlockGenerators
+  numberBlockGenerators,
+  flowBlockGenerators
 ])
