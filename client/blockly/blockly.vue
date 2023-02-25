@@ -25,7 +25,9 @@ const blockly_workspace = ref(null)
 
 let value = defineProps({
   modelValue:Object,
-  workspace:String
+  workspace:String,
+  current:String,
+  flow:Object
 })
 
 let _value = toRef(value,"modelValue")

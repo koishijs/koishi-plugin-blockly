@@ -14,7 +14,7 @@
         <div>在左侧选择或创建一个Blockly代码</div>
       </k-empty>
       <keep-alive v-show="workspaceType === 'blockly' && (currentId!=null && !loading )|| init ">
-        <blockly ref="editor" v-model:flow="flow" v-model:workspace="workspaceType"></blockly>
+        <blockly ref="editor" v-model:flow="flow" v-model:workspace="workspaceType" :current="currentId"></blockly>
       </keep-alive>
       <div v-show="workspaceType === 'data-flow' && (currentId!=null && !loading )|| init" style="height: 100%">
         <data-flow v-model:flow="flow" v-model:workspace="workspaceType"></data-flow>
