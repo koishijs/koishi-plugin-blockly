@@ -14,7 +14,7 @@
     "dist",
     "media"
   ],
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "scripts": {
     "docs:dev": "vitepress dev docs --open",
     "docs:build": "vitepress build docs",
