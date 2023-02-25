@@ -32,7 +32,13 @@ let value = defineProps({
 
 let _value = toRef(value,"modelValue")
 
-let emits = defineEmits(['update:modelValue','update:workspace'])
+let current = toRef(value,"current")
+
+let flow = toRef(value,"flow")
+
+let workspaceType = toRef(value,"workspace")
+
+let $emit = defineEmits(['update:modelValue','update:workspace','update:flow'])
 
 Blockly.setLocale(ZhHans);
 
