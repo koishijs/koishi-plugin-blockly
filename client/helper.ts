@@ -5,6 +5,8 @@ export function defineBlockWithJsonCustomFields(block:any){
       this.jsonInit(block);
       this.imports = block.imports;
       this.template = block.template;
+      if(block.init)
+        block.init.apply(this)
     }
   }
 }
