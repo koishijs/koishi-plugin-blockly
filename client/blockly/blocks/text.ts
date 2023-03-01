@@ -1,4 +1,7 @@
 import {javascriptGenerator} from "blockly/javascript";
+import {TextTemplateIcon} from "../../icons/template";
+import {FieldImage} from "blockly";
+import {ElMessageBox} from "element-plus";
 export const RegularBlock = {
   "type": "regular",
   "message0": "正则表达式 %1 %2",
@@ -27,10 +30,30 @@ export function regularBlockGenerator(block) {
 }
 
 export const TemplateStringBlock = {
-  
+  "type": "template_string",
+  "message0": "%1 模板字符串",
+  "args0": [
+    {
+      "type": "field_image",
+      "name":"edit_template",
+      "src": TextTemplateIcon,
+      "alt": "编辑模板",
+      "width": 25,
+      "height": 25
+    }
+    ],
+  "output": null,
+  "colour": 160,
+  init(){
+    (this.getField("edit_template") as FieldImage).setOnClickHandler(async ()=> {
+      // Show the editor , wait for the flow engine merged
+
+    })
+  }
 }
 
 export const TextBlocks = [
+  TemplateStringBlock,
   RegularBlock
 ]
 
