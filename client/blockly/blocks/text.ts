@@ -26,6 +26,10 @@ export function regularBlockGenerator(block) {
   return [`(${value_text}).match(new RegExp("${reg_exp[1]}", "${reg_exp[2]}"))`,javascriptGenerator.ORDER_ATOMIC]
 }
 
+export const TemplateStringBlock = {
+  
+}
+
 export const TextBlocks = [
   RegularBlock
 ]

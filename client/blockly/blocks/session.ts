@@ -121,6 +121,20 @@ export function sessionMessageIdBlockGenerator(){
   return [`session.messageId`,javascriptGenerator.ORDER_NONE];
 }
 
+export const SessionElementsBlock = {
+  "type": "session_elements",
+  "message0": "当前消息的消息元素列表",
+  "output": "Array",
+  "extensions":['session_consumer'],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export function sessionElementsBlockGenerator(){
+  return [`session.elements`,javascriptGenerator.ORDER_NONE];
+}
+
 export const SessionBlocks = [
   GetArgumentBlock,
   BreakMiddlewareBlock,
@@ -129,7 +143,8 @@ export const SessionBlocks = [
   SessionChannelIdBlock,
   SessionGuildIdBlock,
   SessionMessageIdBlock,
-  SessionBotBlock
+  SessionBotBlock,
+  SessionElementsBlock,
 ]
 
 export const sessionBlockGenerators = {
@@ -141,4 +156,5 @@ export const sessionBlockGenerators = {
   'session_guild_id':sessionGuildIdBlockGenerator,
   'session_message_id':sessionMessageIdBlockGenerator,
   'session_bot':sessionBotBlockGenerator,
+  'session_elements':sessionElementsBlockGenerator,
 }

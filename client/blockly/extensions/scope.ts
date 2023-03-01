@@ -1,7 +1,7 @@
 import * as Blockly from "blockly";
 import {unregisterIfRegistered} from "./index";
 
-export const scopes = ['session','argument']
+export const scopes = ['session','argument','segment_item']
 
 export function registerScopeExtensions(){
   scopes.forEach(t=>{
