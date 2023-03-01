@@ -2,7 +2,9 @@ import {send, store} from "@koishijs/client";
 import {decodeBlocklyExport, encodeBlocklyExport} from "../blockly/pack";
 import {build, createWrapper} from "../blockly/build";
 import {javascriptGenerator} from "blockly/javascript";
+import * as semver from 'semver'
 import {ElMessageBox} from "element-plus";
+import {BLOCKLY_API_VERSION, BLOCKLY_VERSION} from "../version";
 
 export const createBlockly = async () => (await send('create-blockly-block')).toString()
 
@@ -63,6 +65,26 @@ export async function importPlugin(content,asNewPlugin) {
   console.info(documentData)
   if (!documentData) {
     return
+  }
+  if(documentData.version!=BLOCKLY_API_VERSION) {
+    ElMessageBox.alert(`无法读取该插件: 该插件的API Major版本(${documentData.version})不兼容当前版本`)
+    return
+  }
+  if(documentData.plugin_version && semver.cmp(documentData.plugin_version,'>',BLOCKLY_VERSION)){
+    if(await ElMessageBox.confirm(`该插件是由更高版本(${documentData.plugin_version})的Blockly插件导出的，可能无法正常导入或执行异常。建议升级您的Blockly版本到最新版本`, '提示', {
+      confirmButtonText: '继续',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }) == 'cancel')
+      return
+  }
+  if(documentData.plugin_version && semver.major(documentData.plugin_version)!=semver.major(BLOCKLY_VERSION)){
+    if(await ElMessageBox.confirm(`该插件是由不同主版本(${documentData.plugin_version})的Blockly插件导出的，可能无法正常导入或执行异常。`, '提示', {
+        confirmButtonText: '继续',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }) == 'cancel')
+      return
   }
   if(!asNewPlugin && documentData?.uuid){
     if(store.blockly.filter(t=>t.uuid==documentData.uuid).length>0){
