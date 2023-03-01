@@ -18,8 +18,7 @@
   "scripts": {
     "docs:dev": "vitepress dev docs --open",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
-    "minify": "esbuild dist/index.js --minify --outfile=dist/index.js --allow-overwrite"
+    "docs:serve": "vitepress serve docs"
   },
   "keywords": [
     "chatbot",
