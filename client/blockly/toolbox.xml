@@ -237,6 +237,7 @@
         </value>
       </block>
       <block type="regular"/>
+      <block type="template_string"/>
     </category>
     <category name="列表" colour="#745ba5">
       <block type="lists_create_with">
