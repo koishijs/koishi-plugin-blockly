@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;flex:auto;margin-bottom: 35px">
-    <div style="width: 100%;padding: 5px;padding-left: 20px;height:25px;border-bottom: 1px solid var(--bg1)">
+    <div style="width: 100%;padding: 5px;height:25px;border-bottom: 1px solid var(--bg1);display: flex;flex-direction: row-reverse;">
       <button class="menu-button" @click="$emit('update:workspace','meta')">编辑插件元数据</button>
     </div>
     <div style="height: 100%;flex:auto" ref="blockly_workspace"></div>
