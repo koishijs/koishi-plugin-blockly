@@ -45,9 +45,11 @@ export const TemplateStringBlock = {
   "output": null,
   "colour": 160,
   init(){
-    (this.getField("edit_template") as FieldImage).setOnClickHandler(async ()=> {
+    (this.getField("edit_template") as FieldImage).setOnClickHandler(async (field)=> {
       // Show the editor , wait for the flow engine merged
-
+      const workspace = field.getSourceBlock().workspace
+      const s = await workspace['topLevel'].openDialog('text-template',{})
+      console.info(s)
     })
   }
 }
