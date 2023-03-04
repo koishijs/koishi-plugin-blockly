@@ -14,7 +14,7 @@ import * as ZhHans from 'blockly/msg/zh-hans';
 import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
 import Toolbox from './toolbox.xml?raw';
 import {javascriptGenerator} from 'blockly/javascript';
-import {ref, onMounted, toRef, nextTick, watch} from 'vue';
+import {ref, onMounted, toRef, nextTick, watch, toRaw} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
@@ -86,7 +86,7 @@ onMounted(() => {
         return new Promise((resolve)=>{
           const disposable = watch(currentDialog,()=>{
             disposable();
-            resolve(currentDialogValue.value)
+            resolve(toRaw(currentDialogValue.value))
           })
         })
       },
