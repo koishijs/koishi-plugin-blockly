@@ -20,7 +20,7 @@
         <data-flow v-model:flow="flow" v-model:workspace="workspaceType"></data-flow>
       </div>
       <transition name="meta-ui-change">
-        <div style="position: fixed;bottom: 0;top: 0;right: 0;width: 400px;background-color: white;z-index: 1000;" v-if="( workspaceType === 'meta') && (currentId!=null && !loading )|| init ">
+        <div style="position: fixed;bottom: 0;top: 0;right: 0;width: 400px;background-color: #ffffff7a;z-index: 1000;backdrop-filter: blur(50px);box-shadow: 9px -7px 20px 0px black;background-size: 50px;" v-if="( workspaceType === 'meta') && (currentId!=null && !loading )|| init ">
           <plugin-meta v-model:workspace="workspaceType" :current="currentId" @metaChange="save()"></plugin-meta>
         </div>
       </transition>

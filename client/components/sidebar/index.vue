@@ -77,26 +77,30 @@
 </script>
 
 <template>
-  <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
+  <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px;height: 48px;">
     <el-popover
-      placement="bottom"
-      trigger="hover"
-      content="导入代码"
-    >
-      <template #reference>
-        <i @click="createBlockly" style="cursor: pointer;padding-right: 5px"><new-file/></i>
-      </template>
-    </el-popover>
-    <el-popover
-      placement="bottom"
+    placement="bottom"
       trigger="hover"
       content="新建插件"
     >
       <template #reference>
-      <i @click="dialog.import=true" style="cursor: pointer;padding-right: 20px"><import-icon/></i>
+        <i @click="createBlockly" style="cursor: pointer;padding-right: 20px;"><new-file/></i>
       </template>
     </el-popover>
-
+    <el-popover
+    placement="bottom"
+    trigger="hover"
+    content="导入代码"
+    >
+    <template #reference>
+      <i @click="dialog.import=true" style="cursor: pointer;padding-right: 20px;"><import-icon/></i>
+    </template>
+  </el-popover>
+  <div style="flex-grow: 1;"></div>
+  <div style="font-size: 18px;font-weight: bold;margin-left: 19px;">
+    插件列表
+  </div>
+  
   </div>
   <div class="list" style="height: 60%">
     <el-scrollbar>
