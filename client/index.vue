@@ -13,15 +13,22 @@
       <k-empty v-if="currentId===undefined && !init">
         <div>在左侧选择或创建一个Blockly代码</div>
       </k-empty>
-      <keep-alive v-show="workspaceType === 'blockly' && (currentId!=null && !loading )|| init ">
+      <keep-alive v-show="(workspaceType === 'blockly' || workspaceType === 'meta') && (currentId!=null && !loading )|| init ">
         <blockly ref="editor" v-model:flow="flow" v-model:workspace="workspaceType"></blockly>
       </keep-alive>
       <div v-show="workspaceType === 'data-flow' && (currentId!=null && !loading )|| init" style="height: 100%">
         <data-flow v-model:flow="flow" v-model:workspace="workspaceType"></data-flow>
       </div>
-      <div v-show="workspaceType === 'meta' && (currentId!=null && !loading )|| init" style="height: 100%">
+      <transition name="meta-ui-change">
+        <div style="position: fixed;bottom: 0;top: 0;right: 0;width: 400px;background-color: #ffffff7a;z-index: 1000;backdrop-filter: blur(50px);box-shadow: 9px -7px 20px 0px black;background-size: 50px;" v-if="( workspaceType === 'meta') && (currentId!=null && !loading )|| init ">
+          <plugin-meta v-model:workspace="workspaceType" :current="currentId" @metaChange="save()"></plugin-meta>
+        </div>
+      </transition>
+
+      <!-- <div v-show="workspaceType === 'meta' && (currentId!=null && !loading )|| init" style="height: 100%">
         <plugin-meta v-model:workspace="workspaceType" :current="currentId" @metaChange="save()"></plugin-meta>
-      </div>
+      </div> -->
+
       <div v-show="loading && !init">
         <k-empty v-if="currentId===undefined && !init">
           <div>Loading...</div>
@@ -30,10 +37,10 @@
 
     </div>
     <div class="transition-animation" style="border-top:3px solid var(--bg1);display:flex;flex-flow:column nowrap;" :style="{height:currentPanelId.toString()==='hidden' ? '25px' : '40%'}" v-if="currentId!=undefined">
-      <div style="height: 25px;background: var(--bg1);display: flex;width: 100%">
-        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;" @click="currentPanelId = 'build'" :style="{background: currentPanelId=='build'?'var(--bg3)':''}">编译</div>
-        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px" @click="currentPanelId = 'result'" :style="{background: currentPanelId=='result'?'var(--bg3)':''}">代码结果</div>
-        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px" @click="currentPanelId = 'log'" :style="{background: currentPanelId=='log'?'var(--bg3)':''}">运行日志</div>
+      <div style="height: 25px;background: var(--bg1);display: flex;width: 100%;z-index: 999;">
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;border-radius: 4px 4px 0px 0px;cursor: pointer;" @click="currentPanelId = 'build'" :style="{background: currentPanelId=='build'?'var(--bg3)':''}">编译</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;border-radius: 4px 4px 0px 0px;cursor: pointer;" @click="currentPanelId = 'result'" :style="{background: currentPanelId=='result'?'var(--bg3)':''}">代码结果</div>
+        <div style="height:100%;display: inline-flex;align-self: center;padding-left: 20px;padding-right: 20px;border-radius: 4px 4px 0px 0px;cursor: pointer;" @click="currentPanelId = 'log'" :style="{background: currentPanelId=='log'?'var(--bg3)':''}">运行日志</div>
         <div style="margin-left: auto;align-self: center;height: 100%;margin-right: 20px;">
           <div style="height: 18px;width: 18px;background: var(--bg1);padding: 2px;margin: 2px" @click="currentPanelId = 'hidden'">
             <window/>
@@ -42,7 +49,7 @@
       </div>
 
       <div style="overflow:scroll;color:var(--fg2);height: 100%;width: 100%;contain: size" class="scroll" v-show="currentPanelId!='hidden'" :style="{background:currentPanelId === 'build'?'black':'var(--bg2)'}">
-        <ToolboxBuild :current="currentId" ref="build_console" v-show="currentPanelId==='build'"></ToolboxBuild>
+        <ToolboxBuild :current="currentId" ref="build_console" v-show="currentPanelId==='build'" style="margin: 6px"></ToolboxBuild>
         <ToolboxCode :current="currentId" :blocklyInformation="blocklyToolboxInformation" v-show="currentPanelId==='result'" v-if="currentPanelId!='hidden'"></ToolboxCode>
       </div>
     </div>
@@ -156,6 +163,9 @@ async function importBlockly(content,asNewPlugin){
 .transition-animation{
   transition: 0.3s ease;
 }
+.transition-animation *{
+  transition: 0.3s ease;
+}
 </style>
 
 <style lang="scss">
@@ -171,5 +181,31 @@ async function importBlockly(content,asNewPlugin){
     border-bottom: 1px solid var(--border);
   }
 }
+.ui-change-enter-active,
+.ui-change-leave-active {
+  // display:;
+  position: absolute;
+  transition: 0.3s ease;
+}
 
+.ui-change-enter-from,
+.ui-change-leave-to {
+  // transform: ;
+  opacity: 0;
+  transform: translateY(-10px);
+
+}
+.meta-ui-change-enter-active,
+.meta-ui-change-leave-active {
+  // display:;
+  transition: 0.3s ease;
+}
+
+.meta-ui-change-enter-from,
+.meta-ui-change-leave-to {
+  // transform: ;
+  transform: translateX(400px);
+  // opacity: 0;
+
+}
 </style>

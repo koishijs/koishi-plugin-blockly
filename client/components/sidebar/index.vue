@@ -77,9 +77,30 @@
 </script>
 
 <template>
-  <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px">
-    <i @click="createBlockly" style="cursor: pointer;padding-right: 5px"><new-file/></i>
-    <i @click="dialog.import=true" style="cursor: pointer;padding-right: 20px"><import-icon/></i>
+  <div class="create" style="display: flex;flex-direction: row-reverse;padding-right: 10px;padding-top: 10px;height: 48px;">
+    <el-popover
+    placement="bottom"
+      trigger="hover"
+      content="新建插件"
+    >
+      <template #reference>
+        <i @click="createBlockly" style="cursor: pointer;padding-right: 20px;"><new-file/></i>
+      </template>
+    </el-popover>
+    <el-popover
+    placement="bottom"
+    trigger="hover"
+    content="导入代码"
+    >
+    <template #reference>
+      <i @click="dialog.import=true" style="cursor: pointer;padding-right: 20px;"><import-icon/></i>
+    </template>
+  </el-popover>
+  <div style="flex-grow: 1;"></div>
+  <div style="font-size: 18px;font-weight: bold;margin-left: 19px;">
+    插件列表
+  </div>
+  
   </div>
   <div class="list" style="height: 60%">
     <el-scrollbar>
@@ -89,11 +110,18 @@
   </div>
   <div style="height: 40%;padding:10px">
     <div v-if="current">
+      <h3>操作</h3>
+      
       <k-button @click="buildBlockly()">编译插件</k-button>
+      <br>
       <k-button @click="()=>enableBlockly(current)">启用插件</k-button>
       <k-button @click="()=>disableBlockly(current)">禁用插件</k-button>
+      <br>
+
       <k-button @click="renameBlockly()">重命名插件</k-button>
       <k-button @click="deleteBlockly()">删除插件</k-button>
+      <br>
+
       <k-button @click="exportBlockly()">导出插件</k-button>
     </div>
   </div>
