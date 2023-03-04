@@ -26,16 +26,27 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, ref } from 'vue'
+import {computed, nextTick, ref, toRef} from 'vue'
 import { ElInput } from 'element-plus'
 
+const props = defineProps(['modelValue'])
+
+const $emits = defineEmits(['update:modelValue','tag-click','tag-removed'])
+
+const model = computed({
+  get: () => props.modelValue ?? [],
+  set: val => $emits('update:modelValue', val),
+})
+
+
 const inputValue = ref('')
-const dynamicTags = ref(['用户名', '积分'])
+const dynamicTags = model
 const inputVisible = ref(false)
 const InputRef = ref<InstanceType<typeof ElInput>>()
 
 const handleClose = (tag: string) => {
   dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
+  $emits("tag-removed")
 }
 
 const showInput = () => {
@@ -54,6 +65,6 @@ const handleInputConfirm = () => {
 }
 
 function selectVariable(tag){
-  alert(tag)
+  $emits('tag-click',tag)
 }
 </script>
