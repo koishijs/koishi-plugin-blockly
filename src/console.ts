@@ -66,6 +66,6 @@ export function initializeConsoleApiBacked(ctx:Context){
 
   ctx.console.addListener("set-blockly-block-state",async (id, enabled)=>{
     await ctx.database.set("blockly",id,{enabled})
-    await ctx.blockly.reload()
+    await ctx.blockly.reload(true)
   },{authority:5})
 }
