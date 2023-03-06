@@ -11,6 +11,7 @@ import {logicalBlocks, LogicalBlocks} from "./logic";
 import {messageBlocks, MessageBlocks} from "./message";
 import {segmentBlockGenerators, SegmentBlocks} from "./segment";
 import {numberBlockGenerators, NumberBlocks} from "./number";
+import {TypeBlocks} from "./typing";
 
 export const Blocks = [
   ...LogicalBlocks,
@@ -25,6 +26,7 @@ export const Blocks = [
   ...EnvironmentBlocks,
   ...ParameterBlocks,
   ...NumberBlocks,
+  ...TypeBlocks
 ]
 
 export const BlockGenerators=Object.assign({},...[

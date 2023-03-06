@@ -1,6 +1,7 @@
 import {parameterListMutator} from "./parameter";
 import {registerScopeExtensions} from "./scope";
 import * as Blockly from "blockly";
+import {typeMutatorExtension} from "./type";
 
 export function unregisterIfRegistered(name:string){
   if(Blockly.Extensions.isRegistered(name)){
@@ -11,4 +12,5 @@ export function unregisterIfRegistered(name:string){
 export function registerExtensions(){
   parameterListMutator();
   registerScopeExtensions()
+  typeMutatorExtension()
 }
