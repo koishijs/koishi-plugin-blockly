@@ -94,10 +94,8 @@ export const TypeUnionEntityBlock = {
 export const TypeUnionBlock = {
   "type": "type_union",
   "output": "Type",
-  "message0": "",
-  "args0": [
-
-  ],
+  "message0": "联合类型",
+  "args0":[],
   init(){
     this.updateShape_()
   },
@@ -113,5 +111,6 @@ export const TypeBlocks = [
   TypeArrayBlock,
   TypeUnionRootBlock,
   TypeUnionEntityBlock,
-  TypeUnionBlock
+  TypeUnionBlock,
+  TypeDefinitionBlock
 ]

@@ -1,30 +1,26 @@
 import {unregisterIfRegistered} from "./index";
 import * as Blockly from 'blockly'
+import {BlockSvg} from "blockly";
 export function typeMutatorExtension(){
   unregisterIfRegistered("union_mutator")
   Blockly.Extensions.registerMutator('union_mutator', {
     updateShape_: function(){
-      if(this.itemCount_ == 0){
-        this.inputList.forEach((input)=>{this.removeInput(input.name)})
-        this.appendDummyInput('EMPTY')
-            .appendField('联合类型')
-      }else{
-        if(this.getInput('EMPTY'))
-          this.removeInput('EMPTY')
-      }
+      // Delete every input which starts with "TYPE_" and less than itemCount_
+      this.inputList
+        .filter(input => input.name.startsWith("TYPE_"))
+        .filter(input => parseInt(input.name.split("_")[1]) < this.itemCount_)
+        .forEach(input => this.removeInput(input.name))
+      // Add new inputs
       for(let i = 0; i < this.itemCount_; i++){
-        if(!this.getInput('TYPE' + i)){
-          const input = this.appendValueInput('TYPE' + i)
+        if(!this.getInput("TYPE_" + i)){
+          const input = this.appendValueInput("TYPE_" + i)
           input.align = Blockly.ALIGN_RIGHT
           if(i == 0){
-            input.appendField('联合类型')
+            input.appendField("类型")
           }else{
-            input.appendField("或者")
+            input.appendField("或")
           }
         }
-      }
-      while(this.getInput('TYPE' + this.itemCount_)){
-        this.removeInput('TYPE' + this.itemCount_)
       }
     },
     decompose: function(workspace){
