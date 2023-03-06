@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-blockly",
   "description": "Use blockly to develop a simple koishi plugin",
-  "version": "0.5.7",
+  "version": "0.5.9",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
@@ -14,12 +14,11 @@
     "dist",
     "media"
   ],
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "scripts": {
     "docs:dev": "vitepress dev docs --open",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
-    "minify": "esbuild dist/index.js --minify --outfile=dist/index.js --allow-overwrite"
+    "docs:serve": "vitepress serve docs"
   },
   "keywords": [
     "chatbot",
@@ -52,6 +51,7 @@
     "@mit-app-inventor/blockly-block-lexical-variables": "^0.0.12",
     "@types/node": "^18.13.0",
     "@types/pako": "^2.0.0",
+    "@types/semver": "^7.3.13",
     "@types/uuid": "^9.0.0",
     "baklavajs": "2.0.2-beta.3",
     "blockly": "^9.2.1",
@@ -60,6 +60,7 @@
     "koishi": "^4.11.6",
     "pako": "^2.1.0",
     "sass": "^1.58.0",
+    "semver": "^7.3.8",
     "typescript": "^4.9.5",
     "uuid": "^9.0.0",
     "vitepress": "1.0.0-alpha.26",

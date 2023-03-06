@@ -237,6 +237,7 @@
         </value>
       </block>
       <block type="regular"/>
+      <block type="template_string"/>
     </category>
     <category name="列表" colour="#745ba5">
       <block type="lists_create_with">
@@ -333,6 +334,7 @@
       <block type="session_guild_id"/>
       <block type="session_channel_id"/>
       <block type="session_bot"/>
+      <block type="session_elements"/>
       <block type="break_middleware"/>
     </category>
     <category name="消息" colour="#5b80a5">
@@ -359,6 +361,12 @@
           </shadow>
         </value>
       </block>
+      <block type="parse_segment_list">
+        <value name="segments">
+          <shadow type="session_elements"/>
+        </value>
+      </block>
+      <block type="current_segment"/>
     </category>
     <category name="数据" colour="#5b80a5">
       <block type="http_get">

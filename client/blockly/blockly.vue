@@ -1,6 +1,7 @@
 <template>
   <div style="height: 100%;flex:auto;margin-bottom: 35px">
-    <div style="width: 100%;padding: 5px;padding-left: 20px;height:25px;border-bottom: 1px solid var(--bg1)">
+    <text-template v-model="currentDialogValue" v-model:current="currentDialog"></text-template>
+    <div style="width: 100%;padding: 5px;height:25px;border-bottom: 1px solid var(--bg1);display: flex;flex-direction: row-reverse;">
       <button class="menu-button" @click="$emit('update:workspace','meta')">编辑插件元数据</button>
     </div>
     <div style="height: 100%;flex:auto" ref="blockly_workspace"></div>
@@ -13,7 +14,7 @@ import * as ZhHans from 'blockly/msg/zh-hans';
 import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
 import Toolbox from './toolbox.xml?raw';
 import {javascriptGenerator} from 'blockly/javascript';
-import {ref, onMounted, toRef, nextTick} from 'vue';
+import {ref, onMounted, toRef, nextTick, watch, toRaw} from 'vue';
 import {Blocks,BlockGenerators} from "./blocks";
 import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
@@ -21,12 +22,18 @@ import {autoSaveListener} from "./listeners/auto-save";
 import './msg/zh'
 import {defineBlocksWithJsonCustomFields} from "../helper";
 import {vendorCallback} from "./vendor";
+import TextTemplate from "../components/dialogs/text-template.vue";
+
 const blockly_workspace = ref(null)
 
 let value = defineProps({
   modelValue:Object,
   workspace:String
 })
+
+let currentDialog = ref(null)
+
+let currentDialogValue = ref(null)
 
 let _value = toRef(value,"modelValue")
 
@@ -72,6 +79,18 @@ onMounted(() => {
     workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
     workspace.addChangeListener(autoSaveListener.bind(listeners));
     LexicalVariables.init(workspace);
+    workspace['topLevel'] = {
+      openDialog(name,value){
+        currentDialog.value = name;
+        currentDialogValue.value = value;
+        return new Promise((resolve)=>{
+          const disposable = watch(currentDialog,()=>{
+            disposable();
+            resolve(toRaw(currentDialogValue.value))
+          })
+        })
+      },
+    }
   })
 })
 defineExpose({
