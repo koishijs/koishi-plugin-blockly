@@ -457,6 +457,17 @@
       <block type="plugin_id"/>
     </category>
   </category>
+  <category name="进阶">
+    <category name="类型系统">
+      <block type="type_root"/>
+      <block type="type_definition"/>
+      <block type="type_string"/>
+      <block type="type_number"/>
+      <block type="type_boolean"/>
+      <block type="type_array"/>
+      <block type="type_union"/>
+    </category>
+  </category>
   <category name="第三方">
     <category name="未分类" custom="VENDOR_UNCATEGORIZED"/>
   </category>
