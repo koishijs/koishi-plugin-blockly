@@ -13,6 +13,26 @@ export const TypeRootBlock = {
   "helpUrl": ""
 }
 
+export const TypeDefinitionBlock = {
+  "type": "type_definition",
+  "message0": "定义类型 %1 %2",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "name",
+      "text": "类型名称"
+    },
+    {
+      "type": "input_value",
+      "name": "type",
+      "check": "Type",
+    }
+  ],
+  "colour": "#ce4bc9",
+  "tooltip": "",
+  "helpUrl": ""
+}
+
 export const TypeStringBlock = {
   "type": "type_string",
   "message0": "字符串",
