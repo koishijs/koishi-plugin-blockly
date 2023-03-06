@@ -59,7 +59,7 @@ export const TypeBooleanBlock = {
 
 export const TypeArrayBlock = {
   "type": "type_array",
-  "message0": "由...组成的数组 %1",
+  "message0": "由%1组成的数组",
   "args0": [
     {
       "type": "input_value",
