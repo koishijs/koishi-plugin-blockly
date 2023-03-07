@@ -23,6 +23,7 @@ import './msg/zh'
 import {defineBlocksWithJsonCustomFields} from "../helper";
 import {vendorCallback} from "./vendor";
 import TextTemplate from "../components/dialogs/text-template.vue";
+import {registerScope} from "./plugins/scope";
 
 const blockly_workspace = ref(null)
 
@@ -78,6 +79,7 @@ onMounted(() => {
     workspace.registerToolboxCategoryCallback('VENDOR_UNCATEGORIZED',vendorCallback)
     workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
     workspace.addChangeListener(autoSaveListener.bind(listeners));
+    registerScope(workspace);
     LexicalVariables.init(workspace);
     workspace['topLevel'] = {
       openDialog(name,value){
