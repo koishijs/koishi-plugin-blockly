@@ -466,6 +466,7 @@
       <block type="type_boolean"/>
       <block type="type_array"/>
       <block type="type_union"/>
+      <block type="type_object"/>
     </category>
   </category>
   <category name="第三方">

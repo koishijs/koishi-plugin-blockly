@@ -103,6 +103,46 @@ export const TypeUnionBlock = {
   "colour": "#ce4bc9",
 }
 
+export const TypeObjectRootBlock = {
+  "type": "type_object_root",
+  "message0": "对象 %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "properties",
+      "check": "Type"
+    },
+  ],
+  "colour": "#ce4bc9",
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+export const TypeObjectEntityBlock = {
+  "type": "type_object_entity",
+  "message0": "属性 %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "name",
+      "text": "属性名称"
+    }
+    ],
+  "previousStatement": "Type",
+  "nextStatement": "Type",
+  "colour": 160
+}
+
+export const TypeObjectBlock = {
+  "type": "type_object",
+  "message0": "对象",
+  "output": "Type",
+  "colour": "#ce4bc9",
+  "tooltip": "",
+  "helpUrl": "",
+  "mutator":"object_mutator"
+}
+
 export const TypeBlocks = [
   TypeRootBlock,
   TypeStringBlock,
@@ -112,5 +152,8 @@ export const TypeBlocks = [
   TypeUnionRootBlock,
   TypeUnionEntityBlock,
   TypeUnionBlock,
-  TypeDefinitionBlock
+  TypeDefinitionBlock,
+  TypeObjectRootBlock,
+  TypeObjectEntityBlock,
+  TypeObjectBlock
 ]
