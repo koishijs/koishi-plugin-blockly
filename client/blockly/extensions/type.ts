@@ -54,4 +54,53 @@ export function typeMutatorExtension(){
       this.updateShape_()
     }
   },undefined,['type_union_entity'])
+
+  unregisterIfRegistered("object_mutator")
+  Blockly.Extensions.registerMutator('object_mutator', {
+    updateShape_: function(){
+      // Each property is a value input , and contains a field for the property name
+      this.properties_?.forEach((property,index)=>{
+        if(!this.getInput("PROPERTY_" + property)){
+          const input = this.appendValueInput("PROPERTY_" + property)
+          input.align = Blockly.ALIGN_RIGHT
+          input.appendField(property)
+        }
+      })
+      this.inputList.filter(input => input.name.startsWith("PROPERTY_"))
+        .filter(input => !this.properties_.includes(input.name.split("_")[1]))
+        .forEach(input => this.removeInput(input.name))
+    },
+    decompose: function(workspace){
+      const containerBlock = workspace.newBlock('type_object_root');
+      containerBlock.initSvg();
+      let connection = containerBlock.getInput('properties').connection;
+      this.properties_?.forEach((property)=>{
+        const itemBlock = workspace.newBlock('type_object_entity');
+        itemBlock.initSvg();
+        itemBlock.setFieldValue(property,'name')
+        connection.connect(itemBlock.previousConnection);
+        connection = itemBlock.nextConnection;
+      })
+      return containerBlock;
+    },
+    compose: function(topBlock){
+      const properties = []
+      let itemBlock = topBlock.getInputTargetBlock('properties');
+      while(itemBlock){
+        properties.push(itemBlock.getFieldValue('name'))
+        itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+      }
+      this.properties_ = properties;
+      this.updateShape_()
+    },
+    saveExtraState: function(workspace){
+      return {
+        'properties': this.properties_
+      }
+    },
+    loadExtraState: function(state){
+      this.properties_ = state['properties'];
+      this.updateShape_()
+    }
+  },undefined,['type_object_entity'])
 }
