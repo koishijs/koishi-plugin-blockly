@@ -24,6 +24,8 @@ import {defineBlocksWithJsonCustomFields} from "../helper";
 import {vendorCallback} from "./vendor";
 import TextTemplate from "../components/dialogs/text-template.vue";
 import {registerScope} from "./plugins/scope";
+import {registerTypeManager} from "./plugins/type";
+import {FieldBindingStringDropdown} from "./fields/binding";
 
 const blockly_workspace = ref(null)
 
@@ -80,6 +82,8 @@ onMounted(() => {
     workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
     workspace.addChangeListener(autoSaveListener.bind(listeners));
     registerScope(workspace);
+    registerTypeManager(workspace)
+    Blockly.fieldRegistry.register('binding',FieldBindingStringDropdown);
     LexicalVariables.init(workspace);
     workspace['topLevel'] = {
       openDialog(name,value){

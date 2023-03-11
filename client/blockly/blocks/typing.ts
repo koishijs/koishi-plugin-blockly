@@ -1,6 +1,8 @@
 import {Block} from "blockly";
 import * as Blockly from "blockly";
 import {deduplicate} from 'cosmokit'
+import {FieldBindingStringDropdown} from "../fields/binding";
+import {ReactiveValue} from "../binding";
 
 export const TypeRootBlock = {
   "type": "type_root",
@@ -34,7 +36,20 @@ export const TypeDefinitionBlock = {
   ],
   "colour": "#ce4bc9",
   "tooltip": "",
-  "helpUrl": ""
+  "helpUrl": "",
+  init(this:Block&Record<any,any>){
+    if(!this.workspace.typings)return
+    this.type_value = new ReactiveValue<string>(this.getFieldValue('name'),this.id)
+    this.workspace.typings.add(this.type_value)
+    this.onchange = ()=>{
+      this.type_value.set(this.getFieldValue('name'))
+    }
+    const dispose = this.dispose
+    this.dispose = (h)=>{
+      this.workspace.typings.delete(this.type_value)
+      dispose.bind(this)(h)
+    }
+  }
 }
 
 export const TypeStringBlock = {
@@ -155,13 +170,11 @@ export const TypeGetter = {
   "tooltip": "",
   "helpUrl": "",
   init(this:Block){
-    const dropdown = new Blockly.FieldDropdown(() => {
-      const blocks = Blockly.getMainWorkspace().getAllBlocks(true)
-      const types = blocks.filter(block => block.type === 'type_definition')
-      const typeNames = types.map(type => type.getFieldValue('name'))
-      return deduplicate(typeNames).map(name => [name, name])
-    })
-    this.inputList[0].appendField(dropdown)
+    let field
+    if(this.workspace.typings) {
+      field = new FieldBindingStringDropdown(this.workspace.typings)
+      this.inputList[0].appendField(field, "type")
+    }
   }
 }
 
