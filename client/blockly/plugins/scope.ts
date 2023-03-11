@@ -116,6 +116,7 @@ export function registerScope(workspace:Workspace){
     if (!(_event.type === 'move' || _event.type === 'create'))return;
     const event = _event as BlockMove | BlockCreate
     const targetBlock = event.getEventWorkspace_().getBlockById(event.blockId)
+    if(!targetBlock)return
     if(!targetBlock.block_state)
       targetBlock.block_state = new BlockStateManager(targetBlock)
     if(event.type!='move')return;
