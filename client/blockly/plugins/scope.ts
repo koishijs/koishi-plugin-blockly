@@ -106,6 +106,13 @@ export class BlockStateManager{
 
 export function registerScope(workspace:Workspace){
   workspace.addChangeListener((_event:Abstract)=>{
+    if(_event.type=='finished_loading'){
+      workspace.getAllBlocks(false).forEach(block=>{
+        if(!block.block_state)
+          block.block_state = new BlockStateManager(block)
+      })
+      return;
+    }
     if (!(_event.type === 'move' || _event.type === 'create'))return;
     const event = _event as BlockMove | BlockCreate
     const targetBlock = event.getEventWorkspace_().getBlockById(event.blockId)
