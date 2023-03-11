@@ -1,3 +1,7 @@
+import {Block} from "blockly";
+import * as Blockly from "blockly";
+import {deduplicate} from 'cosmokit'
+
 export const TypeRootBlock = {
   "type": "type_root",
   "message0": "类型 %1",
@@ -143,6 +147,24 @@ export const TypeObjectBlock = {
   "mutator":"object_mutator"
 }
 
+export const TypeGetter = {
+  "type": "type_getter",
+  "message0": "类型",
+  "output": "Type",
+  "colour": "#ce4bc9",
+  "tooltip": "",
+  "helpUrl": "",
+  init(this:Block){
+    const dropdown = new Blockly.FieldDropdown(() => {
+      const blocks = Blockly.getMainWorkspace().getAllBlocks(true)
+      const types = blocks.filter(block => block.type === 'type_definition')
+      const typeNames = types.map(type => type.getFieldValue('name'))
+      return deduplicate(typeNames).map(name => [name, name])
+    })
+    this.inputList[0].appendField(dropdown)
+  }
+}
+
 export const TypeBlocks = [
   TypeRootBlock,
   TypeStringBlock,
@@ -155,5 +177,6 @@ export const TypeBlocks = [
   TypeDefinitionBlock,
   TypeObjectRootBlock,
   TypeObjectEntityBlock,
-  TypeObjectBlock
+  TypeObjectBlock,
+  TypeGetter
 ]
