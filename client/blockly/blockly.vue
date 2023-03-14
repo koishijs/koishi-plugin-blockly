@@ -26,8 +26,11 @@ import TextTemplate from "../components/dialogs/text-template.vue";
 import {registerScope} from "./plugins/scope";
 import {registerTypeManager} from "./plugins/type";
 import {FieldBindingStringDropdown} from "./fields/binding";
+import {initializeType, TypedConnectionChecker} from "./typing";
 
 const blockly_workspace = ref(null)
+
+initializeType();
 
 let value = defineProps({
   modelValue:Object,
@@ -73,6 +76,9 @@ onMounted(() => {
         maxScale:3,
         minScale:0.3,
         scaleSpeed:1.2
+      },
+      plugins:{
+        'connectionChecker':TypedConnectionChecker
       }
     })
     window.addEventListener('resize',()=>{
