@@ -459,7 +459,6 @@
   </category>
   <category name="进阶">
     <category name="类型系统">
-      <block type="type_root"/>
       <block type="type_getter"/>
       <block type="type_definition"/>
       <block type="type_string"/>
