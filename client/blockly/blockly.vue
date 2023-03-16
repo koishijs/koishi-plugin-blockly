@@ -30,7 +30,6 @@ import {initializeType, TypedConnectionChecker} from "./typing";
 
 const blockly_workspace = ref(null)
 
-initializeType();
 
 let value = defineProps({
   modelValue:Object,
@@ -50,6 +49,7 @@ Blockly.setLocale(ZhHans);
 defineBlocksWithJsonCustomFields(Blocks);
 
 registerExtensions();
+initializeType();
 Object.entries(BlockGenerators).forEach(([k,v])=>{
   javascriptGenerator[k]=v;
 })
