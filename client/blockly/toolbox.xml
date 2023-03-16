@@ -461,6 +461,8 @@
     <category name="类型系统">
       <block type="type_getter"/>
       <block type="type_definition"/>
+      <block type="type_any"/>
+      <block type="type_never"/>
       <block type="type_string"/>
       <block type="type_number"/>
       <block type="type_boolean"/>

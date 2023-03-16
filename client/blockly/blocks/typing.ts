@@ -52,6 +52,22 @@ export const TypeDefinitionBlock = {
   }
 }
 
+export const TypeAnyBlock = {
+  "type": "type_any",
+  "message0": "任意类型",
+  "output": "Type",
+  "colour": "#ce4bc9",
+  "tooltip": "",
+}
+
+export const TypeNeverBlock = {
+  "type": "type_never",
+  "message0": "永远不会出现的类型",
+  "output": "Type",
+  "colour": "#ce4bc9",
+  "tooltip": ""
+}
+
 export const TypeStringBlock = {
   "type": "type_string",
   "message0": "字符串",
@@ -180,6 +196,8 @@ export const TypeGetter = {
 
 export const TypeBlocks = [
   TypeRootBlock,
+  TypeAnyBlock,
+  TypeNeverBlock,
   TypeStringBlock,
   TypeNumberBlock,
   TypeBooleanBlock,
