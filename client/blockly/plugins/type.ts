@@ -33,6 +33,11 @@ function disableAllBlock(root_block:Block){
   root_block.getChildren(false).forEach(disableAllBlock)
 }
 
+function renderAllBlock(root_block:BlockSvg){
+  root_block.render()
+  root_block.getChildren(false).forEach(renderAllBlock)
+}
+
 export class TypeMutator extends Icon{
 
   /** Width of workspace. */
@@ -116,7 +121,7 @@ export class TypeMutator extends Icon{
           topType.render()
         }
       }
-      root_block.render()
+      renderAllBlock(root_block)
       disableAllBlock(root_block)
       this.display_workspace_.scrollCenter()
       this.resizeBubble()
