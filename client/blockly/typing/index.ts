@@ -17,8 +17,8 @@ export abstract class Type<P = any>{
 
   abstract getTypeName():string
   abstract canWriteTo(target:Type):boolean
-  abstract canWriteBy(target:Type):boolean
   abstract equalsTo(target:Type):boolean
+  canWriteBy?(target:Type):boolean
 }
 
 export class ConstTerminalType<T extends TsTerminalType> extends Type<T>{
@@ -27,13 +27,8 @@ export class ConstTerminalType<T extends TsTerminalType> extends Type<T>{
     return 'const'
   }
 
-  //can write to target
   canWriteTo(target: Type) {
-    return this.equalsTo(target)|| target.getTypeName() == typeof this.getPrototype()
-  }
-
-  canWriteBy(target:Type){
-    return target.getTypeName() == 'const' && this.getPrototype() == target.getPrototype()
+    return this.equalsTo(target) || target.getTypeName() == typeof this.getPrototype() || target.canWriteBy?.(this)
   }
 
   equalsTo(target: Type) {
@@ -42,11 +37,9 @@ export class ConstTerminalType<T extends TsTerminalType> extends Type<T>{
 }
 
 export abstract class TerminalType<T = never> extends Type<T>{
+
   canWriteTo(target: Type)  : boolean {
-    return this.equalsTo(target)
-  }
-  canWriteBy(target: Type) : boolean {
-    return this.equalsTo(target) || (target.getTypeName() == 'const' && target.canWriteTo(this))
+    return this.equalsTo(target) || target.canWriteBy?.(this)
   }
 
   abstract getTypeName(): string
@@ -54,6 +47,7 @@ export abstract class TerminalType<T = never> extends Type<T>{
   equalsTo(target: Type) {
     return target.getTypeName() == this.getTypeName()
   }
+
 }
 
 export class StringType extends TerminalType{
@@ -93,6 +87,8 @@ export class TupleType<T extends Type> extends ComplexType<T[]>{
   canWriteTo(target: Type) : boolean {
     if(this.equalsTo(target))
       return true
+    if(target.canWriteBy?.(this))
+      return true
     if(!['tuple','array'].includes(target.getTypeName()))
       return false
     if(target.getTypeName() == 'array'){
@@ -111,9 +107,6 @@ export class TupleType<T extends Type> extends ComplexType<T[]>{
         return false
     }
     return true
-  }
-  canWriteBy(target: Type)  : boolean {
-    return this.equalsTo(target)
   }
 
   equalsTo(target: Type) {
@@ -137,11 +130,7 @@ export class ArrayType<T extends Type> extends ComplexType<T>{
   }
 
   canWriteTo(target: Type) {
-    return this.equalsTo(target)
-  }
-
-  canWriteBy(target: Type) : boolean {
-    return this.equalsTo(target) || target.canWriteTo(this)
+    return this.equalsTo(target) || target.canWriteBy?.(this)
   }
 
   equalsTo(target: Type): boolean {
@@ -155,7 +144,7 @@ export class ObjectType<P extends Record<string, Type>> extends ComplexType<P>{
   }
 
   canWriteTo(target: Type) {
-    if(this.equalsTo(target))
+    if(this.equalsTo(target) || target.canWriteBy?.(this))
       return true
     if(target.getTypeName() != 'object')
       return false
@@ -185,32 +174,24 @@ export class ObjectType<P extends Record<string, Type>> extends ComplexType<P>{
   }
 }
 
-export class UnionType<T extends Type> extends ComplexType<T[]>{
+export class UnionType<T extends Type[]> extends ComplexType<T>{
   getTypeName(): string {
     return "union";
   }
 
   canWriteTo(target: Type) {
     for(const type of this.prototype){
-      if(!target.canWriteBy(type)){
+      if(!type.canWriteTo(target)){
         return false
       }
     }
     return true
   }
 
-  canWriteBy(target: Type) {
-    for(const type of this.prototype){
-      if(target)
-        return true
-    }
-    return false
-  }
-
   equalsTo(target: Type) {
     if(target.getTypeName()!=this.getTypeName())
       return false
-    const target_prototype = (target as UnionType<Type>).getPrototype()
+    const target_prototype = (target as UnionType<Type[]>).getPrototype()
     if(target_prototype.length!=this.prototype.length)
       return false
     for(const type of this.prototype){
@@ -221,6 +202,62 @@ export class UnionType<T extends Type> extends ComplexType<T[]>{
     }
     return true
   }
+
+  canWriteBy(target:Type){
+    return this.prototype.some((type)=>{
+      return target.canWriteTo(type)
+    })
+  }
+}
+
+export class ClassType extends Type<string>{
+  getTypeName(): string {
+    return "class";
+  }
+
+  canWriteTo(target: Type) {
+    return this.equalsTo(target) || target.canWriteBy?.(this)
+  }
+
+  equalsTo(target: Type) {
+    return target.getTypeName() == this.getTypeName() && this.prototype == target.getPrototype()
+  }
+}
+
+export class AnyType extends Type<never>{
+  getTypeName(): string {
+    return "any";
+  }
+  canWriteTo(target: Type): boolean {
+    return true
+  }
+  canWriteBy(target: Type): boolean {
+    return true
+  }
+  equalsTo(target: Type): boolean {
+    return target.getTypeName() == this.getTypeName()
+  }
+}
+
+export class NeverType extends Type<never>{
+  getTypeName(): string {
+    return "never";
+  }
+  canWriteTo(target: Type): boolean {
+    return this.equalsTo(target)
+  }
+  canWriteBy(target: Type): boolean {
+    return this.equalsTo(target)
+  }
+  equalsTo(target: Type): boolean {
+    return target.getTypeName() == this.getTypeName()
+  }
+}
+
+export function unify<T extends Type[]>(types:T):T[0]|UnionType<any>{
+  if(!Array.isArray(types) || types.length <=1)
+    return types[0]
+  return new UnionType(types as Type[])
 }
 
 declare module "blockly"{
@@ -247,7 +284,7 @@ export class TypedConnectionChecker extends ConnectionChecker{
     const input_type = input.getParentInput().input_type
     if(!output_type || !input_type)
       return super.doTypeChecks(a,b)
-    return super.doTypeChecks(a,b) && input_type.canWriteTo(output_type) && output_type.canWriteBy(input_type)
+    return super.doTypeChecks(a,b) && output_type.canWriteTo(input_type)
   }
 }
 
