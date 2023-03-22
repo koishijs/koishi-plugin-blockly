@@ -14,7 +14,7 @@ async function publish(){
     return;
   }
   const version = packageJson.version;
-  packageJson.version = version + '-canary.' + cosmokit.Time.template('YYYYMMDD');
+  packageJson.version = version + '-canary.' + cosmokit.Time.template('yyMMddhh');
   fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2))
   try{
     execSync('yarn publish --access public', {stdio: 'inherit'});
