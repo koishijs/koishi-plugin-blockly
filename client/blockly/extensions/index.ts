@@ -1,6 +1,7 @@
 import {parameterListMutator} from "./parameter";
 import {registerScopeExtensions} from "./scope";
 import * as Blockly from "blockly";
+import {typeMutatorExtension} from "./type";
 import {registerSegmentParserMutator} from "./segment";
 
 export function unregisterIfRegistered(name:string){
@@ -12,5 +13,6 @@ export function unregisterIfRegistered(name:string){
 export function registerExtensions(){
   parameterListMutator();
   registerScopeExtensions()
+  typeMutatorExtension()
   registerSegmentParserMutator()
 }
