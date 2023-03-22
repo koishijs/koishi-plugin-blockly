@@ -20,7 +20,7 @@ import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
 import {autoSaveListener} from "./listeners/auto-save";
 import './msg/zh'
-import {defineBlocksWithJsonCustomFields} from "../helper";
+import {defineBlocksWithJsonCustomFields} from "./definer";
 import {vendorCallback} from "./vendor";
 import TextTemplate from "../components/dialogs/text-template.vue";
 import {registerScope} from "./plugins/scope";

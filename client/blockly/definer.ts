@@ -1,6 +1,6 @@
 import * as Blockly from 'blockly'
 
-import {} from './blockly/typing'
+import {} from './typing'
 export function defineBlockWithJsonCustomFields(block:any){
   Blockly.Blocks[block['type']] = {
     init: function() {
