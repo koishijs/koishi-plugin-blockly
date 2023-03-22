@@ -20,11 +20,16 @@ import {registerExtensions} from "./extensions";
 import {disableOrphansAndOrphanConsumersEvent} from "./listeners/consumer";
 import {autoSaveListener} from "./listeners/auto-save";
 import './msg/zh'
-import {defineBlocksWithJsonCustomFields} from "../helper";
+import {defineBlocksWithJsonCustomFields} from "./definer";
 import {vendorCallback} from "./vendor";
 import TextTemplate from "../components/dialogs/text-template.vue";
+import {registerScope} from "./plugins/scope";
+import {registerTypeManager} from "./plugins/type";
+import {FieldBindingStringDropdown} from "./fields/binding";
+import {initializeType, TypedConnectionChecker} from "./typing";
 
 const blockly_workspace = ref(null)
+
 
 let value = defineProps({
   modelValue:Object,
@@ -44,6 +49,7 @@ Blockly.setLocale(ZhHans);
 defineBlocksWithJsonCustomFields(Blocks);
 
 registerExtensions();
+initializeType();
 Object.entries(BlockGenerators).forEach(([k,v])=>{
   javascriptGenerator[k]=v;
 })
@@ -70,6 +76,9 @@ onMounted(() => {
         maxScale:3,
         minScale:0.3,
         scaleSpeed:1.2
+      },
+      plugins:{
+        'connectionChecker':TypedConnectionChecker
       }
     })
     window.addEventListener('resize',()=>{
@@ -78,6 +87,9 @@ onMounted(() => {
     workspace.registerToolboxCategoryCallback('VENDOR_UNCATEGORIZED',vendorCallback)
     workspace.addChangeListener(disableOrphansAndOrphanConsumersEvent);
     workspace.addChangeListener(autoSaveListener.bind(listeners));
+    registerScope(workspace);
+    registerTypeManager(workspace)
+    Blockly.fieldRegistry.register('binding',FieldBindingStringDropdown);
     LexicalVariables.init(workspace);
     workspace['topLevel'] = {
       openDialog(name,value){
