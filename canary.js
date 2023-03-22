@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const {execSync} = require('child_process');
+const cosmokit = require('cosmokit')
 
 async function publish(){
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -13,7 +14,7 @@ async function publish(){
     return;
   }
   const version = packageJson.version;
-  packageJson.version = version + '-canary.' + Date.now()
+  packageJson.version = version + '-canary.' + cosmokit.Time.template('YYYYMMDD');
   fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2))
   try{
     execSync('yarn publish --access public', {stdio: 'inherit'});
