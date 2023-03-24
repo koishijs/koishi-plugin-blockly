@@ -120,6 +120,11 @@ export class TypeMutator extends Icon{
           root_block.getInput('type').connection.connect(topType.outputConnection)
           topType.render()
         }
+      }else{
+        const topType = this.display_workspace_.newBlock('type_any')
+        topType.initSvg()
+        root_block.getInput('type').connection.connect(topType.outputConnection)
+        topType.render()
       }
       renderAllBlock(root_block)
       disableAllBlock(root_block)
