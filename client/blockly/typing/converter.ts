@@ -2,7 +2,7 @@ import {BlockSvg, WorkspaceSvg} from "blockly";
 import {ArrayType, Type, UnionType} from "./index";
 
 export function convertTypeToBlock(workspace:WorkspaceSvg,type:Type):BlockSvg{
-  console.info(type.getTypeName())
+  if(!type)return workspace.newBlock('type_any')
   switch (type.getTypeName()){
     case 'string':
       return workspace.newBlock('type_string')
