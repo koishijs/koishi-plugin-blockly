@@ -8,6 +8,8 @@ export function convertTypeToBlock(workspace:WorkspaceSvg,type:Type):BlockSvg{
       return workspace.newBlock('type_string')
     case 'number':
       return workspace.newBlock('type_number')
+    case 'boolean':
+      return workspace.newBlock('type_boolean')
     case 'array':
       const array_block = workspace.newBlock('type_array')
       const array_items = convertTypeToBlock(workspace,(type as ArrayType<Type>).getPrototype())
