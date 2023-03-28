@@ -34,6 +34,7 @@
     "visualization"
   ],
   "koishi": {
+    "browser": true,
     "description": {
       "en": "Use blockly to develop a simple koishi plugin",
       "zh": "Blockly 可视化编程插件"
