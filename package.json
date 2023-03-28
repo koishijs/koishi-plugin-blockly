@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-blockly",
   "description": "Use blockly to develop a simple koishi plugin",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
@@ -35,7 +35,9 @@
   ],
   "koishi": {
     "browser": true,
-    "public": ["dist"],
+    "public": [
+      "dist"
+    ],
     "description": {
       "en": "Use blockly to develop a simple koishi plugin",
       "zh": "Blockly 可视化编程插件"
