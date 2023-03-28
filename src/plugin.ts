@@ -19,7 +19,7 @@ export class PluginManager{
     }
     this.logger.info("Loading "+this.plugins.length +" plugin(s)")
     this.plugins.forEach(p=>{
-      const context = vm.createContext()
+      let context : any = {}
       context.module = {
         exports:{}
       }
@@ -27,7 +27,9 @@ export class PluginManager{
       context.segment = segment;
       let plugin = null
       try{
-        vm.runInContext(esModuleToCommonJs(p),context)
+        const code = `const {${Object.keys(context).join(',')}} = this;${esModuleToCommonJs(p)}`
+        const pluginFunction = new Function(code)
+        pluginFunction.call(context)
         plugin = context.module.exports
       }catch (e){
         this.ctx.logger("blockly").warn(e);
