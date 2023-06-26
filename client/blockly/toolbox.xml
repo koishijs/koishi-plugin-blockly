@@ -361,6 +361,13 @@
           </shadow>
         </value>
       </block>
+      <block type="segment_video">
+      <value name="video">
+        <shadow type="text">
+          <field name="TEXT">https://example.org/example.mp4</field>
+        </shadow>
+      </value>
+    </block>
       <block type="parse_segment_list">
         <value name="segments">
           <shadow type="session_elements"/>

@@ -61,9 +61,33 @@ export const SegmentAudioBlock = {
   "helpUrl": ""
 }
 
+
 export function segmentAudioBlockGenerator(block){
   let audio = javascriptGenerator.valueToCode(block, 'audio', javascriptGenerator.ORDER_ATOMIC);
   return [`h('audio',{ url: ${audio} })`,javascriptGenerator.ORDER_NONE]
+}
+
+export const SegmentVideoBlock = {
+  "type": "segment_video",
+  "message0": "视频 %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "video",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "imports":{koishi:['h']},
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+
+export function segmentVideoBlockGenerator(block){
+  let video = javascriptGenerator.valueToCode(block, 'video', javascriptGenerator.ORDER_ATOMIC);
+  return [`h('video',{ url: ${video} })`,javascriptGenerator.ORDER_NONE]
 }
 
 export const ParseSegmentListBlock = {
@@ -114,6 +138,7 @@ export const SegmentBlocks = [
   SegmentAtBlock,
   SegmentImageBlock,
   SegmentAudioBlock,
+  SegmentVideoBlock,
   ParseSegmentListBlock,
   currentSegmentBlock
 ]
@@ -122,6 +147,7 @@ export const segmentBlockGenerators = {
   'segment_at':segmentAtBlockGenerator,
   'segment_image':segmentImageBlockGenerator,
   'segment_audio':segmentAudioBlockGenerator,
+  'segment_video':segmentVideoBlockGenerator,
   'parse_segment_list':parseSegmentListBlockGenerator,
   'current_segment':currentSegmentBlockGenerator
 }
