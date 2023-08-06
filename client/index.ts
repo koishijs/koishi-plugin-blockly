@@ -6,6 +6,7 @@ import Activity from './icons/activity.vue'
 icons.register('blockly', Activity)
 
 import './index.scss'
+import {registerBlocklyEditorService} from "./api/service";
 
 export default (ctx: Context) => {
   ctx.page({
@@ -16,4 +17,6 @@ export default (ctx: Context) => {
     component: Page,
     fields:['blockly']
   })
+  registerBlocklyEditorService(ctx);
+  console.info(ctx);
 }
